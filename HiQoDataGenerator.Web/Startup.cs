@@ -25,7 +25,7 @@ namespace HiQoDataGenerator.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile(_logFileName);
+            //loggerFactory.AddFile(_logFileName);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
