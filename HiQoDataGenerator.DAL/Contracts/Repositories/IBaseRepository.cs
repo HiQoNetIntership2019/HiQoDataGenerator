@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace HiQoDataGenerator.DAL.Interfaces.Repositories
+namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     interface IBaseRepository<T>
     {
