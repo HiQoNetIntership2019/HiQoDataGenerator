@@ -221,7 +221,11 @@ ClientBin/
 *.publishsettings
 orleans.codegen.cs
 
+<<<<<<< HEAD
 # Including strong name files can present a security risk 
+=======
+# Including strong name files can present a security risk
+>>>>>>> create template for project
 # (https://github.com/github/gitignore/pull/2483#issue-259490424)
 #*.snk
 
@@ -317,7 +321,11 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 
+<<<<<<< HEAD
 # Azure Stream Analytics local run output 
+=======
+# Azure Stream Analytics local run output
+>>>>>>> create template for project
 ASALocalRun/
 
 # MSBuild Binary and Structured Log
@@ -326,5 +334,12 @@ ASALocalRun/
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
 
+<<<<<<< HEAD
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+=======
+# MFractors (Xamarin productivity tool) working folder
+.mfractor/
+
+.log
+>>>>>>> create template for project
