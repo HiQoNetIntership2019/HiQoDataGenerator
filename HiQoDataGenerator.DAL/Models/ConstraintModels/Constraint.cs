@@ -5,7 +5,6 @@ using HiQoDataGenerator.DAL.Models.IntermediateModels;
 
 namespace HiQoDataGenerator.DAL.Models.ConstraintModels
 {
-
     public class Constraint:BaseModel
 
     {
