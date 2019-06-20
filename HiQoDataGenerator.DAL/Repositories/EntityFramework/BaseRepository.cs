@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
+
+
     public class BaseRepository<T> : IBaseRepository<T>
+
         where T : BaseModel
     {
         protected DataContext _context;
