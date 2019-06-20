@@ -8,7 +8,6 @@ namespace HiQoDataGenerator.DAL.Models.ConstraintModels
 
     public class Constraint:BaseModel
 
-
     {
        // public int Id { get; set; }
 
