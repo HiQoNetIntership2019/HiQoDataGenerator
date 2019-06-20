@@ -6,16 +6,16 @@ using HiQoDataGenerator.DAL.Models.ConstraintModels;
 namespace HiQoDataGenerator.DAL.Models.IntermediateModels
 {
     [Table("Types_Support_Constraints")]
-    public class TypeConstraint
+    public class FieldTypeConstraint
     {
         public int Id { get; set; }
 
-        public int TypeId { get; set; }
+        public int FieldTypeId { get; set; }
         
         [ForeignKey("TypeId")]
-        public FieldType FieldType { get; set; }
+        public virtual FieldType FieldType { get; set; }
 
         public int ConstraintId { get; set; }
-        public Constraint Constraint;
+        public virtual Constraint Constraint { get; set; }
     }
 }
