@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     interface IBaseRepository<T>
     {
-        IEnumerable<T> GetAll();
-        T GetById(int id);
+        Task<IEnumerable<T>> GetAll();
+        Task<T> GetById(int id);
         void Add(T item);
         void AddRange(IEnumerable<T> items);
-        bool RemoveById(int id);
+        Task<bool> RemoveById(int id);
     }
 }
