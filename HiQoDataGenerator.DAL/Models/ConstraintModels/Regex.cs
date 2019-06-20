@@ -5,7 +5,7 @@ using HiQoDataGenerator.DAL.Models.IntermediateModels;
 
 namespace HiQoDataGenerator.DAL.Models.ConstraintModels
 {
-    public class Regex
+    public class Regex : BaseModel
     {
         public int Id { get; set; }
 
