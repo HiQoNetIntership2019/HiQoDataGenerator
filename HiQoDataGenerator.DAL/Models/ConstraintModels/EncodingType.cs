@@ -12,8 +12,8 @@ namespace HiQoDataGenerator.DAL.Models.ConstraintModels
         [StringLength(50)]
         public string Name { get; set; }
 
-        [StringLength(50)]
-        public string Value { get; set; }
+       /* [StringLength(50)]
+        public string Value { get; set; }*/
 
     }
 }

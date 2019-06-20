@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
+using System.Threading.Tasks;
 
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
@@ -16,14 +17,14 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             _context = context;
         }
 
-        public IEnumerable<EncodingType> GetAll()
+        public async Task<IQueryable<EncodingType>> GetAll()
         {
-            return _context.EncodingTypes.ToList();
+            return _context.EncodingTypes;
         }
 
-        public EncodingType GetById(int id)
+        public async Task<EncodingType> GetById(int id)
         {
-            return _context.EncodingTypes.Where(type => type.Id == id).ToList().First();
+            return await _context.EncodingTypes.FindAsync(id);
         }
 
         public EncodingType GetByName(string name)
@@ -43,7 +44,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             _context.SaveChanges();
         }
 
-        public bool RemoveById(int id)
+        public async Task<bool> RemoveById(int id)
         {
             var searchResult = _context.EncodingTypes.Where(type => type.Id == id).ToList();
 
