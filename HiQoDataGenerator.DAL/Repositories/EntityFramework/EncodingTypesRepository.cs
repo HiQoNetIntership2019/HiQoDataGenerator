@@ -1,4 +1,4 @@
-﻿using HiQoDataGenerator.DAL.Models.ConstraintModels;
+using HiQoDataGenerator.DAL.Models.ConstraintModels;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
