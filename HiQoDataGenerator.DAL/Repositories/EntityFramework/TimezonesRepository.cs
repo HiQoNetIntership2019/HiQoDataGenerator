@@ -6,7 +6,7 @@ using System.Text;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    class TimezonesRepository : BaseRepository<Timezone>
+    public class TimezonesRepository : BaseRepository<Timezone>
     {
         public TimezonesRepository(DataContext context) : base(context) { }
     }
