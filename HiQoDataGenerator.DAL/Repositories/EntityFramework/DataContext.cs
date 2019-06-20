@@ -15,6 +15,9 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 
         public DbSet<Regex> Regexes { get; set; }
 
+        public DbSet<EncodingType> EncodingTypes { get; set; }
+
+
         private readonly string _connectionType = "Connection";
         private readonly string _connectionString;
 
