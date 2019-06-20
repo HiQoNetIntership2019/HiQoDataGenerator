@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
+using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
@@ -14,34 +15,29 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             _context = context;
         }
 
-        public IEnumerable<FieldType> GetAll()
+        public async Task<IQueryable<FieldType>> GetAll()
         {
-            return _context.Types.ToList();
+            return _context.Types;
         }
 
-        public FieldType GetById(int id)
+        public async Task<FieldType> GetById(int id)
         {
-            return _context.Types.Where(type => type.Id == id).ToList().First();
+            return await _context.Types.FindAsync(id);
         }
-
-        public FieldType GetByName(string name)
-        {
-            return _context.Types.Where(type => type.Name == name).ToList().First();
-        }
-
-        public void Add(FieldType type)
+        
+        public async void Add(FieldType type)
         {
             _context.Types.Add(type);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void AddRange(IEnumerable<FieldType> typesRange)
+        public async void AddRange(IEnumerable<FieldType> typesRange)
         {
             _context.Types.AddRange(typesRange);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public bool RemoveById(int id)
+        public async Task<bool> RemoveById(int id)
         {
             var searchResult = _context.Types.Where(type => type.Id == id).ToList();
 
