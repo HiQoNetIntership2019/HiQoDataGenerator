@@ -6,7 +6,7 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     interface IBaseRepository<T>
     {
-        Task<IQueryable<T>> GetAll();
+        IQueryable<T> GetAll();
         Task<T> GetById(int id);
         void Add(T item);
         void AddRange(IEnumerable<T> items);
