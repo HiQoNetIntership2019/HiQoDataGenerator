@@ -8,7 +8,11 @@ using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
+
     public class ConstraintsRepository: BaseRepository<Constraint>
+
+   
+
     {
         DataContext _context;
 

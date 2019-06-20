@@ -4,9 +4,9 @@ using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 
 namespace HiQoDataGenerator.DAL.Models.ConstraintModels
 {
-    public class EncodingType
+    public class EncodingType: BaseModel
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [Required()]
         [StringLength(50)]
