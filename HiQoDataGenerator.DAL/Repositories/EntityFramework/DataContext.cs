@@ -11,7 +11,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
     {
         public DbSet<FieldType> Types { get; set; }
         public DbSet<Constraint> Constraints { get; set; }
-        public DbSet<Timezone> Timezones { get; set; }
+        public DbSet<TimezoneModel> Timezones { get; set; }
 
 
         public DbSet<Regex> Regexes { get; set; }

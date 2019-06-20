@@ -1,0 +1,43 @@
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using HiQoDataGenerator.Core.Interfaces;
+
+namespace HiQoDataGenerator.Web.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TimezoneController : ControllerBase
+    {
+        private readonly ITimezonesService _timezonesService;
+
+        public TimezoneController(ITimezonesService timezonesService) => _timezonesService = timezonesService;
+
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            var testValue = _timezonesService.GetAll();
+            return  new string[] { "oops" };
+        }
+            
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+        }
+
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
+    }
+}

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using HiQoDataGenerator.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HiQoDataGenerator.Core.Interfaces
 {
-    interface ITimezonesService
+    public interface ITimezonesService
     {
+        IEnumerable<Timezone> GetAll();
     }
 }
