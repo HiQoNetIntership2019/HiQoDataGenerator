@@ -24,7 +24,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         {
             return await _context.Types.FindAsync(id);
         }
-        
+
         public async void Add(FieldType type)
         {
             _context.Types.Add(type);
