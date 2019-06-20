@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
+using System.Linq;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -15,8 +16,8 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            var testValue = _timezonesService.GetAll();
-            return  new string[] { "oops" };
+            var timezones = _timezonesService.GetAll();
+            return new string[] { timezones.Count().ToString() };
         }
             
         [HttpGet("{id}", Name = "Get")]

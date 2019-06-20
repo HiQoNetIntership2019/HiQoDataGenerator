@@ -14,8 +14,8 @@ namespace HiQoDataGenerator.Core.Infrastructure
     {
         public override void Load()
         {
-            Bind<ITimezoneRepository>().To<TimezonesRepository>();
-            
+            Bind<ITimezoneRepository>().To<TimezonesRepository>().WithConstructorArgument(new DataContext());
+            Bind<ServicesInfrastructure>().ToSelf().InSingletonScope();
         }
     }
 }

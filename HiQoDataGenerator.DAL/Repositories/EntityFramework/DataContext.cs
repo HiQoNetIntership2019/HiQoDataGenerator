@@ -33,6 +33,6 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql(_connectionString);
+            => optionsBuilder.UseLazyLoadingProxies().UseNpgsql(_connectionString);
     }
 }
