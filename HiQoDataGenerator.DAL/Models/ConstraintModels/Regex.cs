@@ -7,8 +7,6 @@ namespace HiQoDataGenerator.DAL.Models.ConstraintModels
 {
     public class Regex : BaseModel
     {
-        public int Id { get; set; }
-
         [StringLength(30)]
         public string Name { get; set; }
         [StringLength(100)]

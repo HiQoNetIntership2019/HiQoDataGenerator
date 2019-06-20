@@ -8,7 +8,7 @@ namespace HiQoDataGenerator.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class TypesController : ControllerBase
     {
         // GET api/values
         [HttpGet]

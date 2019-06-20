@@ -9,11 +9,7 @@ using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-
-
-    public class BaseRepository<T> : IBaseRepository<T>
-
-        where T : BaseModel
+    public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
     {
         protected DataContext _context;
         protected DbSet<T> _models;
@@ -36,21 +32,21 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             await _context.SaveChangesAsync();
         }
 
-        public Task<IQueryable<T>> GetAll() => Task.FromResult(_models.AsQueryable());
+        public IQueryable<T> GetAll() => _models;
 
-        public Task<T> GetById(int id) => _models.FindAsync(id);
+        public async Task<T> GetById(int id) => await _models.FindAsync(id);
 
-        public Task<bool> RemoveById(int id)
+        public async Task<bool> RemoveById(int id)
         {
             var value = _models.Find(id);
             if (value == null)
             {
-                return Task.FromResult(false);
+                return false;
             }
             _models.Remove(value);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-            return Task.FromResult(true);
+            return true;
         }
     }
 }

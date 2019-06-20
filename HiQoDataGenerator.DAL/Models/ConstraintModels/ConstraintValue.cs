@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using HiQoDataGenerator.DAL.Models.CustomObjectModels;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HiQoDataGenerator.DAL.Models.ConstraintModels
 {
-    public class ConstraintValue
+    public class ConstraintValue : BaseModel
     {
-        public int Id { get; set; }
-
         [StringLength(30)]
         public string Value { get; set; }
 
