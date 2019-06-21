@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HiQoDataGenerator.Core.Interfaces
 {
-    public interface ITimezonesService
+    public interface IFieldTypeService
     {
         IEnumerable<TimezoneModel> GetAll();
     }

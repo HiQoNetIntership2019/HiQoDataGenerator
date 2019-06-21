@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HiQoDataGenerator.Core.Entities
 {
-    public class BaseEntity
+    public class BaseModel
     {
         public int Id { get; }
     }

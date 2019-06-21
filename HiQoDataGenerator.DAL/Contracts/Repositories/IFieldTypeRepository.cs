@@ -2,7 +2,7 @@
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface ITypeRepository : IBaseRepository<FieldType>
+    public interface IFieldTypeRepository : IBaseRepository<FieldType>
     {
     }
 }
