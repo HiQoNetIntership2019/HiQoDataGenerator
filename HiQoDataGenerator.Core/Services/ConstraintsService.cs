@@ -25,9 +25,15 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<Constraint>, IEnumerable<ConstraintModel>>(_constraintsRepository.GetAll());
         }
 
-        public async Task<ConstraintModel> GetByName(string name)
+        public async Task<ConstraintModel> GetByIdAsync(int id)
         {
-            var constraint = await _constraintsRepository.GetByName(name);
+            var constraint = await _constraintsRepository.GetByIdAsync(id);
+            return  _mapper.Map<Constraint, ConstraintModel>(constraint);
+        }
+
+        public async Task<ConstraintModel> GetByNameAsync(string name)
+        {
+            var constraint = await _constraintsRepository.GetByNameAsync(name);
             return _mapper.Map<Constraint, ConstraintModel>(constraint);
         }
     }

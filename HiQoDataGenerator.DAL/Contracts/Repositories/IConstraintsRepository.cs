@@ -5,6 +5,6 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     public interface IConstraintsRepository : IBaseRepository<Constraint>
     {
-        Task<Constraint> GetByName(string name);
+        Task<Constraint> GetByNameAsync(string name);
     }
 }

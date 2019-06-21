@@ -7,6 +7,7 @@ namespace HiQoDataGenerator.Core.Interfaces
     public interface IConstraintsService
     {
         IEnumerable<ConstraintModel> GetAll();
-        Task<ConstraintModel> GetByName(string name);
+        Task<ConstraintModel> GetByIdAsync(int id);
+        Task<ConstraintModel> GetByNameAsync(string name);
     }
 }
