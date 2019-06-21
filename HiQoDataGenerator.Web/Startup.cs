@@ -12,6 +12,7 @@ namespace HiQoDataGenerator.Web
 {
     public class Startup
     {
+        private readonly string _filenameForLog = "Web.log";
         public Startup(IConfiguration configuration) => Configuration = configuration;        
 
         public IConfiguration Configuration { get; }
@@ -32,6 +33,7 @@ namespace HiQoDataGenerator.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile(_filenameForLog);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
