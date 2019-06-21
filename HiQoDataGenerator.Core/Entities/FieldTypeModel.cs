@@ -8,7 +8,7 @@ namespace HiQoDataGenerator.Core.Entities
     {
         public string Name { get; }
 
-        public FieldTypeModel(string name)
+        public FieldTypeModel(int id, string name) : base(id)
         {
             Name = name;
         }

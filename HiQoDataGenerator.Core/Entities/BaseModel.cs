@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HiQoDataGenerator.Core.Entities
+﻿namespace HiQoDataGenerator.Core.Entities
 {
     public class BaseModel
     {
         public int Id { get; }
+
+        public BaseModel(int id)
+        {
+            Id = id;
+        }
     }
 }

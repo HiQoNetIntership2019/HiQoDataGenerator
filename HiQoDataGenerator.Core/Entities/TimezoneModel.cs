@@ -8,6 +8,6 @@ namespace HiQoDataGenerator.Core.Entities
     {
         public string Value { get; }
 
-        public TimezoneModel(string value) => Value = value;
+        public TimezoneModel(int id,string value) : base(id) => Value = value;
     }
 }

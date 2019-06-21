@@ -34,5 +34,16 @@ namespace HiQoDataGenerator.Core.Services
             }
             return _mapper.Map<FieldTypeModel>(type);
         }
+
+        public async Task<bool> Add(FieldTypeModel fieldTypeModel)
+        {
+            var type = _mapper.Map<FieldType>(fieldTypeModel);
+            return await _fieldTypeRepostory.Add(type);
+        }
+
+        public async Task<bool> RemoveById(int id)
+        {
+            return await _fieldTypeRepostory.RemoveById(id);
+        }
     }
 }
