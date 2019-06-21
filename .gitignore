@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Ignore folder named `Migrations`
+Migrations/*
+*/Migrations/*
+
 # User-specific files
 *.suo
 *.user
@@ -332,3 +336,6 @@ ASALocalRun/
 .mfractor/
 
 .log
+# Ignore folder named `Migrations`
+Migrations/*
+*/Migrations/*
