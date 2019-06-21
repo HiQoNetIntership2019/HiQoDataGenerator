@@ -36,6 +36,34 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("Constraints");
                 });
 
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.Regex", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Value")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Regexes");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.Timezone", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Timezones");
+                });
+
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.CustomObjectModels.FieldType", b =>
                 {
                     b.Property<int>("Id")
