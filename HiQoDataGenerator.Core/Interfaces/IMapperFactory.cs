@@ -7,6 +7,6 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IMapperFactory
     {
-        IMapper GetMapper(string factoryName);
+        IMapper GetMapper(string mapperName);
     }
 }
