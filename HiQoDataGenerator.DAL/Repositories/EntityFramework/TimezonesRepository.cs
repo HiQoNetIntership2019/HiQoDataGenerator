@@ -3,8 +3,8 @@ using HiQoDataGenerator.DAL.Models.ConstraintModels;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class TimezonesService : BaseRepository<Timezone>, ITimezoneRepository
+    public class TimezonesRepository : BaseRepository<Timezone>, ITimezoneRepository
     {
-        public TimezonesService(DataContext context) : base(context) { }
+        public TimezonesRepository(DataContext context) : base(context) { }
     }
 }
