@@ -17,22 +17,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public DbSet<Regex> Regexes { get; set; }
 
         public DbSet<EncodingType> EncodingTypes { get; set; }
-
-
-
-        private readonly string _connectionType = "Connection";
-        private readonly string _connectionString;
-
-        public DataContext() : base()
-        {
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"))
-                .Build();
-
-            _connectionString = config.GetConnectionString(_connectionType);         
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseLazyLoadingProxies().UseNpgsql(_connectionString);
+        
+        public DataContext(DbContextOptions options) : base(options) { }
     }
 }

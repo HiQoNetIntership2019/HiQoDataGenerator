@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
-using HiQoDataGenerator.Core.Infrastructure;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
@@ -12,7 +11,7 @@ namespace HiQoDataGenerator.Core.Services
     {
         private readonly ITimezoneRepository _timezoneRepostory;
 
-        public TimezoneService() => _timezoneRepostory = new RepositoryManager().GetTimezoneRepository();
+        public TimezoneService(ITimezoneRepository timezoneRepository) => _timezoneRepostory = timezoneRepository;
 
         public IEnumerable<Timezone> GetAll()
         {

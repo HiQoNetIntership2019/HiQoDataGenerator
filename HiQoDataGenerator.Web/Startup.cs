@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
-using HiQoDataGenerator.Web.Extensions;
+using HiQoDataGenerator.Core;
+using HiQoDataGenerator.DAL;
 
 namespace HiQoDataGenerator.Web
 {
@@ -23,7 +23,8 @@ namespace HiQoDataGenerator.Web
         
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddLogging();
-            services.AddTimezoneRepository();
+            services.AddBLServices();
+            services.AddDALServices(Configuration.GetConnectionString("Connection"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
