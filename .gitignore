@@ -333,6 +333,3 @@ ASALocalRun/
 
 .log
 
-# Ignore folder named Migrations
-Migrations/*
-*/Migrations/*

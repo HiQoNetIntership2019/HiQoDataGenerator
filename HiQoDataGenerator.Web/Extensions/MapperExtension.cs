@@ -12,6 +12,8 @@ namespace HiQoDataGenerator.Web.Extensions
             {
                 config.CreateMap<TimezoneViewModel, TimezoneModel>();
                 config.CreateMap<TimezoneModel, TimezoneViewModel>();
+                config.CreateMap<FieldTypeViewModel, FieldTypeModel>();
+                config.CreateMap<FieldTypeModel, FieldTypeViewModel>();
             }).CreateMapper();
         }
     }

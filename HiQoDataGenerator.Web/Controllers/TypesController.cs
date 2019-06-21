@@ -1,8 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using HiQoDataGenerator.Core.Interfaces;
+using HiQoDataGenerator.Core.Entities;
+using HiQoDataGenerator.Web.ViewModels;
+using System.Net;
+using Microsoft.Extensions.Logging;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -10,36 +14,73 @@ namespace HiQoDataGenerator.Web.Controllers
     [ApiController]
     public class TypesController : ControllerBase
     {
-        // GET api/values
+        private readonly IFieldTypeService _fieldTypesService;
+        private readonly IMapper _mapper;
+        private readonly ILogger _logger;
+        private readonly string _loggerName = "RequestInfoLogger";
+
+        public TypesController(IFieldTypeService fieldTypesService,IMapperFactory mapperFactory,ILoggerFactory loggerFactory)
+        {
+            _fieldTypesService = fieldTypesService;
+            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
+            _logger = loggerFactory.CreateLogger(_loggerName);
+        }
+        
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var typeModels = _fieldTypesService.GetAll();
+            var typeViewModels = _mapper.Map<IEnumerable<FieldTypeViewModel>>(typeModels);
+            _logger.LogInformation("[SUCCESS] Get all Types");
+            return Ok(typeViewModels);
         }
-
-        // GET api/values/5
+        
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
-        }
+            var typeModel = await _fieldTypesService.GetByIdAsync(id);
+            if (typeModel == null)
+            {
+                _logger.LogInformation("[ERROR] Can't get Type with id {0} !",id);
+                return NotFound();
+            }
 
-        // POST api/values
+            var typeViewModel = _mapper.Map<FieldTypeViewModel>(typeModel);
+            _logger.LogInformation("[SUCCESS] Get Type with id {0}",typeViewModel.Id);
+            return Ok(typeViewModel);
+        }
+        
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Post(FieldTypeViewModel typeViewModel)
         {
-        }
+            var typeModel = _mapper.Map<FieldTypeModel>(typeViewModel);
+            var isAdded = await _fieldTypesService.AddAsync(typeModel);
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+            if (!isAdded)
+            {
+                _logger.LogInformation("[ERROR] Can't add Type {0}", typeViewModel.Name);
+                return BadRequest();
+            }
+            _logger.LogInformation("[SUCCESS] Add Type {0}",typeViewModel.Name);
+            return Ok(typeModel);
         }
-
-        // DELETE api/values/5
+                
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> Delete(int id)
         {
+            bool isRemoved = await _fieldTypesService.RemoveByIdAsync(id);
+            
+            if (!isRemoved)
+            {
+                _logger.LogInformation("[ERROR] Can't delete Type with id {0}", id);
+                return NotFound();
+            }
+            _logger.LogInformation("[SUCCESS] Delete Type with id {0}", id);
+            return NoContent();
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 
 namespace HiQoDataGenerator.Core.Extensions
 {
@@ -15,6 +13,8 @@ namespace HiQoDataGenerator.Core.Extensions
             {
                 config.CreateMap<TimezoneModel, Timezone>();
                 config.CreateMap<Timezone, TimezoneModel>();
+                config.CreateMap<FieldTypeModel, FieldType>();
+                config.CreateMap<FieldType, FieldTypeModel>();
 
             }).CreateMapper();
         }

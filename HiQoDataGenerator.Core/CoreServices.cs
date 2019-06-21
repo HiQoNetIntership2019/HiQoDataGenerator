@@ -11,6 +11,7 @@ namespace HiQoDataGenerator.Core
         public static void AddBLServices(this IServiceCollection services)
         {
             services.AddScoped<ITimezonesService, TimezoneService>();
+            services.AddScoped<IFieldTypeService, FieldTypeService>();
         }
 
         public static IMapper GetMapper() => MapperExtension.GetMapper();
