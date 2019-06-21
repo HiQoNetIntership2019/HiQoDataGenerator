@@ -332,7 +332,3 @@ ASALocalRun/
 .mfractor/
 
 .log
-
-# Ignore folder named Migrations
-Migrations/*
-*/Migrations/*

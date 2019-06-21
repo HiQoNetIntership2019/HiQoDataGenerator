@@ -2,28 +2,29 @@
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TimezoneController : ControllerBase
+    public class EncodingTypeController : ControllerBase
     {
-        private readonly ITimezonesService _timezonesService;
+        private readonly IEncodingTypesService _encodingTypesService;
 
-        public TimezoneController(ITimezonesService timezonesService) => _timezonesService = timezonesService;
+        public EncodingTypeController(IEncodingTypesService encodingTypesService) => _encodingTypesService = encodingTypesService;
 
-        [HttpGet]
+        [HttpGet ("/index")]
         public IEnumerable<string> Get()
         {
-            var timezones = _timezonesService.GetAll();
-            return new string[] { timezones.Count().ToString() };
+            var encodingTypes = _encodingTypesService.GetAll();
+            return new string[] { encodingTypes.Count().ToString() };
         }
-            
-    //    [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+
+       [HttpGet("{id}")]
+        public async Task<string> Get(int id)
         {
-            return "value";
+            return (await _encodingTypesService.GetByIdAsync(id)).Name;
         }
 
         [HttpPost]
