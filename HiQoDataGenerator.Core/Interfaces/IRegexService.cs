@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HiQoDataGenerator.DAL.Models.ConstraintModels;
+using HiQoDataGenerator.Core.Entities;
 
-namespace HiQoDataGenerator.DAL.Contracts.Repositories
+namespace HiQoDataGenerator.Core.Interfaces
 {
-    public interface IRegexRepository : IBaseRepository<Regex>
+    public interface IRegexService
     {
+        IEnumerable<RegexModel> GetAll();
         IQueryable<string> GetAllNames();
+        
     }
 }

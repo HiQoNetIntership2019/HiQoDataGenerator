@@ -13,6 +13,7 @@ namespace HiQoDataGenerator.DAL
         public static void AddDALServices(this IServiceCollection services, string connectionString)
         {
             services.AddScoped<ITimezoneRepository, TimezonesRepository>();
+            services.AddScoped<IRegexRepository, RegexRepository>();
 
             services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
         }
