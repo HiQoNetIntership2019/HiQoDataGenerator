@@ -8,7 +8,7 @@ using System.Text;
 
 namespace HiQoDataGenerator.DAL
 {
-    public static class ServicesManager
+    public static class DALServices
     {
         public static void AddDALServices(this IServiceCollection services, string connectionString)
         {
