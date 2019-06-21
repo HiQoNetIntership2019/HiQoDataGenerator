@@ -24,39 +24,43 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
-            => _timezonesService.GetAll().Select(timezone => timezone.Value);
+        public IEnumerable<TimezoneViewModel> Get()
+            => _timezonesService.GetAll().Select(timezone => new TimezoneViewModel()
+            {
+                Id = timezone.Id,
+                Value = timezone.Value
+            });
 
 
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<string> Get(int id)
+        [HttpGet("{id}")]
+        public async Task<TimezoneViewModel> Get(int id)
         {
             _logger.LogInformation("Trying getting timezone by {0} id", id);
 
             var timezone = await _timezonesService.GetById(id);
-            return timezone?.Value;
+            return timezone == null ? null :
+                new TimezoneViewModel()
+                {
+                    Id = timezone.Id,
+                    Value = timezone.Value
+                };
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] TimezoneViewModel model)
         {
-            // TO DO: Value will be in json format
-            _logger.LogInformation("Trying adding timezone with value - {0}", value);
+            _logger.LogInformation("Trying adding timezone with value - {0}", model.Value);
 
-            _timezonesService.Add(new TimezoneModel(value));
+            _timezonesService.Add(new TimezoneModel(model.Value));
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
+     
         [HttpDelete("{id}")]
-        public async void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             _logger.LogInformation("Trying removed timezone by {0} id", id);
 
-            await _timezonesService.RemoveById(id);
+            return await _timezonesService.RemoveById(id);
         } 
     }
 }
