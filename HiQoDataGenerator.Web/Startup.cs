@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using HiQoDataGenerator.Core;
 using HiQoDataGenerator.DAL;
+using HiQoDataGenerator.Web.Extensions;
 
 namespace HiQoDataGenerator.Web
 {
@@ -21,8 +22,11 @@ namespace HiQoDataGenerator.Web
         
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddLogging();
+
             services.AddBLServices();
             services.AddDALServices(Configuration.GetConnectionString("Connection"));
+
+            services.AddMapperFactory();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

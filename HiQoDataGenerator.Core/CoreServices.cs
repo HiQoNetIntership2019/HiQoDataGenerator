@@ -1,4 +1,6 @@
-﻿using HiQoDataGenerator.Core.Interfaces;
+﻿using AutoMapper;
+using HiQoDataGenerator.Core.Extensions;
+using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,5 +12,7 @@ namespace HiQoDataGenerator.Core
         {
             services.AddScoped<ITimezonesService, TimezoneService>();
         }
+
+        public static IMapper GetMapper() => MapperExtension.GetMapper();
     }
 }
