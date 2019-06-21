@@ -2,9 +2,14 @@
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class RegexRepository : BaseRepository<Regex>
+    public class RegexRepository : BaseRepository<Regex>, IRegexRepository
     {
-        public RegexRepository(DataContext context) : base(context) { }
+        DataContext _context;
+        RegexRepository(DataContext context) : base(context)
+        {
+            this._context = context;
+        }
+
     }
 
 }
