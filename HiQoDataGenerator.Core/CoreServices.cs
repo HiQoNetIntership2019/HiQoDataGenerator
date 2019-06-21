@@ -8,8 +8,8 @@ namespace HiQoDataGenerator.Core
     {
         public static void AddBLServices(this IServiceCollection services)
         {
-            services.AddScoped<IFieldTypeService, TimezoneService>();
-            services.AddScoped<IFieldTypesService, TypesService>();
+            services.AddScoped<ITimezonesService, TimezoneService>();
+            services.AddScoped<IFieldTypeService, FieldTypeService>();
         }
     }
 }

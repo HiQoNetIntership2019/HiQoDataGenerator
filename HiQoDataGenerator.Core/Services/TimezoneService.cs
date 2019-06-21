@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace HiQoDataGenerator.Core.Services
 {
-    public class TimezoneService : IFieldTypeService
+    public class TimezoneService : ITimezonesService
     {
         private readonly ITimezoneRepository _timezoneRepostory;
 

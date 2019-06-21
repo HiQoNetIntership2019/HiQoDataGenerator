@@ -5,7 +5,7 @@ using HiQoDataGenerator.Core.Entities;
 
 namespace HiQoDataGenerator.Core.Interfaces
 {
-    public interface IFieldTypesService
+    public interface IFieldTypeService
     {
         IEnumerable<FieldTypeModel> GetAll();
     }

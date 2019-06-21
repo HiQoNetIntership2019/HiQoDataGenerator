@@ -9,9 +9,9 @@ namespace HiQoDataGenerator.Web.Controllers
     [ApiController]
     public class TimezoneController : ControllerBase
     {
-        private readonly IFieldTypeService _timezonesService;
+        private readonly ITimezonesService _timezonesService;
 
-        public TimezoneController(IFieldTypeService timezonesService) => _timezonesService = timezonesService;
+        public TimezoneController(ITimezonesService timezonesService) => _timezonesService = timezonesService;
 
         [HttpGet]
         public IEnumerable<string> Get()

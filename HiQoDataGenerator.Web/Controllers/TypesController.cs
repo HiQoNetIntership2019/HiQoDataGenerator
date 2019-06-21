@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
+using System.Net;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -11,11 +12,10 @@ namespace HiQoDataGenerator.Web.Controllers
     [ApiController]
     public class TypesController : ControllerBase
     {
-        private readonly IFieldTypeService _fieldTypesService;
+        private readonly ITimezonesService _fieldTypesService;
 
-        public TypesController(IFieldTypeService fieldTypesService) => _fieldTypesService = fieldTypesService;
-
-        // GET api/values
+        public TypesController(ITimezonesService fieldTypesService) => _fieldTypesService = fieldTypesService;
+        
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
