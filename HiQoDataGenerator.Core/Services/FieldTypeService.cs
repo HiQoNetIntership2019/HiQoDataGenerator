@@ -4,24 +4,35 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Core.Services
 {
     public class FieldTypeService : IFieldTypeService
     {
         private readonly IFieldTypeRepository _fieldTypeRepostory;
+        private IMapper _mapper;
 
-        public FieldTypeService(IFieldTypeRepository fieldTypeRepository) => _fieldTypeRepostory = fieldTypeRepository;
+        public FieldTypeService(IFieldTypeRepository fieldTypeRepository)
+        {
+            _fieldTypeRepostory = fieldTypeRepository;
+            _mapper = new MapperConfiguration(cfg => cfg.CreateMap<FieldType, FieldTypeModel>()).CreateMapper();
+        }
 
         public IEnumerable<FieldTypeModel> GetAll()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<FieldType, FieldTypeModel>()).CreateMapper();
-            return mapper.Map<IEnumerable<FieldType>, IEnumerable<FieldTypeModel>>(_fieldTypeRepostory.GetAll());
+            var types = _fieldTypeRepostory.GetAll();
+            return _mapper.Map<IEnumerable<FieldType>, IEnumerable<FieldTypeModel>>(types);
         }
 
-        public FieldTypeModel GetById(int id)
+        public async Task<FieldTypeModel> GetById(int id)
         {
-            User user = await _repository.GetAsync(id);
+            var type = await _fieldTypeRepostory.GetById(id);
+            if (type == null)
+            {
+                return null;
+            }
+            return _mapper.Map<FieldTypeModel>(type);
         }
     }
 }

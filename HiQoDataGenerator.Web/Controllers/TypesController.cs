@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -12,9 +13,9 @@ namespace HiQoDataGenerator.Web.Controllers
     [ApiController]
     public class TypesController : ControllerBase
     {
-        private readonly ITimezonesService _fieldTypesService;
+        private readonly IFieldTypeService _fieldTypesService;
 
-        public TypesController(ITimezonesService fieldTypesService) => _fieldTypesService = fieldTypesService;
+        public TypesController(IFieldTypeService fieldTypesService) => _fieldTypesService = fieldTypesService;
         
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -22,15 +23,20 @@ namespace HiQoDataGenerator.Web.Controllers
             var types = _fieldTypesService.GetAll();
             return new string[] { types.Count().ToString() };
         }
-
-        // GET api/values/5
+        
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<string>> Get(int id)
         {
-            return "value";
-        }
+            var type = await _fieldTypesService.GetById(id);
+            if (type == null)
+            {
+                return NotFound();
+            }
 
-        // POST api/values
+            return type.Name;
+        }
+        
         [HttpPost]
         public void Post([FromBody] string value)
         {
