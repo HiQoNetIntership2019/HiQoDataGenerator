@@ -16,4 +16,8 @@
     <ProjectReference Include="..\HiQoDataGenerator.Core\HiQoDataGenerator.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>

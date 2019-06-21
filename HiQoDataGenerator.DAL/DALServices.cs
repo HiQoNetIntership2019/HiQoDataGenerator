@@ -14,7 +14,7 @@ namespace HiQoDataGenerator.DAL
         {
             services.AddScoped<ITimezoneRepository, TimezonesService>();
 
-            services.AddDbContext<DataContext>(options => options.UseLazyLoadingProxies().UseNpgsql(connectionString));
+            services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
         }
     }
 }

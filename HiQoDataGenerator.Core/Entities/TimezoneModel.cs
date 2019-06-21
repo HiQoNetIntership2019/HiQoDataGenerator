@@ -4,10 +4,10 @@ using System.Text;
 
 namespace HiQoDataGenerator.Core.Entities
 {
-    public class Timezone : BaseEntity
+    public class TimezoneModel : BaseEntity
     {
         public string Value { get; }
 
-        public Timezone(string value) => Value = value;
+        public TimezoneModel(string value) => Value = value;
     }
 }

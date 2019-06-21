@@ -7,6 +7,6 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface ITimezonesService
     {
-        IEnumerable<Timezone> GetAll();
+        IEnumerable<TimezoneModel> GetAll();
     }
 }
