@@ -4,7 +4,7 @@ using HiQoDataGenerator.Core.Extensions;
 using HiQoDataGenerator.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HiQoDataGenerator.Web.Extensions
+namespace HiQoDataGenerator.Web
 {
     public static class WebServices
     {
@@ -18,7 +18,6 @@ namespace HiQoDataGenerator.Web.Extensions
             services.AddSingleton<IMapperFactory>(factory);
         }
 
-
-        public static IMapper GetMapper() => MapperExtension.GetMapper();
+        public static IMapper GetMapper() => Extensions.MapperExtension.GetMapper();
     }
 }

@@ -9,8 +9,8 @@ namespace HiQoDataGenerator.Core.Interfaces
     public interface IFieldTypeService
     {
         IEnumerable<FieldTypeModel> GetAll();
-        Task<FieldTypeModel> GetById(int id);
-        Task<bool> Add(FieldTypeModel fieldTypeModel);
-        Task<bool> RemoveById(int id);
+        Task<FieldTypeModel> GetByIdAsync(int id);
+        Task<bool> AddAsync(FieldTypeModel fieldTypeModel);
+        Task<bool> RemoveByIdAsync(int id);
     }
 }

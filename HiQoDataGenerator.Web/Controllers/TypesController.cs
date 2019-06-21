@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
+using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
 using System.Net;
-using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -15,33 +16,48 @@ namespace HiQoDataGenerator.Web.Controllers
     public class TypesController : ControllerBase
     {
         private readonly IFieldTypeService _fieldTypesService;
+        private readonly IMapper _mapper;
 
-        public TypesController(IFieldTypeService fieldTypesService) => _fieldTypesService = fieldTypesService;
+        public TypesController(IFieldTypeService fieldTypesService,IMapperFactory mapperFactory)
+        {
+            _fieldTypesService = fieldTypesService;
+            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
+        }
         
         [HttpGet]
         public IActionResult Get()
         {
-            var types = _fieldTypesService.GetAll();
-            return Ok(types);
+            var typeModels = _fieldTypesService.GetAll();
+            var typeViewModels = _mapper.Map<IEnumerable<FieldTypeViewModel>>(typeModels);
+            return Ok(typeViewModels);
         }
         
         [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get(int id)
         {
-            var type = await _fieldTypesService.GetById(id);
-            if (type == null)
+            var typeModel = await _fieldTypesService.GetByIdAsync(id);
+            if (typeModel == null)
             {
                 return NotFound();
             }
 
-            return Ok(type.Name);
+            var typeViewModel = _mapper.Map<FieldTypeViewModel>(typeModel);
+            return Ok(typeViewModel);
         }
         
         [HttpPost]
-        public IActionResult Post(FieldTypeViewModel model)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Post(FieldTypeViewModel typeViewModel)
         {
-            return Ok(model);
+            var typeModel = _mapper.Map<FieldTypeModel>(typeViewModel);
+            var isAdded = await _fieldTypesService.AddAsync(typeModel);
+
+            if (!isAdded)
+            {
+                return BadRequest();
+            }
+            return Ok(typeModel);
         }
         
         [HttpPut("{id}")]
@@ -54,7 +70,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            bool isRemoved = await _fieldTypesService.RemoveById(id);
+            bool isRemoved = await _fieldTypesService.RemoveByIdAsync(id);
             
             if (!isRemoved)
             {

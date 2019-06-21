@@ -13,10 +13,10 @@ namespace HiQoDataGenerator.Core.Services
         private readonly IFieldTypeRepository _fieldTypeRepostory;
         private IMapper _mapper;
 
-        public FieldTypeService(IFieldTypeRepository fieldTypeRepository)
+        public FieldTypeService(IFieldTypeRepository fieldTypeRepository,IMapperFactory mapperFactory)
         {
             _fieldTypeRepostory = fieldTypeRepository;
-            _mapper = new MapperConfiguration(cfg => cfg.CreateMap<FieldType, FieldTypeModel>()).CreateMapper();
+            _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
         public IEnumerable<FieldTypeModel> GetAll()
@@ -25,9 +25,9 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<FieldType>, IEnumerable<FieldTypeModel>>(types);
         }
 
-        public async Task<FieldTypeModel> GetById(int id)
+        public async Task<FieldTypeModel> GetByIdAsync(int id)
         {
-            var type = await _fieldTypeRepostory.GetById(id);
+            var type = await _fieldTypeRepostory.GetByIdAsync(id);
             if (type == null)
             {
                 return null;
@@ -35,15 +35,15 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<FieldTypeModel>(type);
         }
 
-        public async Task<bool> Add(FieldTypeModel fieldTypeModel)
+        public async Task<bool> AddAsync(FieldTypeModel fieldTypeModel)
         {
             var type = _mapper.Map<FieldType>(fieldTypeModel);
-            return await _fieldTypeRepostory.Add(type);
+            return await _fieldTypeRepostory.AddAsync(type);
         }
 
-        public async Task<bool> RemoveById(int id)
+        public async Task<bool> RemoveByIdAsync(int id)
         {
-            return await _fieldTypeRepostory.RemoveById(id);
+            return await _fieldTypeRepostory.RemoveByIdAsync(id);
         }
     }
 }
