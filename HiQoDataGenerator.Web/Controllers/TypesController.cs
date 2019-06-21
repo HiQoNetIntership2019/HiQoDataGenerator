@@ -59,12 +59,7 @@ namespace HiQoDataGenerator.Web.Controllers
             }
             return Ok(typeModel);
         }
-        
-        [HttpPut("{id}")]
-        public void Put(int id,[FromBody] string value)
-        {
-        }
-        
+                
         [HttpDelete("{id}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
