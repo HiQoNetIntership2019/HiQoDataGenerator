@@ -2,6 +2,9 @@
 using HiQoDataGenerator.Core;
 using HiQoDataGenerator.Core.Extensions;
 using HiQoDataGenerator.Core.Interfaces;
+using HiQoDataGenerator.DAL.Repositories.EntityFramework;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HiQoDataGenerator.Web
@@ -19,5 +22,16 @@ namespace HiQoDataGenerator.Web
         }
 
         public static IMapper GetMapper() => Extensions.MapperExtension.GetMapper();
+
+        public static void InitializeMigrations(this IApplicationBuilder app)
+        {
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                using (var context = scope.ServiceProvider.GetService<DataContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
+        }
     }
 }

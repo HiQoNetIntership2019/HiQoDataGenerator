@@ -12,6 +12,7 @@ namespace HiQoDataGenerator.Core
         {
             services.AddScoped<ITimezonesService, TimezoneService>();
             services.AddScoped<IFieldTypeService, FieldTypeService>();
+            services.AddScoped<IDefinedDatasetsService, DefinedDatasetsService>();
         }
 
         public static IMapper GetMapper() => MapperExtension.GetMapper();

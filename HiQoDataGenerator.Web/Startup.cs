@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using HiQoDataGenerator.Core;
 using HiQoDataGenerator.DAL;
 using HiQoDataGenerator.Web.Extensions;
+using Microsoft.EntityFrameworkCore;
+using HiQoDataGenerator.DAL.Repositories.EntityFramework;
 
 namespace HiQoDataGenerator.Web
 {
@@ -35,6 +37,7 @@ namespace HiQoDataGenerator.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.InitializeMigrations();
             }
             else
             {
@@ -45,5 +48,7 @@ namespace HiQoDataGenerator.Web
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+
+        
     }
 }
