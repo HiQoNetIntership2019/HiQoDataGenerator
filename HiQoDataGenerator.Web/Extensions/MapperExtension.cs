@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HiQoDataGenerator.Web.ViewModels;
 using HiQoDataGenerator.Core.Entities;
+using HiQoDataGenerator.Core.Entities.Datasets;
 
 namespace HiQoDataGenerator.Web.Extensions
 {
@@ -22,6 +23,14 @@ namespace HiQoDataGenerator.Web.Extensions
                 config.CreateMap<ConstraintModel, ConstraintViewModel>();
                 config.CreateMap<DateTimeFormatViewModel, DateTimeFormatModel>();
                 config.CreateMap<DateTimeFormatModel, DateTimeFormatViewModel>();
+
+                config.CreateMap<DatasetValueModel<string>, DatasetValueViewModel<string>>();
+                config.CreateMap<DatasetValueViewModel<string>, DatasetValueModel<string>>();
+
+                config.CreateMap<DatasetModel<string>, DatasetViewModel<string>>()
+                    .ForMember(dist => dist.Values, opt => opt.MapFrom(src => src.Values));
+                config.CreateMap<DatasetViewModel<string>, DatasetModel<string>>()
+                    .ForMember(dist => dist.Values, opt => opt.MapFrom(src => src.Values));
             }).CreateMapper();
         }
     }

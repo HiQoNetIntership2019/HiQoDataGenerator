@@ -107,6 +107,18 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("Types");
                 });
 
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.CountryDataset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CountriesDataset");
+                });
+
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.IntermediateModels.FieldTypeConstraint", b =>
                 {
                     b.Property<int>("Id")

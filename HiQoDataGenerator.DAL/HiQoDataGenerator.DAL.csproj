@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\DataSetModels\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

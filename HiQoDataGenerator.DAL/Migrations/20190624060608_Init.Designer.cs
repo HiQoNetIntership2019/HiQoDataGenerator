@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HiQoDataGenerator.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190621114749_Initial")]
-    partial class Initial
+    [Migration("20190624060608_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,6 +92,18 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Types");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.CountryDataset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CountriesDataset");
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.IntermediateModels.FieldTypeConstraint", b =>

@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
-using HiQoDataGenerator.DAL.Models.IntermediateModels;
-using Microsoft.Extensions.Configuration;
-using System.IO;
+using HiQoDataGenerator.DAL.Models.DataSetModels;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
@@ -16,7 +14,9 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public DbSet<EncodingType> EncodingTypes { get; set; }
 
         public DbSet<DateTimeFormat> DateTimeFormats { get; set; }
-        
+
+        public DbSet<CountryDataset> CountriesDataset { get; set; }
+
         public DataContext(DbContextOptions options) : base(options) { }
     }
 }

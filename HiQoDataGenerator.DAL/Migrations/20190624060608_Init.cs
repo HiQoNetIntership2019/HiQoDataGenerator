@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HiQoDataGenerator.DAL.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,19 @@ namespace HiQoDataGenerator.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Constraints", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CountriesDataset",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CountriesDataset", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,6 +127,9 @@ namespace HiQoDataGenerator.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CountriesDataset");
+
             migrationBuilder.DropTable(
                 name: "EncodingTypes");
 

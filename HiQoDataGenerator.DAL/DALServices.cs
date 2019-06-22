@@ -1,5 +1,7 @@
 ﻿using HiQoDataGenerator.DAL.Contracts.Repositories;
+using HiQoDataGenerator.DAL.Contracts.Repositories.Datasets;
 using HiQoDataGenerator.DAL.Repositories.EntityFramework;
+using HiQoDataGenerator.DAL.Repositories.EntityFramework.Datasets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -25,6 +27,8 @@ namespace HiQoDataGenerator.DAL
             services.AddScoped<IDateTimeFormatRepository, DateTimeFormatsRepository>();
 
             services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
+
+            services.AddScoped<ICountriesDatasetRepository, CountriesDatasetRepository>();
         }
     }
 }

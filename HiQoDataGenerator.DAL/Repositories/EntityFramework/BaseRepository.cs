@@ -35,7 +35,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             return result != 0;
         }
 
-        public IQueryable<T> GetAll() => _models;
+        public IQueryable<T> GetAll() => _models.AsQueryable();
 
         public async Task<T> GetByIdAsync(int id) => await _models.FindAsync(id);
 

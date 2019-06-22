@@ -15,14 +15,14 @@ namespace HiQoDataGenerator.Web
     public class Startup
     {
         private readonly string _filenameForLog = "Web.log";
-        public Startup(IConfiguration configuration) => Configuration = configuration;        
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-        
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddLogging();
             services.AddScoped<LoggingAttribute>();
@@ -40,6 +40,7 @@ namespace HiQoDataGenerator.Web
             {
                 loggerFactory.AddFile(_filenameForLog);
                 app.UseDeveloperExceptionPage();
+                app.InitializeMigrations();
             }
             else
             {
@@ -52,5 +53,7 @@ namespace HiQoDataGenerator.Web
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+
+
     }
 }
