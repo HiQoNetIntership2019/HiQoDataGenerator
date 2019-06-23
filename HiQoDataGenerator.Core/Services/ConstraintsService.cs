@@ -12,29 +12,49 @@ namespace HiQoDataGenerator.Core.Services
     public class ConstraintsService : IConstraintsService
     {
         private readonly IConstraintsRepository _constraintsRepository;
-        private readonly IMapper _mapper;
+        private IMapper _mapper;
 
-        public ConstraintsService(IConstraintsRepository constraintsRepository)
+        public ConstraintsService(IConstraintsRepository constraintsRepository, IMapperFactory mapperFactory)
         {
             _constraintsRepository = constraintsRepository;
-            _mapper = new MapperConfiguration(cfg => cfg.CreateMap<Constraint, ConstraintModel>()).CreateMapper();
+            _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
         public IEnumerable<ConstraintModel> GetAll()
         {
-            return _mapper.Map<IEnumerable<Constraint>, IEnumerable<ConstraintModel>>(_constraintsRepository.GetAll());
+            var constraints = _constraintsRepository.GetAll();
+            return _mapper.Map<IEnumerable<Constraint>, IEnumerable<ConstraintModel>>(constraints);
         }
 
         public async Task<ConstraintModel> GetByIdAsync(int id)
         {
             var constraint = await _constraintsRepository.GetByIdAsync(id);
-            return  _mapper.Map<Constraint, ConstraintModel>(constraint);
+            if (constraint == null)
+            {
+                return null;
+            }
+            return  _mapper.Map<ConstraintModel>(constraint);
         }
 
         public async Task<ConstraintModel> GetByNameAsync(string name)
         {
             var constraint = await _constraintsRepository.GetByNameAsync(name);
-            return _mapper.Map<Constraint, ConstraintModel>(constraint);
+            if (constraint == null)
+            {
+                return null;
+            }
+            return _mapper.Map<ConstraintModel>(constraint);
+        }
+
+        public async Task<bool> AddAsync(ConstraintModel constraintModel)
+        {
+            var constraint = _mapper.Map<Constraint>(constraintModel);
+            return await _constraintsRepository.AddAsync(constraint);
+        }
+
+        public async Task<bool> RemoveByIdAsync(int id)
+        {
+            return await _constraintsRepository.RemoveByIdAsync(id);
         }
     }
 }

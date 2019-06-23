@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
-using Castle.Core.Logging;
+using AutoMapper;
+using HiQoDataGenerator.Core.Entities;
+using Microsoft.Extensions.Logging;
 using HiQoDataGenerator.Core.Interfaces;
+using HiQoDataGenerator.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HiQoDataGenerator.Web.Controllers
@@ -13,46 +17,72 @@ namespace HiQoDataGenerator.Web.Controllers
     public class ConstraintsController : ControllerBase
     {
         private readonly IConstraintsService _constraintsService;
+        private readonly IMapper _mapper;
         private readonly ILogger _logger;
+        private readonly string _loggerName = "RequestInfoLogger";
 
-        public ConstraintsController(IConstraintsService constraintsService, ILoggerFactory loggerFactory)
+        public ConstraintsController(IConstraintsService constraintsService, IMapperFactory mapperFactory, ILoggerFactory loggerFactory)
         {
             _constraintsService = constraintsService;
-            _logger = loggerFactory.Create(typeof(ConstraintsController));
+            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
+            _logger = loggerFactory.CreateLogger(_loggerName);
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            var constraints = _constraintsService.GetAll();
-            return constraints.Select(constraint => constraint.Name);
+            var constraintsModels = _constraintsService.GetAll();
+            var constraintsViewModels = _mapper.Map<IEnumerable<ConstraintViewModel>>(constraintsModels);
+            _logger.LogInformation("Get all Constraints");
+            return Ok(constraintsViewModels);
         }
 
         [HttpGet("{id}")]
-        public async Task<string> Get(int id)
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> Get(int id)
         {
-            return (await _constraintsService.GetByIdAsync(id)).Name;
-        }
+            var constraintModel = await _constraintsService.GetByIdAsync(id);
+            if (constraintModel == null)
+            {
+                _logger.LogInformation("Can't get Constraint with id {0} !", id);
+                return NotFound();
+            }
 
-        [HttpGet("{name}")]
-        public async Task<int> Get(string name)
-        {
-            return (await _constraintsService.GetByNameAsync(name)).Id;
+            var constraintViewModel = _mapper.Map<ConstraintViewModel>(constraintModel);
+            _logger.LogInformation("Get Constraint with id {0}", constraintViewModel.Id);
+            return Ok(constraintViewModel);
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Post(ConstraintViewModel constraintViewModel)
         {
-        }
+            var constraintModel = _mapper.Map<ConstraintModel>(constraintViewModel);
+            var isAdded = await _constraintsService.AddAsync(constraintModel);
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+            if (!isAdded)
+            {
+                _logger.LogInformation("Can't add Constraint {0}", constraintViewModel.Name);
+                return BadRequest();
+            }
+            _logger.LogInformation("Add Constraint {0}", constraintViewModel.Name);
+            return Ok(constraintModel);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> Delete(int id)
         {
+            bool isRemoved = await _constraintsService.RemoveByIdAsync(id);
+
+            if (!isRemoved)
+            {
+                _logger.LogInformation("Can't delete Constraint with id {0}", id);
+                return NotFound();
+            }
+            _logger.LogInformation("Delete Constraint with id {0}", id);
+            return NoContent();
         }
     }
 }
