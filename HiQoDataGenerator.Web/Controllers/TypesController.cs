@@ -17,7 +17,7 @@ namespace HiQoDataGenerator.Web.Controllers
         private readonly IFieldTypeService _fieldTypesService;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        private readonly string _loggerName = "RequestInfoLogger";
+        private readonly string _loggerName = "FieldTypesLogger";
 
         public TypesController(IFieldTypeService fieldTypesService,IMapperFactory mapperFactory,ILoggerFactory loggerFactory)
         {
@@ -31,7 +31,7 @@ namespace HiQoDataGenerator.Web.Controllers
         {
             var typeModels = _fieldTypesService.GetAll();
             var typeViewModels = _mapper.Map<IEnumerable<FieldTypeViewModel>>(typeModels);
-            _logger.LogInformation("[SUCCESS] Get all Types");
+            _logger.LogInformation("Get all Types");
             return Ok(typeViewModels);
         }
         
@@ -42,12 +42,12 @@ namespace HiQoDataGenerator.Web.Controllers
             var typeModel = await _fieldTypesService.GetByIdAsync(id);
             if (typeModel == null)
             {
-                _logger.LogInformation("[ERROR] Can't get Type with id {0} !",id);
+                _logger.LogError("Can't get Type with id {0} !",id);
                 return NotFound();
             }
 
             var typeViewModel = _mapper.Map<FieldTypeViewModel>(typeModel);
-            _logger.LogInformation("[SUCCESS] Get Type with id {0}",typeViewModel.Id);
+            _logger.LogInformation("Get Type with id {0}",typeViewModel.Id);
             return Ok(typeViewModel);
         }
         
@@ -60,10 +60,10 @@ namespace HiQoDataGenerator.Web.Controllers
 
             if (!isAdded)
             {
-                _logger.LogInformation("[ERROR] Can't add Type {0}", typeViewModel.Name);
+                _logger.LogError("Can't add Type {0}", typeViewModel.Name);
                 return BadRequest();
             }
-            _logger.LogInformation("[SUCCESS] Add Type {0}",typeViewModel.Name);
+            _logger.LogInformation("Add Type {0}",typeViewModel.Name);
             return Ok(typeModel);
         }
                 
@@ -76,10 +76,10 @@ namespace HiQoDataGenerator.Web.Controllers
             
             if (!isRemoved)
             {
-                _logger.LogInformation("[ERROR] Can't delete Type with id {0}", id);
+                _logger.LogError("Can't delete Type with id {0}", id);
                 return NotFound();
             }
-            _logger.LogInformation("[SUCCESS] Delete Type with id {0}", id);
+            _logger.LogInformation("Delete Type with id {0}", id);
             return NoContent();
         }
     }
