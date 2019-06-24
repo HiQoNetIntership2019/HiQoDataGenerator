@@ -8,8 +8,8 @@ namespace HiQoDataGenerator.Core.Interfaces
     {
         IEnumerable<DateTimeFormatModel> GetAll();
         Task<DateTimeFormatModel> GetByIdAsync(int id);
-        Task<bool> AddAsync(DateTimeFormatModel dateTimeFormatModel);
-        Task<bool> AddRangeAsync(IEnumerable<DateTimeFormatModel> dateTimeFormatModels);
-        Task<bool> RemoveByIdAsync(int id);
+        Task AddAsync(DateTimeFormatModel dateTimeFormatModel);
+        Task AddRangeAsync(IEnumerable<DateTimeFormatModel> dateTimeFormatModels);
+        Task RemoveByIdAsync(int id);
     }
 }

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HiQoDataGenerator.Core.Exceptions;
 
 namespace HiQoDataGenerator.Core.Services
 {
@@ -30,26 +32,44 @@ namespace HiQoDataGenerator.Core.Services
             var dateTimeFormat = await _dateTimeFormatRepository.GetByIdAsync(id);
             if (dateTimeFormat == null)
             {
-                return null;
+                throw new ElementNotFoundException("Can't get DateTime format with id "+id.ToString()+" !");
             }
             return _mapper.Map<DateTimeFormatModel>(dateTimeFormat);
         }
 
-        public async Task<bool> AddAsync(DateTimeFormatModel dateTimeFormatModel)
+        public async Task AddAsync(DateTimeFormatModel dateTimeFormatModel)
         {
             var dateTimeFormat = _mapper.Map<DateTimeFormat>(dateTimeFormatModel);
-            return await _dateTimeFormatRepository.AddAsync(dateTimeFormat);
+            try
+            {
+                await _dateTimeFormatRepository.AddAsync(dateTimeFormat);
+            }
+            catch (DbUpdateException)
+            {
+                throw new ElementIsAlreadyExistException();
+            }
         }
 
-        public async Task<bool> AddRangeAsync(IEnumerable<DateTimeFormatModel> dateTimeFormatModels)
+        public async Task AddRangeAsync(IEnumerable<DateTimeFormatModel> dateTimeFormatModels)
         {
             var dateTimeFormats = _mapper.Map<IEnumerable<DateTimeFormat>>(dateTimeFormatModels);
-            return await _dateTimeFormatRepository.AddRangeAsync(dateTimeFormats);
+            try
+            {
+                await _dateTimeFormatRepository.AddRangeAsync(dateTimeFormats);
+            }
+            catch (DbUpdateException)
+            {
+                throw new ElementIsAlreadyExistException();
+            }
         }
 
-        public async Task<bool> RemoveByIdAsync(int id)
+        public async Task RemoveByIdAsync(int id)
         {
-            return await _dateTimeFormatRepository.RemoveByIdAsync(id);
+            var result = await _dateTimeFormatRepository.RemoveByIdAsync(id);
+            if (!result)
+            {
+                throw new ElementNotFoundException("Can't delete DateTime format with id "+id.ToString()+" !");
+            }
         }
     }
 }
