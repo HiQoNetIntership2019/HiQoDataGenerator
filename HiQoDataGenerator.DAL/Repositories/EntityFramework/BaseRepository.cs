@@ -31,15 +31,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public async Task<bool> AddRangeAsync(IEnumerable<T> items)
         {
             _models.AddRange(items);
-            int result;
-            try
-            {
-                result = await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                result = 0;
-            }
+            var result = await _context.SaveChangesAsync();
             return result != 0;
         }
 
