@@ -4,10 +4,13 @@ using System.Text;
 
 namespace HiQoDataGenerator.Core.Entities
 {
-    public class EncodingTypeModel: BaseEntity
+    public class EncodingTypeModel: BaseModel
     {
         public string Name { get; }
 
-        public EncodingTypeModel(string name) => Name = name;
+        public EncodingTypeModel(int id, string name) : base(id)
+        {
+            Name = name;
+        }
     }
 }

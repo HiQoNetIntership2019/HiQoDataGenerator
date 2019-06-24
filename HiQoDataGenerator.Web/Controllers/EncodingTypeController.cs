@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
-using System.Linq;
-using System.Threading.Tasks;
+using HiQoDataGenerator.Core.Entities;
+using HiQoDataGenerator.Web.ViewModels;
+using System.Net;
+using Microsoft.Extensions.Logging;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -11,35 +15,70 @@ namespace HiQoDataGenerator.Web.Controllers
     public class EncodingTypeController : ControllerBase
     {
         private readonly IEncodingTypesService _encodingTypesService;
+        private readonly IMapper _mapper;
+        private readonly ILogger _logger;
+        private readonly string _loggerName = "RequestInfoLogger";
 
-        public EncodingTypeController(IEncodingTypesService encodingTypesService) => _encodingTypesService = encodingTypesService;
-
-        [HttpGet ("/index")]
-        public IEnumerable<string> Get()
+        public EncodingTypeController(IEncodingTypesService encodingTypesService, IMapperFactory mapperFactory, ILoggerFactory loggerFactory)
         {
-            var encodingTypes = _encodingTypesService.GetAll();
-            return new string[] { encodingTypes.Count().ToString() };
+            _encodingTypesService = encodingTypesService;
+            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
+            _logger = loggerFactory.CreateLogger(_loggerName);
         }
 
-       [HttpGet("{id}")]
-        public async Task<string> Get(int id)
+        [HttpGet ("/index")]
+        public IActionResult Get()
         {
-            return (await _encodingTypesService.GetByIdAsync(id)).Name;
+            var encodingTypeModels = _encodingTypesService.GetAll();
+            var encodingTypeViewModels = _mapper.Map<IEnumerable<EncodingTypeViewModel>>(encodingTypeModels);
+            _logger.LogInformation("[SUCCESS] Get all EncodingTypes");
+            return Ok(encodingTypeViewModels);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> Get(int id)
+        {
+            var encodingTypepeModel = await _encodingTypesService.GetByIdAsync(id);
+            if (encodingTypepeModel == null)
+            {
+                _logger.LogInformation("[ERROR] Can't get EncodingType with id {0} !", id);
+                return NotFound();
+            }
+
+            var encodingTypeViewModel = _mapper.Map<EncodingTypeViewModel>(encodingTypepeModel);
+            return Ok(encodingTypeViewModel);
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Post(EncodingTypeViewModel encodingTypeViewModel)
         {
-        }
+            var encodingTypeModel = _mapper.Map<EncodingTypeModel>(encodingTypeViewModel);
+            var isAdded = await _encodingTypesService.AddAsync(encodingTypeModel);
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+            if (!isAdded)
+            {
+                _logger.LogInformation("[ERROR] Can't add EncodingType {0}", encodingTypeViewModel.Name);
+                return BadRequest();
+            }
+            return Ok(encodingTypeModel);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> Delete(int id)
         {
+            bool isRemoved = await _encodingTypesService.RemoveByIdAsync(id);
+
+            if (!isRemoved)
+            {
+                _logger.LogInformation("[ERROR] Can't delete EncodingType with id {0}", id);
+                return NotFound();
+            }
+            _logger.LogInformation("[SUCCESS] Delete EncodingType with id {0}", id);
+            return NoContent();
         }
     }
 }

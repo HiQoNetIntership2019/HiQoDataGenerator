@@ -1,7 +1,7 @@
-﻿using HiQoDataGenerator.Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using HiQoDataGenerator.Core.Entities;
 using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Core.Interfaces
@@ -10,6 +10,7 @@ namespace HiQoDataGenerator.Core.Interfaces
     {
         IEnumerable<EncodingTypeModel> GetAll();
         Task<EncodingTypeModel> GetByIdAsync(int id);
-        //Task<bool> Add(EncodingTypeModel item);
+        Task<bool> AddAsync(EncodingTypeModel encodingTypeModel);
+        Task<bool> RemoveByIdAsync(int id);
     }
 }
