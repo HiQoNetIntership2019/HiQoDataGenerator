@@ -3,9 +3,7 @@ using System;
 using System.Threading.Tasks;
 using System.Net;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Exceptions;
-using Microsoft.EntityFrameworkCore;
 
 namespace HiQoDataGenerator.Web.Middleware
 {
@@ -17,7 +15,7 @@ namespace HiQoDataGenerator.Web.Middleware
 
         public ExceptionsHandlerMidlleware(RequestDelegate next, ILoggerFactory loggerFactory)
         {
-            _next = next;
+            _next = next;        
             _logger = loggerFactory.CreateLogger(GetType().Name);
         }
 
