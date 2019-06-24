@@ -26,7 +26,7 @@ namespace HiQoDataGenerator.Web.Controllers
             _logger = loggerFactory.CreateLogger(_loggerName);
         }
 
-        [HttpGet ("/index")]
+        [HttpGet]
         public IActionResult Get()
         {
             var encodingTypeModels = _encodingTypesService.GetAll();
@@ -39,14 +39,14 @@ namespace HiQoDataGenerator.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get(int id)
         {
-            var encodingTypepeModel = await _encodingTypesService.GetByIdAsync(id);
-            if (encodingTypepeModel == null)
+            var encodingTypeModel = await _encodingTypesService.GetByIdAsync(id);
+            if (encodingTypeModel == null)
             {
                 _logger.LogInformation("[ERROR] Can't get EncodingType with id {0} !", id);
                 return NotFound();
             }
 
-            var encodingTypeViewModel = _mapper.Map<EncodingTypeViewModel>(encodingTypepeModel);
+            var encodingTypeViewModel = _mapper.Map<EncodingTypeViewModel>(encodingTypeModel);
             return Ok(encodingTypeViewModel);
         }
 
