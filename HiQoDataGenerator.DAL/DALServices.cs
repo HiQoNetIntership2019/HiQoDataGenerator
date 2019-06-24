@@ -14,8 +14,8 @@ namespace HiQoDataGenerator.DAL
         {
             services.AddScoped<ITimezoneRepository, TimezonesRepository>();
             services.AddScoped<IFieldTypeRepository, FieldTypesRepository>();
-            services.AddScoped<IRegexRepository, RegexRepository>();
-
+            services.AddScoped<IRegexRepository, RegexRepository>();      
+            services.AddScoped<IConstraintsRepository, ConstraintsRepository>();
             services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
         }
     }

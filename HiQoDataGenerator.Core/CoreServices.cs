@@ -13,6 +13,7 @@ namespace HiQoDataGenerator.Core
             services.AddScoped<ITimezonesService, TimezoneService>();
             services.AddScoped<IRegexService, RegexService>();
             services.AddScoped<IFieldTypeService, FieldTypeService>();
+            services.AddScoped<IConstraintsService, ConstraintsService>();
 
         }
 
