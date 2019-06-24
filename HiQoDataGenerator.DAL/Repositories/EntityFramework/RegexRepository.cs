@@ -10,7 +10,6 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         DataContext _context;
         public RegexRepository(DataContext context) : base(context) => this._context = context;
         public IQueryable<string> GetAllNames() => base.GetAll().Select(r => r.Name).Distinct();
-
     }
 
 }

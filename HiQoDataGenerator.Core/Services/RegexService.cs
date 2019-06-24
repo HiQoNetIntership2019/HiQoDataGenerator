@@ -1,36 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using AutoMapper;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Core.Services
 {
     public class RegexService : IRegexService
     {
-
         private readonly IRegexRepository _regexRepository;
-        private readonly IMapper mapper;
+        private readonly IMapper _mapper;
 
-        public RegexService(IRegexRepository regexRepository) {
+        public RegexService(IRegexRepository regexRepository, IMapperFactory mapperFactory) {
 
-           this._regexRepository = regexRepository;
-           mapper = new MapperConfiguration(cfg => cfg.CreateMap<Regex, RegexModel>()).CreateMapper();
+           _regexRepository = regexRepository;
+           _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);           
         }
         public IEnumerable<RegexModel> GetAll()
         {
-            //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Regex, RegexModel>()).CreateMapper();
-            return mapper.Map<IEnumerable<Regex>, IEnumerable<RegexModel>>(_regexRepository.GetAll());
+           return _mapper.Map<IEnumerable<RegexModel>>(_regexRepository.GetAll());
         }
 
-        public IQueryable<string> GetAllNames()
-        {
-            return _regexRepository.GetAllNames();
-        }
+        public IQueryable<string> GetAllNames() =>  _regexRepository.GetAllNames();
+ 
+        
+        public async Task<bool> RemoveByIdAsync(int id) => await _regexRepository.RemoveByIdAsync(id);
+
+        public async Task<RegexModel> GetByIdAsync(int id) => _mapper.Map<RegexModel>(await _regexRepository.GetByIdAsync(id));
+        public async Task<bool> AddAsync(RegexModel model) => await _regexRepository.AddAsync(_mapper.Map<Regex>(model));
+
     }
 }
