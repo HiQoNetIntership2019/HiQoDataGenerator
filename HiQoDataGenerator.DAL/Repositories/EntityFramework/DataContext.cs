@@ -14,6 +14,8 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public DbSet<Timezone> Timezones { get; set; }
         public DbSet<Regex> Regexes { get; set; }
         public DbSet<EncodingType> EncodingTypes { get; set; }
+
+        public DbSet<DateTimeFormat> DateTimeFormats { get; set; }
         
         public DataContext(DbContextOptions options) : base(options) { }
     }
