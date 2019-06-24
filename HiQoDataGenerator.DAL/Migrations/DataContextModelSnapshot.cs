@@ -50,6 +50,7 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("EncodingTypes");
                 });
 
+
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.Regex", b =>
                 {
                     b.Property<int>("Id")

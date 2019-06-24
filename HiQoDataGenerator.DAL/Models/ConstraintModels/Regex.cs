@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using HiQoDataGenerator.DAL.Models.CustomObjectModels;
-using HiQoDataGenerator.DAL.Models.IntermediateModels;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HiQoDataGenerator.DAL.Models.ConstraintModels
 {
