@@ -14,9 +14,12 @@ namespace HiQoDataGenerator.Core
 
             services.AddScoped<IEncodingTypesService, EncodingTypeService>();
 
+            services.AddScoped<IRegexService, RegexService>();
+
             services.AddScoped<IFieldTypeService, FieldTypeService>();
 
             services.AddScoped<IConstraintsService, ConstraintsService>();
+
         }
 
         public static IMapper GetMapper() => MapperExtension.GetMapper();
