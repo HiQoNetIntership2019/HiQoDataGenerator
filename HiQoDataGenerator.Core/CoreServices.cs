@@ -20,6 +20,7 @@ namespace HiQoDataGenerator.Core
 
             services.AddScoped<IConstraintsService, ConstraintsService>();
 
+            services.AddScoped<IDateTimeFormatService, DateTimeFormatService>();
         }
 
         public static IMapper GetMapper() => MapperExtension.GetMapper();
