@@ -35,7 +35,7 @@ namespace HiQoDataGenerator.Web.Middleware
             }
         }
 
-        private async Task HandleExceptionsAsync(HttpContext httpContext, Exception ex)
+        private Task HandleExceptionsAsync(HttpContext httpContext, Exception ex)
         {
             HttpStatusCode status = HttpStatusCode.InternalServerError;
             string message = _defaultErrorMessage;
@@ -44,11 +44,24 @@ namespace HiQoDataGenerator.Web.Middleware
             {
                 message = "Request type not implemented";
                 status = HttpStatusCode.NotImplemented;
+            }else if (ex is ElementNotFoundException)
+            {
+                status = HttpStatusCode.NotFound;
+                message = "Requested element not found";
+            }else if (ex is ElementIsAlreadyExistException)
+            {
+                status = HttpStatusCode.BadRequest;
+                message = "Element is already exist";
             }
 
-            httpContext.Response.StatusCode = (int) status;
+            httpContext.Response.StatusCode = (int)status;
             httpContext.Response.ContentType = "application/json";
-            await httpContext.Response.WriteAsync(message);
+
+            return httpContext.Response.WriteAsync(new ErrorResponse()
+            {
+                StatusCode = (int)status,
+                Message = message
+            }.ToString());
         }
     }
 }

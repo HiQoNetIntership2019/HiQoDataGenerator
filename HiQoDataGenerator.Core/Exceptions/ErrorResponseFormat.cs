@@ -2,12 +2,13 @@
 
 namespace HiQoDataGenerator.Core.Exceptions
 {
-    public class ErrorResponseFormat
+    public class ErrorResponse
     {
         public int StatusCode { get; set; }
         public string Message { get; set; }
 
-        public ErrorResponseFormat(int statusCode, string errorMessage)
+        public ErrorResponse() { }
+        public ErrorResponse(int statusCode, string errorMessage)
         {
             StatusCode = statusCode;
             Message = errorMessage;
