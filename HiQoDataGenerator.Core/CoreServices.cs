@@ -16,6 +16,7 @@ namespace HiQoDataGenerator.Core
 
             services.AddScoped<IFieldTypeService, FieldTypeService>();
 
+            services.AddScoped<IConstraintsService, ConstraintsService>();
         }
 
         public static IMapper GetMapper() => MapperExtension.GetMapper();

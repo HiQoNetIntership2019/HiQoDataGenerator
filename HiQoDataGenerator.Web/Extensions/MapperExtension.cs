@@ -16,6 +16,9 @@ namespace HiQoDataGenerator.Web.Extensions
                 config.CreateMap<FieldTypeModel, FieldTypeViewModel>();
                 config.CreateMap<EncodingTypeViewModel, EncodingTypeModel>();
                 config.CreateMap<EncodingTypeModel, EncodingTypeViewModel>();
+                config.CreateMap<ConstraintViewModel, ConstraintModel>();
+                config.CreateMap<ConstraintModel, ConstraintViewModel>();
+
             }).CreateMapper();
         }
     }

@@ -18,6 +18,8 @@ namespace HiQoDataGenerator.DAL
 
             services.AddScoped<IFieldTypeRepository, FieldTypesRepository>();
 
+            services.AddScoped<IConstraintsRepository, ConstraintsRepository>();
+
             services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
         }
     }
