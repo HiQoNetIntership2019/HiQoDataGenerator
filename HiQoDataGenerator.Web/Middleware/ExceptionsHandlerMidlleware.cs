@@ -3,22 +3,25 @@ using System;
 using System.Threading.Tasks;
 using System.Net;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
+using HiQoDataGenerator.Core.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace HiQoDataGenerator.Web.Middleware
 {
-    public class ExceptionHandlerMidlleware
+    public class ExceptionsHandlerMidlleware
     {
         private readonly string _defaultErrorMessage = "undefined error";
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
 
-        public ExceptionHandlerMidlleware(RequestDelegate next, ILoggerFactory loggerFactory)
+        public ExceptionsHandlerMidlleware(RequestDelegate next, ILoggerFactory loggerFactory)
         {
             _next = next;
             _logger = loggerFactory.CreateLogger(GetType().Name);
         }
 
-        public async Task Invoke(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext httpContext)
         {
             try
             {
