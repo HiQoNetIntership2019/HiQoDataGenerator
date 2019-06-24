@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using HiQoDataGenerator.Core;
 using HiQoDataGenerator.DAL;
 using HiQoDataGenerator.Web.Extensions;
+using HiQoDataGenerator.Web.Middleware;
 
 namespace HiQoDataGenerator.Web
 {
@@ -35,13 +36,15 @@ namespace HiQoDataGenerator.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+               app.UseDeveloperExceptionPage();
             }
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseMiddleware<ExceptionsHandlerMidlleware>();
 
             app.UseHttpsRedirection();
             app.UseMvc();
