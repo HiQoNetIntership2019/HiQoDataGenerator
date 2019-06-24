@@ -20,6 +20,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             _models = context.Set<T>();
         }
 
+
         public async Task<bool> AddAsync(T item)
         {
             _models.Add(item);

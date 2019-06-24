@@ -11,8 +11,13 @@ namespace HiQoDataGenerator.Core
         public static void AddBLServices(this IServiceCollection services)
         {
             services.AddScoped<ITimezonesService, TimezoneService>();
+
+            services.AddScoped<IEncodingTypesService, EncodingTypeService>();
+
             services.AddScoped<IRegexService, RegexService>();
+
             services.AddScoped<IFieldTypeService, FieldTypeService>();
+
             services.AddScoped<IConstraintsService, ConstraintsService>();
 
         }
