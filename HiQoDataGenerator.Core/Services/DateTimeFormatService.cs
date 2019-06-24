@@ -46,7 +46,7 @@ namespace HiQoDataGenerator.Core.Services
             }
             catch (DbUpdateException)
             {
-                throw new ElementIsAlreadyExistException();
+                throw new ElementIsAlreadyExistException("DateTime format with id " + dateTimeFormat.Id + " is already exist!");
             }
         }
 
@@ -59,7 +59,7 @@ namespace HiQoDataGenerator.Core.Services
             }
             catch (DbUpdateException)
             {
-                throw new ElementIsAlreadyExistException();
+                throw new ElementIsAlreadyExistException("Some DateTime formats from range are already exist!");
             }
         }
 
