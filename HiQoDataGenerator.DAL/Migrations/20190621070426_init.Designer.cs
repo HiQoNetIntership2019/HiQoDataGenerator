@@ -3,15 +3,17 @@ using System;
 using HiQoDataGenerator.DAL.Repositories.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HiQoDataGenerator.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190621070426_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +52,6 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("EncodingTypes");
                 });
 
-
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.Regex", b =>
                 {
                     b.Property<int>("Id")
@@ -67,7 +68,7 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("Regexes");
                 });
 
-            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.Timezone", b =>
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.TimezoneModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();

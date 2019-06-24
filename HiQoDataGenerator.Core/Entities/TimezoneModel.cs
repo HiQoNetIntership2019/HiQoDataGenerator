@@ -1,9 +1,9 @@
 ﻿namespace HiQoDataGenerator.Core.Entities
 {
-    public class TimezoneModel : BaseEntity
+    public class TimezoneModel : BaseModel
     {
         public string Value { get; }
 
-        public TimezoneModel(string value) => Value = value;
+        public TimezoneModel(int id,string value) : base(id) => Value = value;
     }
 }

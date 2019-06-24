@@ -20,23 +20,33 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             _models = context.Set<T>();
         }
 
-        public async void Add(T item)
+        public async Task<bool> AddAsync(T item)
         {
             _models.Add(item);
-            await _context.SaveChangesAsync();
+            int result;
+            try
+            {
+                result = await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                result = 0;
+            }
+            return result != 0;
         }
 
-        public async void AddRange(IEnumerable<T> items)
+        public async Task<bool> AddRangeAsync(IEnumerable<T> items)
         {
             _models.AddRange(items);
-            await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
+            return result != 0;
         }
 
         public IQueryable<T> GetAll() => _models;
 
-        public async Task<T> GetById(int id) => await _models.FindAsync(id);
+        public async Task<T> GetByIdAsync(int id) => await _models.FindAsync(id);
 
-        public async Task<bool> RemoveById(int id)
+        public async Task<bool> RemoveByIdAsync(int id)
         {
             var value = _models.Find(id);
             if (value == null)
