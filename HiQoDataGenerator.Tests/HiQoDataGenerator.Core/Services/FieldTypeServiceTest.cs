@@ -78,33 +78,19 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public async Task AddAsync_NonExistingElement_NoException()
+        public void AddAsync_NonExistingElement_NoException()
         {
-            var isNotThrown = true;
-            try
-            {
-                await _fieldTypeService.AddAsync(null);
-            }
-            catch (ElementIsAlreadyExistException)
-            {
-                isNotThrown = false;
-            }
-            Assert.True(isNotThrown);
+            var ex = Record.ExceptionAsync(() => _fieldTypeService.AddAsync(null));
+
+            Assert.Null(ex.Result);
         }
 
         [Fact]
-        public async Task RemoveByIdAsync_ExistingId_NoException()
+        public void RemoveByIdAsync_ExistingId_NoException()
         {
-            var isNotThrown = true;
-            try
-            {
-                await _fieldTypeService.RemoveByIdAsync(1);
-            }
-            catch (InvalidDataException)
-            {
-                isNotThrown = false;
-            }
-            Assert.True(isNotThrown);
+            var ex = Record.ExceptionAsync(() => _fieldTypeService.RemoveByIdAsync(1));
+
+            Assert.Null(ex.Result);
         }
 
         [Fact]
