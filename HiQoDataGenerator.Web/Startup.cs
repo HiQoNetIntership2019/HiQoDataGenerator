@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using HiQoDataGenerator.Core;
 using HiQoDataGenerator.DAL;
+using HiQoDataGenerator.Web.Attributes;
 using HiQoDataGenerator.Web.Extensions;
 using HiQoDataGenerator.Web.Middleware;
 
@@ -24,6 +25,7 @@ namespace HiQoDataGenerator.Web
         
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddLogging();
+            services.AddScoped<LoggingAttribute>();
 
             services.AddBLServices();
             services.AddDALServices(Configuration.GetConnectionString("Connection"));
@@ -36,7 +38,8 @@ namespace HiQoDataGenerator.Web
         {
             if (env.IsDevelopment())
             {
-               app.UseDeveloperExceptionPage();
+                loggerFactory.AddFile(_filenameForLog);
+                app.UseDeveloperExceptionPage();
             }
             else
             {

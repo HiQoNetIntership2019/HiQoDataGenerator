@@ -9,23 +9,22 @@ using Microsoft.Extensions.Logging;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using HiQoDataGenerator.Web.Attributes;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LoggingAttribute))]
     public class ConstraintsController : ControllerBase
     {
         private readonly IConstraintsService _constraintsService;
         private readonly IMapper _mapper;
-        private readonly ILogger _logger;
-        private readonly string _loggerName = "RequestInfoLogger";
 
-        public ConstraintsController(IConstraintsService constraintsService, IMapperFactory mapperFactory, ILoggerFactory loggerFactory)
+        public ConstraintsController(IConstraintsService constraintsService, IMapperFactory mapperFactory)
         {
             _constraintsService = constraintsService;
             _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
-            _logger = loggerFactory.CreateLogger(_loggerName);
         }
 
         [HttpGet]
@@ -33,7 +32,6 @@ namespace HiQoDataGenerator.Web.Controllers
         {
             var constraintsModels = _constraintsService.GetAll();
             var constraintsViewModels = _mapper.Map<IEnumerable<ConstraintViewModel>>(constraintsModels);
-            _logger.LogInformation("Get all Constraints");
             return Ok(constraintsViewModels);
         }
 
@@ -44,12 +42,10 @@ namespace HiQoDataGenerator.Web.Controllers
             var constraintModel = await _constraintsService.GetByIdAsync(id);
             if (constraintModel == null)
             {
-                _logger.LogInformation("Can't get Constraint with id {0} !", id);
                 return NotFound();
             }
 
             var constraintViewModel = _mapper.Map<ConstraintViewModel>(constraintModel);
-            _logger.LogInformation("Get Constraint with id {0}", constraintViewModel.Id);
             return Ok(constraintViewModel);
         }
 
@@ -62,10 +58,8 @@ namespace HiQoDataGenerator.Web.Controllers
 
             if (!isAdded)
             {
-                _logger.LogInformation("Can't add Constraint {0}", constraintViewModel.Name);
                 return BadRequest();
             }
-            _logger.LogInformation("Add Constraint {0}", constraintViewModel.Name);
             return Ok(constraintModel);
         }
 
@@ -78,10 +72,8 @@ namespace HiQoDataGenerator.Web.Controllers
 
             if (!isRemoved)
             {
-                _logger.LogInformation("Can't delete Constraint with id {0}", id);
                 return NotFound();
             }
-            _logger.LogInformation("Delete Constraint with id {0}", id);
             return NoContent();
         }
     }
