@@ -20,12 +20,26 @@ namespace HiQoDataGenerator.Core.Services
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
-        public async Task<bool> AddAsync(TimezoneModel model) => await _timezoneRepostory.AddAsync(_mapper.Map<Timezone>(model));
+        public async Task AddAsync(TimezoneModel model) => await _timezoneRepostory.AddAsync(_mapper.Map<Timezone>(model));
 
-        public async Task<bool> RemoveByIdAsync(int id) => await _timezoneRepostory.RemoveByIdAsync(id);
+        public async Task RemoveByIdAsync(int id)
+        {
+            var result = await _timezoneRepostory.RemoveByIdAsync(id);
+            if (!result)
+            {
+                throw new InvalidDataException("Can't delete Timeone with id " + id.ToString() + " !");
+            }
+        }
 
         public IEnumerable<TimezoneModel> GetAll() => _mapper.Map<IEnumerable<TimezoneModel>>(_timezoneRepostory.GetAll());
 
-        public async Task<TimezoneModel> GetByIdAsync(int id) => _mapper.Map<TimezoneModel>(await _timezoneRepostory.GetByIdAsync(id));
+        public async Task<TimezoneModel> GetByIdAsync(int id) {
+            var timezone = await _timezoneRepostory.GetByIdAsync(id);
+            if (timezone == null)
+            {
+                throw new InvalidDataException("Can't get Timezone with id " + id.ToString() + " !");
+            }
+            return _mapper.Map<TimezoneModel>(timezone);
+        }
     }
 }

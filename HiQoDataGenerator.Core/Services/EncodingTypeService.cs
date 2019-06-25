@@ -5,6 +5,7 @@ using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HiQoDataGenerator.Core.Exceptions;
 
 namespace HiQoDataGenerator.Core.Services
 {
@@ -30,20 +31,24 @@ namespace HiQoDataGenerator.Core.Services
             var encodingType = await _encodingTypeRepostory.GetByIdAsync(id);
             if (encodingType == null)
             {
-                return null;
+                throw new InvalidDataException("Can't get Encoding Type with id " + id.ToString() + " !");
             }
             return _mapper.Map<EncodingTypeModel>(encodingType);
         }
 
-        public async Task<bool> AddAsync(EncodingTypeModel encodingTypeModel)
+        public async Task AddAsync(EncodingTypeModel encodingTypeModel)
         {
             var encodingType = _mapper.Map<EncodingType>(encodingTypeModel);
-            return await _encodingTypeRepostory.AddAsync(encodingType);
+            await _encodingTypeRepostory.AddAsync(encodingType);
         }
 
-        public async Task<bool> RemoveByIdAsync(int id)
+        public async Task RemoveByIdAsync(int id)
         {
-            return await _encodingTypeRepostory.RemoveByIdAsync(id);
+            var result = await _encodingTypeRepostory.RemoveByIdAsync(id);
+            if (!result)
+            {
+                throw new InvalidDataException("Can't delete Encoding Type with id " + id.ToString() + " !");
+            }
         }
 
     }

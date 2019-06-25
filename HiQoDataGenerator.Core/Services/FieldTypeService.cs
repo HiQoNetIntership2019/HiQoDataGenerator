@@ -5,7 +5,6 @@ using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using HiQoDataGenerator.Core.Exceptions;
 
 namespace HiQoDataGenerator.Core.Services
@@ -32,7 +31,7 @@ namespace HiQoDataGenerator.Core.Services
             var type = await _fieldTypeRepostory.GetByIdAsync(id);
             if (type == null)
             {
-                throw new ElementNotFoundException("Can't get Type with id " + id.ToString() + " !");
+                throw new InvalidDataException("Can't get Type with id " + id.ToString() + " !");
             }
             return _mapper.Map<FieldTypeModel>(type);
         }
@@ -40,14 +39,7 @@ namespace HiQoDataGenerator.Core.Services
         public async Task AddAsync(FieldTypeModel fieldTypeModel)
         {
             var type = _mapper.Map<FieldType>(fieldTypeModel);
-            try
-            {
-                await _fieldTypeRepostory.AddAsync(type);
-            }
-            catch (DbUpdateException)
-            {
-                throw new ElementIsAlreadyExistException("Type with id "+type.Id+" is already exist!");
-            }
+            await _fieldTypeRepostory.AddAsync(type);
         }
 
         public async Task RemoveByIdAsync(int id)
@@ -55,7 +47,7 @@ namespace HiQoDataGenerator.Core.Services
             var result = await _fieldTypeRepostory.RemoveByIdAsync(id);
             if (!result)
             {
-                throw new ElementNotFoundException("Can't delete Type with id " + id.ToString() + " !");
+                throw new InvalidDataException("Can't delete Type with id " + id.ToString() + " !");
             }
         }
     }
