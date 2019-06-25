@@ -34,7 +34,7 @@ namespace HiQoDataGenerator.Core.Services
             var constraint = await _constraintsRepository.GetByIdAsync(id);
             if (constraint == null)
             {
-                throw new ElementNotFoundException("Can't get Constraint with id " + id.ToString() + "!");
+                throw new InvalidDataException("Can't get Constraint with id " + id.ToString() + "!");
             }
             return  _mapper.Map<ConstraintModel>(constraint);
         }
@@ -44,7 +44,7 @@ namespace HiQoDataGenerator.Core.Services
             var constraint = await _constraintsRepository.GetByNameAsync(name);
             if (constraint == null)
             {
-                throw new ElementNotFoundException("Can't get Constraint with name " + name + "!");
+                throw new InvalidDataException("Can't get Constraint with name " + name + "!");
             }
             return _mapper.Map<ConstraintModel>(constraint);
         }
@@ -52,14 +52,7 @@ namespace HiQoDataGenerator.Core.Services
         public async Task AddAsync(ConstraintModel constraintModel)
         {
             var constraint = _mapper.Map<Constraint>(constraintModel);
-            try
-            {
-                await _constraintsRepository.AddAsync(constraint);
-            }
-            catch (DbUpdateException)
-            {
-                throw new ElementIsAlreadyExistException("Constraint with id " + constraint.Id + " already exists!");
-            }
+            await _constraintsRepository.AddAsync(constraint);            
         }
 
         public async Task RemoveByIdAsync(int id)
@@ -67,7 +60,7 @@ namespace HiQoDataGenerator.Core.Services
             var result = await _constraintsRepository.RemoveByIdAsync(id);
             if (!result)
             {
-                throw new ElementNotFoundException("Can't delete Constraint with id " + id.ToString() + "!");
+                throw new InvalidDataException("Can't delete Constraint with id " + id.ToString() + "!");
             }
         }
     }

@@ -74,7 +74,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public async Task GetByIdAsync_NonExistingId_ElementNotFoundException()
         {
-            await Assert.ThrowsAsync<ElementNotFoundException>(() => _fieldTypeService.GetByIdAsync(3));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _fieldTypeService.GetByIdAsync(3));
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             {
                 await _fieldTypeService.RemoveByIdAsync(1);
             }
-            catch (ElementNotFoundException)
+            catch (InvalidDataException)
             {
                 isNotThrown = false;
             }
@@ -110,7 +110,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public async Task RemoveByIdAsync_NonExistingId_ElementNotFoundException()
         {
-            await Assert.ThrowsAsync<ElementNotFoundException>(() => _fieldTypeService.RemoveByIdAsync(3));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _fieldTypeService.RemoveByIdAsync(3));
         }
     }
 }

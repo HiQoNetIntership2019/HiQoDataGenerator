@@ -42,15 +42,15 @@ namespace HiQoDataGenerator.Web.Middleware
             {
                 message = "Request type not implemented";
                 status = HttpStatusCode.NotImplemented;
-            }else if (ex is ElementNotFoundException)
+            }else if (ex is InvalidDataException)
             {
                 status = HttpStatusCode.NotFound;
                 message = "Requested element not found";
-            }else if (ex is ElementIsAlreadyExistException)
+            }/*else if (ex is ElementIsAlreadyExistException)
             {
                 status = HttpStatusCode.BadRequest;
                 message = "Element is already exist";
-            }
+            }*/
 
             httpContext.Response.StatusCode = (int)status;
             httpContext.Response.ContentType = "application/json";
