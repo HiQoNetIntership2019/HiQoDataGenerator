@@ -6,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using HiQoDataGenerator.Core;
 using HiQoDataGenerator.DAL;
+using HiQoDataGenerator.Web.Attributes;
 using HiQoDataGenerator.Web.Extensions;
+using HiQoDataGenerator.Web.Middleware;
 
 namespace HiQoDataGenerator.Web
 {
@@ -23,6 +25,7 @@ namespace HiQoDataGenerator.Web
         
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddLogging();
+            services.AddScoped<LoggingAttribute>();
 
             services.AddBLServices();
             services.AddDALServices(Configuration.GetConnectionString("Connection"));
@@ -35,6 +38,7 @@ namespace HiQoDataGenerator.Web
         {
             if (env.IsDevelopment())
             {
+                loggerFactory.AddFile(_filenameForLog);
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -42,6 +46,8 @@ namespace HiQoDataGenerator.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseMiddleware<ExceptionsHandlerMidlleware>();
 
             app.UseHttpsRedirection();
             app.UseMvc();

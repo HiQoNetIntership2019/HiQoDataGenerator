@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
+using HiQoDataGenerator.Core.Exceptions;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace HiQoDataGenerator.Core.Services
@@ -31,7 +34,7 @@ namespace HiQoDataGenerator.Core.Services
             var constraint = await _constraintsRepository.GetByIdAsync(id);
             if (constraint == null)
             {
-                return null;
+                throw new InvalidDataException("Can't get Constraint with id " + id.ToString() + "!");
             }
             return  _mapper.Map<ConstraintModel>(constraint);
         }
@@ -41,20 +44,24 @@ namespace HiQoDataGenerator.Core.Services
             var constraint = await _constraintsRepository.GetByNameAsync(name);
             if (constraint == null)
             {
-                return null;
+                throw new InvalidDataException("Can't get Constraint with name " + name + "!");
             }
             return _mapper.Map<ConstraintModel>(constraint);
         }
 
-        public async Task<bool> AddAsync(ConstraintModel constraintModel)
+        public async Task AddAsync(ConstraintModel constraintModel)
         {
             var constraint = _mapper.Map<Constraint>(constraintModel);
-            return await _constraintsRepository.AddAsync(constraint);
+            await _constraintsRepository.AddAsync(constraint);            
         }
 
-        public async Task<bool> RemoveByIdAsync(int id)
+        public async Task RemoveByIdAsync(int id)
         {
-            return await _constraintsRepository.RemoveByIdAsync(id);
+            var result = await _constraintsRepository.RemoveByIdAsync(id);
+            if (!result)
+            {
+                throw new InvalidDataException("Can't delete Constraint with id " + id.ToString() + "!");
+            }
         }
     }
 }

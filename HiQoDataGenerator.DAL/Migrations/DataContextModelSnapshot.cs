@@ -36,6 +36,20 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("Constraints");
                 });
 
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.DateTimeFormat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DateTimeFormats");
+                });
+
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.EncodingType", b =>
                 {
                     b.Property<int>("Id")

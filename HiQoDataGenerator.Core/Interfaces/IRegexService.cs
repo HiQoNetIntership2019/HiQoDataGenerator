@@ -10,7 +10,7 @@ namespace HiQoDataGenerator.Core.Interfaces
         IEnumerable<RegexModel> GetAll();
         IQueryable<string> GetAllNames();
         Task<RegexModel> GetByIdAsync(int id);
-        Task<bool> AddAsync(RegexModel item);
-        Task<bool> RemoveByIdAsync(int id);
+        Task AddAsync(RegexModel item);
+        Task RemoveByIdAsync(int id);
     }
 }

@@ -24,15 +24,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public async Task<bool> AddAsync(T item)
         {
             _models.Add(item);
-            int result;
-            try
-            {
-                result = await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                result = 0;
-            }
+            var result = await _context.SaveChangesAsync();
             return result != 0;
         }
 
