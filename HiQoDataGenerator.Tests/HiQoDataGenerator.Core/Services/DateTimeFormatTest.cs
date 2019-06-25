@@ -4,7 +4,6 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
-using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Exceptions;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,7 +50,6 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).Returns(async () => null);
 
             repositoryMock.Setup(rep => rep.AddAsync(null)).Returns(async () => true);
-            //repositoryMock.Setup(rep => rep.GetByIdAsync()).Returns(async () => throw new DbUpdateException("error",new Exception()));
 
             repositoryMock.Setup(rep => rep.RemoveByIdAsync(1)).Returns(async () => true);
             repositoryMock.Setup(rep => rep.RemoveByIdAsync(3)).Returns(async () => false);
@@ -80,9 +78,18 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public async Task AddAsync_NonExistingId_ElementNotFoundException()
+        public async Task AddAsync_NonExistingElement_NoException()
         {
-            await Assert.ThrowsAsync<ElementNotFoundException>(() => _dateTimeFormatService.GetByIdAsync(3));
+            var isNotThrown = true;
+            try
+            {
+                await _dateTimeFormatService.AddAsync(null);
+            }
+            catch (ElementIsAlreadyExistException)
+            {
+                isNotThrown = false;
+            }
+            Assert.True(isNotThrown);
         }
 
         [Fact]
