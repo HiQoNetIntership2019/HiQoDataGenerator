@@ -7,23 +7,23 @@ using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
 using System.Net;
 using Microsoft.Extensions.Logging;
+using HiQoDataGenerator.Web.Attributes;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LoggingAttribute))]
     public class DateTimeFormatsController : ControllerBase
     {
         private readonly IDateTimeFormatService _dateTimeFormatService;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        private readonly string _loggerName = "DateTimeFormatLogger";
 
-        public DateTimeFormatsController(IDateTimeFormatService dateTimeFormatService, IMapperFactory mapperFactory, ILoggerFactory loggerFactory)
+        public DateTimeFormatsController(IDateTimeFormatService dateTimeFormatService, IMapperFactory mapperFactory)
         {
             _dateTimeFormatService = dateTimeFormatService;
             _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
-            _logger = loggerFactory.CreateLogger(_loggerName);
         }
 
         [HttpGet]
@@ -31,7 +31,6 @@ namespace HiQoDataGenerator.Web.Controllers
         {
             var dateTimeFormatModels = _dateTimeFormatService.GetAll();
             var dateTimeFormatViewModels = _mapper.Map<IEnumerable<DateTimeFormatViewModel>>(dateTimeFormatModels);
-            _logger.LogInformation("Get all DateTime formats");
             return Ok(dateTimeFormatViewModels);
         }
 
@@ -41,7 +40,6 @@ namespace HiQoDataGenerator.Web.Controllers
         {
             var dateTimeFormatModel = await _dateTimeFormatService.GetByIdAsync(id);
             var dateTimeFormatViewModel = _mapper.Map<DateTimeFormatViewModel>(dateTimeFormatModel);
-            _logger.LogInformation("Get DateTime format with id {0}", dateTimeFormatViewModel.Id);
             return Ok(dateTimeFormatViewModel);
         }
 
@@ -52,7 +50,6 @@ namespace HiQoDataGenerator.Web.Controllers
             var dateTimeFormatModel = _mapper.Map<DateTimeFormatModel>(dateTimeFormatViewModel);
 
             await _dateTimeFormatService.AddAsync(dateTimeFormatModel);            
-            _logger.LogInformation("Add DateTime format <{0}> ", dateTimeFormatViewModel.Value);
             return Ok();
         }
 
@@ -63,7 +60,6 @@ namespace HiQoDataGenerator.Web.Controllers
             var dateTimeFormatModels = _mapper.Map<IEnumerable<DateTimeFormatModel>>(dateTimeFormatViewModels);
 
             await _dateTimeFormatService.AddRangeAsync(dateTimeFormatModels);
-            _logger.LogInformation("Add range of DateTime formats");
             return Ok();
         }
 
@@ -73,7 +69,6 @@ namespace HiQoDataGenerator.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _dateTimeFormatService.RemoveByIdAsync(id);
-            _logger.LogInformation("Delete DateTime format with id {0}", id);
             return NoContent();
         }
     }
