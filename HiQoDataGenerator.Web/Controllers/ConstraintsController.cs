@@ -36,44 +36,25 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             var constraintModel = await _constraintsService.GetByIdAsync(id);
-            if (constraintModel == null)
-            {
-                return NotFound();
-            }
-
             var constraintViewModel = _mapper.Map<ConstraintViewModel>(constraintModel);
             return Ok(constraintViewModel);
         }
 
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post(ConstraintViewModel constraintViewModel)
         {
             var constraintModel = _mapper.Map<ConstraintModel>(constraintViewModel);
-            var isAdded = await _constraintsService.AddAsync(constraintModel);
-
-            if (!isAdded)
-            {
-                return BadRequest();
-            }
+            await _constraintsService.AddAsync(constraintModel);
             return Ok(constraintModel);
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            bool isRemoved = await _constraintsService.RemoveByIdAsync(id);
-
-            if (!isRemoved)
-            {
-                return NotFound();
-            }
+            await _constraintsService.RemoveByIdAsync(id);
             return NoContent();
         }
     }
