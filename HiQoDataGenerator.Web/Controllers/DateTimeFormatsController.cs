@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
-using System.Net;
-using Microsoft.Extensions.Logging;
 using HiQoDataGenerator.Web.Attributes;
 
 namespace HiQoDataGenerator.Web.Controllers
@@ -18,7 +16,6 @@ namespace HiQoDataGenerator.Web.Controllers
     {
         private readonly IDateTimeFormatService _dateTimeFormatService;
         private readonly IMapper _mapper;
-        private readonly ILogger _logger;
 
         public DateTimeFormatsController(IDateTimeFormatService dateTimeFormatService, IMapperFactory mapperFactory)
         {
@@ -35,7 +32,6 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             var dateTimeFormatModel = await _dateTimeFormatService.GetByIdAsync(id);
@@ -44,7 +40,6 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post(DateTimeFormatViewModel dateTimeFormatViewModel)
         {
             var dateTimeFormatModel = _mapper.Map<DateTimeFormatModel>(dateTimeFormatViewModel);
@@ -54,7 +49,6 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         [HttpPost("Range")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post(IEnumerable<DateTimeFormatViewModel> dateTimeFormatViewModels)
         {            
             var dateTimeFormatModels = _mapper.Map<IEnumerable<DateTimeFormatModel>>(dateTimeFormatViewModels);
@@ -64,8 +58,6 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
             await _dateTimeFormatService.RemoveByIdAsync(id);
