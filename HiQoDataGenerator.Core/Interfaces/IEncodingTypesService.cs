@@ -10,7 +10,7 @@ namespace HiQoDataGenerator.Core.Interfaces
     {
         IEnumerable<EncodingTypeModel> GetAll();
         Task<EncodingTypeModel> GetByIdAsync(int id);
-        Task<bool> AddAsync(EncodingTypeModel encodingTypeModel);
-        Task<bool> RemoveByIdAsync(int id);
+        Task AddAsync(EncodingTypeModel encodingTypeModel);
+        Task RemoveByIdAsync(int id);
     }
 }

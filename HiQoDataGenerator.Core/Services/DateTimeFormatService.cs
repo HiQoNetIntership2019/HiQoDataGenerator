@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
@@ -32,7 +31,7 @@ namespace HiQoDataGenerator.Core.Services
             var dateTimeFormat = await _dateTimeFormatRepository.GetByIdAsync(id);
             if (dateTimeFormat == null)
             {
-                throw new ElementNotFoundException("Can't get DateTime format with id "+id.ToString()+" !");
+                throw new InvalidDataException("Can't get DateTime format with id "+id.ToString()+" !");
             }
             return _mapper.Map<DateTimeFormatModel>(dateTimeFormat);
         }
@@ -40,27 +39,13 @@ namespace HiQoDataGenerator.Core.Services
         public async Task AddAsync(DateTimeFormatModel dateTimeFormatModel)
         {
             var dateTimeFormat = _mapper.Map<DateTimeFormat>(dateTimeFormatModel);
-            try
-            {
-                await _dateTimeFormatRepository.AddAsync(dateTimeFormat);
-            }
-            catch (DbUpdateException)
-            {
-                throw new ElementIsAlreadyExistException("DateTime format with id " + dateTimeFormat.Id + " is already exist!");
-            }
+            await _dateTimeFormatRepository.AddAsync(dateTimeFormat);
         }
 
         public async Task AddRangeAsync(IEnumerable<DateTimeFormatModel> dateTimeFormatModels)
         {
             var dateTimeFormats = _mapper.Map<IEnumerable<DateTimeFormat>>(dateTimeFormatModels);
-            try
-            {
-                await _dateTimeFormatRepository.AddRangeAsync(dateTimeFormats);
-            }
-            catch (DbUpdateException)
-            {
-                throw new ElementIsAlreadyExistException("Some DateTime formats from range are already exist!");
-            }
+            await _dateTimeFormatRepository.AddRangeAsync(dateTimeFormats);
         }
 
         public async Task RemoveByIdAsync(int id)
@@ -68,7 +53,7 @@ namespace HiQoDataGenerator.Core.Services
             var result = await _dateTimeFormatRepository.RemoveByIdAsync(id);
             if (!result)
             {
-                throw new ElementNotFoundException("Can't delete DateTime format with id "+id.ToString()+" !");
+                throw new InvalidDataException("Can't delete DateTime format with id "+id.ToString()+" !");
             }
         }
     }
