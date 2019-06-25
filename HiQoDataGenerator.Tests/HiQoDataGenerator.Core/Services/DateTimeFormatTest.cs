@@ -5,12 +5,12 @@ using HiQoDataGenerator.Core.Services;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.Core.Entities;
-using System;
+using HiQoDataGenerator.Core.Exceptions;
 using System.Linq;
+using System.Threading.Tasks;
 using Moq;
 using Xunit;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 
 namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 {
@@ -51,14 +51,14 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).Returns(async () => null);
 
             repositoryMock.Setup(rep => rep.AddAsync(null)).Returns(async () => true);
-            repositoryMock.Setup(rep => rep.GetByIdAsync(3)).Returns(async () => throw new DbUpdateException("error",new Exception()));
+            //repositoryMock.Setup(rep => rep.GetByIdAsync()).Returns(async () => throw new DbUpdateException("error",new Exception()));
 
             repositoryMock.Setup(rep => rep.RemoveByIdAsync(1)).Returns(async () => true);
             repositoryMock.Setup(rep => rep.RemoveByIdAsync(3)).Returns(async () => false);
         }
 
         [Fact]
-        public void DateTimeFormatService_GetAll_RightDateTimeFromatsCount()
+        public void GetAll_RightDateTimeFromatsCount()
         {
             var result = _dateTimeFormatService.GetAll();
 
@@ -66,11 +66,44 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public async void DateTimeFormatService_GetById_RightDateTimeFromat()
+        public async void GetByIdAsync_ExistingId_RightDateTimeFromat()
         {
             var result = await _dateTimeFormatService.GetByIdAsync(1);
 
             Assert.Equal(1, result.Id);
+        }
+
+        [Fact]
+        public async Task GetByIdAsync_NonExistingId_ElementNotFoundException()
+        {
+            await Assert.ThrowsAsync<ElementNotFoundException>(() => _dateTimeFormatService.GetByIdAsync(3));
+        }
+
+        [Fact]
+        public async Task AddAsync_NonExistingId_ElementNotFoundException()
+        {
+            await Assert.ThrowsAsync<ElementNotFoundException>(() => _dateTimeFormatService.GetByIdAsync(3));
+        }
+
+        [Fact]
+        public async Task RemoveByIdAsync_ExistingId_NoException()
+        {
+            var isNotThrown = true;
+            try
+            {
+                await _dateTimeFormatService.RemoveByIdAsync(1);
+            }
+            catch(ElementNotFoundException)
+            {
+                isNotThrown = false;
+            }
+            Assert.True(isNotThrown);
+        }
+
+        [Fact]
+        public async Task RemoveByIdAsync_NonExistingId_ElementNotFoundException()
+        {
+            await Assert.ThrowsAsync<ElementNotFoundException>(() => _dateTimeFormatService.RemoveByIdAsync(3));
         }
     }
 }
