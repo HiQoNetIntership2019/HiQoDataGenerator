@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using HiQoDataGenerator.Core;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
