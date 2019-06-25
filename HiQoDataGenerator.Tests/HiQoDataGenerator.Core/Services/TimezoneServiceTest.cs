@@ -27,7 +27,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public async void AddAsyncReturnedTrueIfRepositoryReturnedTrue()
         {            
-            _repositoryMock.Setup(repository => repository.AddAsync(null)).Returns(async () => true);
+            _repositoryMock.Setup(repository => repository.AddAsync(null)).ReturnsAsync(() => true);
 
             bool isAdded = await _timezoneService.AddAsync(null);
 

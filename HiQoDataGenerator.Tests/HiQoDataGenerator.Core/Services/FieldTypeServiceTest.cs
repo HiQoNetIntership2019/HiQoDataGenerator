@@ -46,13 +46,13 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private void ConfigureRepositoryMock(Mock<IFieldTypeRepository> repositoryMock)
         {
             repositoryMock.Setup(rep => rep.GetAll()).Returns(_fieldTypes.AsQueryable());
-            repositoryMock.Setup(rep => rep.GetByIdAsync(1)).Returns(async () => _fieldTypes[0]);
-            repositoryMock.Setup(rep => rep.GetByIdAsync(3)).Returns(async () => null);
+            repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _fieldTypes[0]);
+            repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
 
-            repositoryMock.Setup(rep => rep.AddAsync(null)).Returns(async () => true);
+            repositoryMock.Setup(rep => rep.AddAsync(null)).ReturnsAsync(() => true);
 
-            repositoryMock.Setup(rep => rep.RemoveByIdAsync(1)).Returns(async () => true);
-            repositoryMock.Setup(rep => rep.RemoveByIdAsync(3)).Returns(async () => false);
+            repositoryMock.Setup(rep => rep.RemoveByIdAsync(1)).ReturnsAsync(() => true);
+            repositoryMock.Setup(rep => rep.RemoveByIdAsync(3)).ReturnsAsync(() => false);
         }
 
         [Fact]
