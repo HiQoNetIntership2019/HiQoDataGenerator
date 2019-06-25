@@ -28,9 +28,12 @@ namespace HiQoDataGenerator.Web.Attributes
                 }
 
                 var argumentsInfo = arguments.Aggregate((current, next) => current + "," + next);
-                _logger.LogInformation("Executing {0} with arguments: {1}", context.ActionDescriptor.DisplayName, argumentsInfo);
+                _logger.LogInformation("Executing {0} with arguments: {1}.", context.ActionDescriptor.DisplayName, argumentsInfo);
             }
-            
+            else
+            {
+                _logger.LogInformation("Executing {0} with no arguments.", context.ActionDescriptor.DisplayName);
+            }
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
