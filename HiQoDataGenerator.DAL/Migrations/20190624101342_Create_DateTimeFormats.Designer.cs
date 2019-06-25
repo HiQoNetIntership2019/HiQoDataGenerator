@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HiQoDataGenerator.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190621070426_init")]
-    partial class init
+    [Migration("20190624101342_Create_DateTimeFormats")]
+    partial class Create_DateTimeFormats
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,20 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Constraints");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.DateTimeFormat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DateTimeFormats");
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.EncodingType", b =>
@@ -68,7 +82,7 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("Regexes");
                 });
 
-            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.TimezoneModel", b =>
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.Timezone", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
