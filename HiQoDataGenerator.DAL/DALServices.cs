@@ -25,6 +25,8 @@ namespace HiQoDataGenerator.DAL
             services.AddScoped<IDateTimeFormatRepository, DateTimeFormatsRepository>();
 
             services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
+
+            services.AddScoped<IConfigurableObjectsRepository, ConfigurableObjectsRepository>();
         }
     }
 }

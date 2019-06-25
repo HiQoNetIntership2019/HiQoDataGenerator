@@ -24,6 +24,9 @@ namespace HiQoDataGenerator.Core.Extensions
                 config.CreateMap<DateTimeFormatModel, DateTimeFormat>();
                 config.CreateMap<DateTimeFormat, DateTimeFormatModel>();
 
+                config.CreateMap<ConfigurableObject, ConfigurableObjectModel>();
+                config.CreateMap<ConfigurableObjectModel, ConfigurableObject>();
+
             }).CreateMapper();
         }
     }
