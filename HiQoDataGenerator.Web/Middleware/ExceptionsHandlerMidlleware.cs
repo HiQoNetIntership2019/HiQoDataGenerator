@@ -9,9 +9,10 @@ namespace HiQoDataGenerator.Web.Middleware
 {
     public class ExceptionsHandlerMidlleware
     {
-        private readonly string _defaultErrorMessage = "undefined error";
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
+
+        private readonly string _contentType = "application/json";
 
         public ExceptionsHandlerMidlleware(RequestDelegate next, ILoggerFactory loggerFactory)
         {
@@ -27,7 +28,7 @@ namespace HiQoDataGenerator.Web.Middleware
             }
             catch (Exception ex)
             {
-                _logger.LogError("Exception: {0}; Message: {1}", ex.GetType().Name, ex.Message);
+                _logger.LogError("Exception: {0} | Message: {1} | StackTrace: {2}", ex.GetType().Name, ex.Message, ex.StackTrace);
 
                 await HandleExceptionsAsync(httpContext, ex);
             }
@@ -35,31 +36,10 @@ namespace HiQoDataGenerator.Web.Middleware
 
         private Task HandleExceptionsAsync(HttpContext httpContext, Exception ex)
         {
-            HttpStatusCode status = HttpStatusCode.InternalServerError;
-            string message = _defaultErrorMessage;
+            httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            httpContext.Response.ContentType = _contentType;
 
-            if (ex is NotImplementedException)
-            {
-                message = "Request type not implemented";
-                status = HttpStatusCode.NotImplemented;
-            }else if (ex is InvalidDataException)
-            {
-                status = HttpStatusCode.NotFound;
-                message = "Requested element not found";
-            }/*else if (ex is ElementIsAlreadyExistException)
-            {
-                status = HttpStatusCode.BadRequest;
-                message = "Element is already exist";
-            }*/
-
-            httpContext.Response.StatusCode = (int)status;
-            httpContext.Response.ContentType = "application/json";
-
-            return httpContext.Response.WriteAsync(new ErrorResponse()
-            {
-                StatusCode = (int)status,
-                Message = message
-            }.ToString());
+            return httpContext.Response.WriteAsync(new ErrorResponse() { Message = ex.Message }.ToString());
         }
     }
 }
