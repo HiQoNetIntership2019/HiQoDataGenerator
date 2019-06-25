@@ -22,6 +22,10 @@ namespace HiQoDataGenerator.Web.Extensions
                 config.CreateMap<ConstraintModel, ConstraintViewModel>();
                 config.CreateMap<DateTimeFormatViewModel, DateTimeFormatModel>();
                 config.CreateMap<DateTimeFormatModel, DateTimeFormatViewModel>();
+
+                config.CreateMap<ConfigurableObjectModel, ConfigurableObjectViewModel>();
+                config.CreateMap<ConfigurableObjectViewModel, ConfigurableObjectModel>();
+
             }).CreateMapper();
         }
     }
