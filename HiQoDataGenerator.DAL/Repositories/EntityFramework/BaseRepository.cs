@@ -21,18 +21,16 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         }
 
 
-        public async Task<bool> AddAsync(T item)
+        public async Task AddAsync(T item)
         {
             _models.Add(item);
-            var result = await _context.SaveChangesAsync();
-            return result != 0;
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> AddRangeAsync(IEnumerable<T> items)
+        public async Task AddRangeAsync(IEnumerable<T> items)
         {
             _models.AddRange(items);
-            var result = await _context.SaveChangesAsync();
-            return result != 0;
+            await _context.SaveChangesAsync();
         }
 
         public IQueryable<T> GetAll() => _models;

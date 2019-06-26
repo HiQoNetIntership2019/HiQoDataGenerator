@@ -8,8 +8,8 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
     {
         IQueryable<T> GetAll();
         Task<T> GetByIdAsync(int id);
-        Task<bool> AddAsync(T item);
-        Task<bool> AddRangeAsync(IEnumerable<T> items);
+        Task AddAsync(T item);
+        Task AddRangeAsync(IEnumerable<T> items);
         Task<bool> RemoveByIdAsync(int id);
     }
 }
