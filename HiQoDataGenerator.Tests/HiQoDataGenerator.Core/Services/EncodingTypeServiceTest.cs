@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HiQoDataGenerator.Core;
+using HiQoDataGenerator.Core.Exceptions;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
 using HiQoDataGenerator.DAL.Contracts.Repositories;

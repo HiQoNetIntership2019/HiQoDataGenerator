@@ -17,7 +17,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private readonly ITimezonesService _timezoneService;
 
-        public TimezoneServiceTest()
+       /* public TimezoneServiceTest()
         {
             _mapperMock.Setup(mapper => mapper.Map<Timezone>(null)).Returns(() => null);
             _mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(() => _mapperMock.Object);
@@ -43,6 +43,6 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             bool isRemoved = await _timezoneService.RemoveByIdAsync(id);
 
             Assert.False(isRemoved);
-        }
+        }*/
     }
 }
