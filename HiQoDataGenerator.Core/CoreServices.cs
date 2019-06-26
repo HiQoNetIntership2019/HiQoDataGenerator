@@ -2,6 +2,7 @@
 using HiQoDataGenerator.Core.Extensions;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
+using HiQoDataGenerator.Core.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HiQoDataGenerator.Core
@@ -21,6 +22,8 @@ namespace HiQoDataGenerator.Core
             services.AddScoped<IConstraintsService, ConstraintsService>();
 
             services.AddScoped<IDateTimeFormatService, DateTimeFormatService>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
         }
 
         public static IMapper GetMapper() => MapperExtension.GetMapper();

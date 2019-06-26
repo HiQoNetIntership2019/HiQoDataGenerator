@@ -7,17 +7,20 @@ using AutoMapper;
 using System.Linq;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Exceptions;
+using HiQoDataGenerator.Core.UnitOfWork;
 
 namespace HiQoDataGenerator.Core.Services
 {
     public class RegexService : IRegexService
     {
         private readonly IRegexRepository _regexRepository;
+        private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
 
-        public RegexService(IRegexRepository regexRepository, IMapperFactory mapperFactory) {
-
-           _regexRepository = regexRepository;
+        public RegexService(IUnitOfWork unit, IRegexRepository regexRepository, IMapperFactory mapperFactory)
+        {
+            _uow = unit;
+            _regexRepository = regexRepository;
            _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);           
         }
         public IEnumerable<RegexModel> GetAll()
@@ -35,6 +38,7 @@ namespace HiQoDataGenerator.Core.Services
             {
                 throw new InvalidDataException("Can't delete Regex with id " + id.ToString() + " !");
             }
+            await _uow.CommitAsync();
         }
 
         public async Task<RegexModel> GetByIdAsync(int id)
@@ -47,7 +51,11 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<RegexModel>(regex);
         }
 
-        public async Task AddAsync(RegexModel model) => await _regexRepository.AddAsync(_mapper.Map<Regex>(model));
+        public async Task AddAsync(RegexModel model)
+        {
+            await _regexRepository.AddAsync(_mapper.Map<Regex>(model));
+            await _uow.CommitAsync();
+        }
 
     }
 }

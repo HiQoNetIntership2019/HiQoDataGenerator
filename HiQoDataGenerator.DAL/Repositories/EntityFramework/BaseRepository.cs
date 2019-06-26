@@ -11,28 +11,22 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
     {
-        protected DataContext _context;
         protected DbSet<T> _models;
 
-        public BaseRepository(DataContext context)
-        {
-            _context = context;
-            _models = context.Set<T>();
+        public BaseRepository(DataContext dataContext)
+        {           
+            _models = dataContext.Set<T>();
         }
 
 
-        public async Task<bool> AddAsync(T item)
+        public async Task AddAsync(T item)
         {
-            _models.Add(item);
-            var result = await _context.SaveChangesAsync();
-            return result != 0;
+            await _models.AddAsync(item);
         }
 
-        public async Task<bool> AddRangeAsync(IEnumerable<T> items)
+        public async Task AddRangeAsync(IEnumerable<T> items)
         {
-            _models.AddRange(items);
-            var result = await _context.SaveChangesAsync();
-            return result != 0;
+            await _models.AddRangeAsync(items);
         }
 
         public IQueryable<T> GetAll() => _models;
@@ -41,13 +35,12 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 
         public async Task<bool> RemoveByIdAsync(int id)
         {
-            var value = _models.Find(id);
+            var value = await _models.FindAsync(id);
             if (value == null)
             {
                 return false;
             }
             _models.Remove(value);
-            await _context.SaveChangesAsync();
 
             return true;
         }
