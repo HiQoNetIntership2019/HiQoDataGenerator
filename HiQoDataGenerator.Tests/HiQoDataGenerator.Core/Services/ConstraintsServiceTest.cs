@@ -125,9 +125,12 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [InlineData(4)]
         public void RemoveByIdAsync_ExistingId_CanBeRemoved(int id)
         {
+            var constraintToRemove = _constraints.Find(constraint => constraint.Id == id);
             ConfigureRepositoryMock_RemoveByIdAsync(_repositoryMock, id);
 
             _constraintsService.RemoveByIdAsync(id);
+
+            Assert.DoesNotContain(constraintToRemove, _constraints);
         }
 
         [Theory]
