@@ -3,6 +3,7 @@ using HiQoDataGenerator.Core;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
+using HiQoDataGenerator.Core.UnitOfWork;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using Moq;
@@ -17,15 +18,21 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private readonly Mock<IConfigurableObjectsRepository> _configurableObjectsRepositoryMock = new Mock<IConfigurableObjectsRepository>();
         private readonly Mock<IMapperFactory> _mapperFactoryMock = new Mock<IMapperFactory>();
         private readonly Mock<IMapper> _mapperMock = new Mock<IMapper>();
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock = new Mock<IUnitOfWork>();
 
         private readonly IConfigurableObjectsService _configurableObjectsService;
 
 
         public ConfigurableObjectsServiceTest()
         {
+            ConfigureUOWMock(_unitOfWorkMock);
             _mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(_mapperMock.Object);
-            _configurableObjectsService = new ConfigurableObjectsService(_mapperFactoryMock.Object, _configurableObjectsRepositoryMock.Object);
-           
+            _configurableObjectsService = new ConfigurableObjectsService(_unitOfWorkMock.Object, _mapperFactoryMock.Object, _configurableObjectsRepositoryMock.Object);           
+        }
+
+        private void ConfigureUOWMock(Mock<IUnitOfWork> uowMock)
+        {
+            uowMock.Setup(uow => uow.CommitAsync());
         }
 
         [Fact]

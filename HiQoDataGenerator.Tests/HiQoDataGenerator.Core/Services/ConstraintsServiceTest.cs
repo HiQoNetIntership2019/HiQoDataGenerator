@@ -7,6 +7,7 @@ using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Exceptions;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
+using HiQoDataGenerator.Core.UnitOfWork;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using Moq;
@@ -21,16 +22,19 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private readonly Mock<IConstraintsRepository> _repositoryMock;
         private readonly List<ConstraintModel> _constraintModels;
         private readonly IConstraintsService _constraintsService;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
 
         public ConstraintServiceTest()
         {
             _mapperMock = new Mock<IMapper>();
             _repositoryMock = new Mock<IConstraintsRepository>();
             _mapperFactoryMock = new Mock<IMapperFactory>();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
             _constraintModels = GenerateConstraintModels();
 
+            ConfigureUOWMock(_unitOfWorkMock);
             ConfigureMapperFactoryMock(_mapperFactoryMock);
-            _constraintsService = new ConstraintsService(_repositoryMock.Object, _mapperFactoryMock.Object);
+            _constraintsService = new ConstraintsService(_unitOfWorkMock.Object,_repositoryMock.Object, _mapperFactoryMock.Object);
         }
 
         private List<ConstraintModel> GenerateConstraintModels()
@@ -47,6 +51,11 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private void ConfigureMapperFactoryMock(Mock<IMapperFactory> mapperFactoryMock)
         {
             mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(() => _mapperMock.Object);
+        }
+
+        private void ConfigureUOWMock(Mock<IUnitOfWork> uowMock)
+        {
+            uowMock.Setup(uow => uow.CommitAsync());
         }
 
         private void ConfigureRepositoryMock_GetAll(Mock<IConstraintsRepository> repositoryMock)
@@ -178,9 +187,8 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         private void ConfigureModelMapperCollections(IEnumerable<Constraint> objectsForMapper, IEnumerable<ConstraintModel> modelsForMapper)
-        {
-            _mapperMock.Setup(mapper => mapper.Map<IEnumerable<Constraint>>(modelsForMapper)).Returns(objectsForMapper);
-            _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ConstraintModel>>(objectsForMapper)).Returns(modelsForMapper);
+        {            
+            _mapperMock.Setup(mapper => mapper.Map<IEnumerable<Constraint>, IEnumerable<ConstraintModel>>(objectsForMapper)).Returns(modelsForMapper);
         }
     }
 }
