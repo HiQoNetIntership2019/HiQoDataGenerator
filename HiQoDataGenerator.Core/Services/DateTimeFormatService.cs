@@ -6,16 +6,19 @@ using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Exceptions;
+using HiQoDataGenerator.Core.UnitOfWork;
 
 namespace HiQoDataGenerator.Core.Services
 {
     public class DateTimeFormatService : IDateTimeFormatService
     {
         private readonly IDateTimeFormatRepository _dateTimeFormatRepository;
+        private readonly IUnitOfWork _uow;
         private IMapper _mapper;
 
-        public DateTimeFormatService(IDateTimeFormatRepository dateTimeFormatRepository, IMapperFactory mapperFactory)
+        public DateTimeFormatService(IUnitOfWork unit, IDateTimeFormatRepository dateTimeFormatRepository, IMapperFactory mapperFactory)
         {
+            _uow = unit;
             _dateTimeFormatRepository = dateTimeFormatRepository;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
@@ -40,12 +43,14 @@ namespace HiQoDataGenerator.Core.Services
         {
             var dateTimeFormat = _mapper.Map<DateTimeFormat>(dateTimeFormatModel);
             await _dateTimeFormatRepository.AddAsync(dateTimeFormat);
+            await _uow.CommitAsync();
         }
 
         public async Task AddRangeAsync(IEnumerable<DateTimeFormatModel> dateTimeFormatModels)
         {
             var dateTimeFormats = _mapper.Map<IEnumerable<DateTimeFormat>>(dateTimeFormatModels);
             await _dateTimeFormatRepository.AddRangeAsync(dateTimeFormats);
+            await _uow.CommitAsync();
         }
 
         public async Task RemoveByIdAsync(int id)
@@ -55,6 +60,7 @@ namespace HiQoDataGenerator.Core.Services
             {
                 throw new InvalidDataException("Can't delete DateTime format with id "+id.ToString()+" !");
             }
+            await _uow.CommitAsync();
         }
     }
 }

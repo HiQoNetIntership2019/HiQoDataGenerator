@@ -5,6 +5,7 @@ using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Exceptions;
 using HiQoDataGenerator.Core.Interfaces;
+using HiQoDataGenerator.Core.UnitOfWork;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +16,13 @@ namespace HiQoDataGenerator.Core.Services
     public class ConstraintsService : IConstraintsService
     {
         private readonly IConstraintsRepository _constraintsRepository;
+        private readonly IUnitOfWork _uow;
         private IMapper _mapper;
 
-        public ConstraintsService(IConstraintsRepository constraintsRepository, IMapperFactory mapperFactory)
+        public ConstraintsService(IUnitOfWork unit, IConstraintsRepository constraintsRepository, IMapperFactory mapperFactory)
         {
             _constraintsRepository = constraintsRepository;
+            _uow = unit;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
@@ -52,7 +55,8 @@ namespace HiQoDataGenerator.Core.Services
         public async Task AddAsync(ConstraintModel constraintModel)
         {
             var constraint = _mapper.Map<Constraint>(constraintModel);
-            await _constraintsRepository.AddAsync(constraint);            
+            await _constraintsRepository.AddAsync(constraint);
+            await _uow.CommitAsync();
         }
 
         public async Task RemoveByIdAsync(int id)
@@ -62,6 +66,7 @@ namespace HiQoDataGenerator.Core.Services
             {
                 throw new InvalidDataException("Can't delete Constraint with id " + id.ToString() + "!");
             }
+            await _uow.CommitAsync();
         }
     }
 }

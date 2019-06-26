@@ -6,16 +6,19 @@ using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Exceptions;
+using HiQoDataGenerator.Core.UnitOfWork;
 
 namespace HiQoDataGenerator.Core.Services
 {
     public class FieldTypeService : IFieldTypeService
     {
         private readonly IFieldTypeRepository _fieldTypeRepostory;
+        private readonly IUnitOfWork _uow;
         private IMapper _mapper;
 
-        public FieldTypeService(IFieldTypeRepository fieldTypeRepository,IMapperFactory mapperFactory)
+        public FieldTypeService(IUnitOfWork unit, IFieldTypeRepository fieldTypeRepository,IMapperFactory mapperFactory)
         {
+            _uow = unit;
             _fieldTypeRepostory = fieldTypeRepository;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
@@ -40,6 +43,7 @@ namespace HiQoDataGenerator.Core.Services
         {
             var type = _mapper.Map<FieldType>(fieldTypeModel);
             await _fieldTypeRepostory.AddAsync(type);
+            await _uow.CommitAsync();
         }
 
         public async Task RemoveByIdAsync(int id)
@@ -49,6 +53,7 @@ namespace HiQoDataGenerator.Core.Services
             {
                 throw new InvalidDataException("Can't delete Type with id " + id.ToString() + " !");
             }
+            await _uow.CommitAsync();
         }
     }
 }
