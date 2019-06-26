@@ -3,7 +3,6 @@ using System;
 using System.Threading.Tasks;
 using System.Net;
 using Microsoft.Extensions.Logging;
-using HiQoDataGenerator.Core.Exceptions;
 
 namespace HiQoDataGenerator.Web.Middleware
 {
@@ -13,6 +12,7 @@ namespace HiQoDataGenerator.Web.Middleware
         private readonly ILogger _logger;
 
         private readonly string _contentType = "application/json";
+        private readonly string _message = "Internal Server Error";
 
         public ExceptionsHandlerMidlleware(RequestDelegate next, ILoggerFactory loggerFactory)
         {
@@ -39,7 +39,7 @@ namespace HiQoDataGenerator.Web.Middleware
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             httpContext.Response.ContentType = _contentType;
 
-            return httpContext.Response.WriteAsync(new ErrorResponse() { Message = ex.Message }.ToString());
+            return httpContext.Response.WriteAsync(_message);
         }
     }
 }
