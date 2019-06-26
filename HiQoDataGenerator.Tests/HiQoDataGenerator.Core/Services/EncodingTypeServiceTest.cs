@@ -8,6 +8,7 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
+using HiQoDataGenerator.Core.UnitOfWork;
 using Moq;
 using Xunit;
 
@@ -18,6 +19,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private readonly IMapper _mapper;
         private readonly Mock<IMapperFactory> _mapperFactoryMock;
         private readonly Mock<IEncodingTypeRepository> _repositoryMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly List<EncodingType> _encodingTypes;
         private readonly IEncodingTypesService _encodingTypeService;
 
@@ -26,11 +28,12 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             _mapper = CoreServices.GetMapper();
             _repositoryMock = new Mock<IEncodingTypeRepository>();
             _mapperFactoryMock = new Mock<IMapperFactory>();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
             _encodingTypes = GenerateEncodingTypes();
 
             ConfigureRepositoryMock(_repositoryMock);
             ConfigureMapperFactoryMock(_mapperFactoryMock);
-            _encodingTypeService = new EncodingTypeService(_repositoryMock.Object, _mapperFactoryMock.Object);
+            _encodingTypeService = new EncodingTypeService(_unitOfWorkMock.Object,_repositoryMock.Object, _mapperFactoryMock.Object);
         }
 
         private List<EncodingType> GenerateEncodingTypes()
@@ -48,8 +51,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             repositoryMock.Setup(rep => rep.GetAll()).Returns(_encodingTypes.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _encodingTypes[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
-
-            repositoryMock.Setup(rep => rep.AddAsync(null)).ReturnsAsync(() => true);
+            
             repositoryMock.Setup(rep => rep.AddAsync(null));
 
             repositoryMock.Setup(rep => rep.RemoveByIdAsync(1)).ReturnsAsync(() => true);

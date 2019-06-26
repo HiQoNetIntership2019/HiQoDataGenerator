@@ -4,11 +4,13 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
+using HiQoDataGenerator.Core.UnitOfWork;
 using HiQoDataGenerator.Core.Exceptions;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using Xunit;
+using System;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
@@ -18,6 +20,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private readonly IMapper _mapper;
         private readonly Mock<IMapperFactory> _mapperFactoryMock;
         private readonly Mock<IDateTimeFormatRepository> _repositoryMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly List<DateTimeFormat> _dateTimeFormats;
         private readonly IDateTimeFormatService _dateTimeFormatService;
 
@@ -26,11 +29,13 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             _mapper = CoreServices.GetMapper();
             _repositoryMock = new Mock<IDateTimeFormatRepository>();
             _mapperFactoryMock = new Mock<IMapperFactory>();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
             _dateTimeFormats = GenerateDateTimeFormats();
 
             ConfigureRepositoryMock(_repositoryMock);
             ConfigureMapperFactoryMock(_mapperFactoryMock);
-            _dateTimeFormatService = new DateTimeFormatService(_repositoryMock.Object, _mapperFactoryMock.Object);
+            ConfigureUOWMock(_unitOfWorkMock);
+            _dateTimeFormatService = new DateTimeFormatService(_unitOfWorkMock.Object, _repositoryMock.Object, _mapperFactoryMock.Object);
         }
         
         private List<DateTimeFormat> GenerateDateTimeFormats()
@@ -38,11 +43,16 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             return new List<DateTimeFormat>() { new DateTimeFormat() { Id = 1 }, new DateTimeFormat() { Id = 2 } };
         }
 
+        private void ConfigureUOWMock(Mock<IUnitOfWork> uowMock)
+        {
+            uowMock.Setup(uow => uow.CommitAsync());
+        }
+
         private void ConfigureMapperFactoryMock(Mock<IMapperFactory> mapperFactoryMock)
         {
             mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(() => _mapper);
         }
-
+        
         private void ConfigureRepositoryMock(Mock<IDateTimeFormatRepository> repositoryMock)
         {
             repositoryMock.Setup(rep => rep.GetAll()).Returns(_dateTimeFormats.AsQueryable());
