@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Moq;
 using Xunit;
 using System.Collections.Generic;
+using HiQoDataGenerator.Core.UnitOfWork;
 
 namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 {
@@ -17,7 +18,8 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
     {
         private readonly IMapper _mapper;
         private readonly Mock<IMapperFactory> _mapperFactoryMock;
-        private readonly Mock<IRegexRepository> _repositoryMock; 
+        private readonly Mock<IRegexRepository> _repositoryMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly List<Regex> _regexes; 
         private readonly IRegexService _regexService;
 
@@ -26,17 +28,24 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             _mapper = CoreServices.GetMapper();
             _repositoryMock = new Mock<IRegexRepository>();
             _mapperFactoryMock = new Mock<IMapperFactory>();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
             _regexes = GenerateRegexes();
 
             ConfigureRepositoryMock(_repositoryMock);
             ConfigureMapperFactoryMock(_mapperFactoryMock);
-            _regexService = new RegexService(_repositoryMock.Object, _mapperFactoryMock.Object);
+            ConfigureUOWMock(_unitOfWorkMock);
+            _regexService = new RegexService(_unitOfWorkMock.Object, _repositoryMock.Object, _mapperFactoryMock.Object);
         }
 
         private List<Regex> GenerateRegexes()
         {
             return new List<Regex>() { new Regex() { Id = 1, Name="Email", Value= "^w+@[a-zA-Z_]+?[a-zA-Z]{2,3}$" },
                 new Regex() { Id = 2, Name="URL", Value= "^[a-z]+([a-z0-9-]*[a-z0-9]+)?(([a-z]+([a-z0-9-]*[a-z0-9]+)?)+)*$" } };
+        }
+
+        private void ConfigureUOWMock(Mock<IUnitOfWork> uowMock)
+        {
+            uowMock.Setup(uow => uow.CommitAsync());
         }
 
         private void ConfigureMapperFactoryMock(Mock<IMapperFactory> mapperFactoryMock)
