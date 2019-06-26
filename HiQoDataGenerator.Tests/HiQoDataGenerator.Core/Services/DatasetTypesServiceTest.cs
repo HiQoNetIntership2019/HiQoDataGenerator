@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Xunit;
 using HiQoDataGenerator.DAL.Models.DataSetModels;
 using HiQoDataGenerator.Core.Services;
+using HiQoDataGenerator.Core.UnitOfWork;
 
 namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 {
@@ -16,13 +17,20 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private readonly Mock<IMapperFactory> _mapperFactoryMock = new Mock<IMapperFactory>();
         private readonly Mock<IMapper> _mapperMock = new Mock<IMapper>();
         private readonly Mock<IDatasetTypesRepository> _datasetTypesRepositoryMock = new Mock<IDatasetTypesRepository>();
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock = new Mock<IUnitOfWork>();
 
         private readonly IDatasetTypesService _datasetTypesService;
 
         public DatasetTypesServiceTest()
         {
+            ConfigureUOWMock(_unitOfWorkMock);
             _mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(_mapperMock.Object);
-            _datasetTypesService = new DatasetTypesService(_mapperFactoryMock.Object, _datasetTypesRepositoryMock.Object);
+            _datasetTypesService = new DatasetTypesService(_unitOfWorkMock.Object, _mapperFactoryMock.Object, _datasetTypesRepositoryMock.Object);
+        }
+
+        private void ConfigureUOWMock(Mock<IUnitOfWork> uowMock)
+        {
+            uowMock.Setup(uow => uow.CommitAsync());
         }
 
         [Fact]

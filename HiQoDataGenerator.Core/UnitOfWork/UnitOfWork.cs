@@ -8,21 +8,20 @@ namespace HiQoDataGenerator.Core.UnitOfWork
 {
     public class UnitOfWork: IUnitOfWork
     {
-        public DataContext Context { get; }
+        private DataContext _context { get; }
 
         public UnitOfWork(DataContext context)
         {
-            Context = context;
+            _context = context;
         }
         public async Task<int> CommitAsync()
         {
-            return await Context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
 
         public void Dispose()
         {
-            Context.Dispose();
-
+            _context.Dispose();
         }
     }
 }

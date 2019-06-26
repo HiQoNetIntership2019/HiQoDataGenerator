@@ -8,7 +8,6 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.UnitOfWork;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace HiQoDataGenerator.Core.Services

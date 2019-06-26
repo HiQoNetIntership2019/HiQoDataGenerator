@@ -3,6 +3,7 @@ using HiQoDataGenerator.Core;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
+using HiQoDataGenerator.Core.UnitOfWork;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using Moq;
@@ -16,6 +17,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private readonly Mock<ITimezoneRepository> _timezoneRepositoryMock = new Mock<ITimezoneRepository>();
         private readonly Mock<IMapperFactory> _mapperFactoryMock = new Mock<IMapperFactory>();
         private readonly Mock<IMapper> _mapperMock = new Mock<IMapper>();
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock = new Mock<IUnitOfWork>();
 
         private readonly ITimezonesService _timezoneService;
 
@@ -23,9 +25,13 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         
         public TimezoneServiceTest()
         {
-            
+            ConfigureUOWMock(_unitOfWorkMock);
             _mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(() => _mapperMock.Object);
-            _timezoneService = new TimezoneService(_timezoneRepositoryMock.Object, _mapperFactoryMock.Object);
+            _timezoneService = new TimezoneService(_unitOfWorkMock.Object, _timezoneRepositoryMock.Object, _mapperFactoryMock.Object);
+        }
+        private void ConfigureUOWMock(Mock<IUnitOfWork> uowMock)
+        {
+            uowMock.Setup(uow => uow.CommitAsync());
         }
 
         [Fact]
