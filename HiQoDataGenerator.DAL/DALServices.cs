@@ -18,13 +18,17 @@ namespace HiQoDataGenerator.DAL
 
             services.AddScoped<IFieldTypeRepository, FieldTypesRepository>();
 
-            services.AddScoped<IRegexRepository, RegexRepository>();      
+            services.AddScoped<IRegexRepository, RegexRepository>();
 
             services.AddScoped<IConstraintsRepository, ConstraintsRepository>();
 
             services.AddScoped<IDateTimeFormatRepository, DateTimeFormatsRepository>();
 
+            services.AddScoped<IDatasetTypesRepository, DatasetTypesRepository>();
+
             services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
+
+            services.AddScoped<IConfigurableObjectsRepository, ConfigurableObjectsRepository>();
         }
     }
 }

@@ -24,6 +24,10 @@ namespace HiQoDataGenerator.Core
             services.AddScoped<IDateTimeFormatService, DateTimeFormatService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+          
+            services.AddScoped<IConfigurableObjectsService, ConfigurableObjectsService>();
+
+            services.AddScoped<IDatasetTypesService, DatasetTypesService>();
         }
 
         public static IMapper GetMapper() => MapperExtension.GetMapper();

@@ -50,6 +50,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
 
             repositoryMock.Setup(rep => rep.AddAsync(null)).ReturnsAsync(() => true);
+            repositoryMock.Setup(rep => rep.AddAsync(null));
 
             repositoryMock.Setup(rep => rep.RemoveByIdAsync(1)).ReturnsAsync(() => true);
             repositoryMock.Setup(rep => rep.RemoveByIdAsync(3)).ReturnsAsync(() => false);
