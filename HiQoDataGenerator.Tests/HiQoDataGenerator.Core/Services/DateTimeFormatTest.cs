@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using Xunit;
-using System;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services

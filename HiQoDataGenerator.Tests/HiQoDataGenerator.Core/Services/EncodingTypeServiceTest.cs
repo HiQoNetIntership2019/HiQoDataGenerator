@@ -33,6 +33,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
             ConfigureRepositoryMock(_repositoryMock);
             ConfigureMapperFactoryMock(_mapperFactoryMock);
+            ConfigureUOWMock(_unitOfWorkMock);
             _encodingTypeService = new EncodingTypeService(_unitOfWorkMock.Object,_repositoryMock.Object, _mapperFactoryMock.Object);
         }
 
@@ -44,6 +45,11 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private void ConfigureMapperFactoryMock(Mock<IMapperFactory> mapperFactoryMock)
         {
             mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(() => _mapper);
+        }
+
+        private void ConfigureUOWMock(Mock<IUnitOfWork> uowMock)
+        {
+            uowMock.Setup(uow => uow.CommitAsync());
         }
 
         private void ConfigureRepositoryMock(Mock<IEncodingTypeRepository> repositoryMock)

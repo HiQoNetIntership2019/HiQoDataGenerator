@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Moq;
 using Xunit;
 using System.Collections.Generic;
+using HiQoDataGenerator.Core.UnitOfWork;
 
 namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 {
@@ -18,6 +19,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private readonly IMapper _mapper;
         private readonly Mock<IMapperFactory> _mapperFactoryMock;
         private readonly Mock<IFieldTypeRepository> _repositoryMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly List<FieldType> _fieldTypes;
         private readonly IFieldTypeService _fieldTypeService;
 
@@ -26,16 +28,23 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             _mapper = CoreServices.GetMapper();
             _repositoryMock = new Mock<IFieldTypeRepository>();
             _mapperFactoryMock = new Mock<IMapperFactory>();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
             _fieldTypes = GenerateFieldTypes();
 
             ConfigureRepositoryMock(_repositoryMock);
             ConfigureMapperFactoryMock(_mapperFactoryMock);
-            _fieldTypeService = new FieldTypeService(_repositoryMock.Object, _mapperFactoryMock.Object);
+            ConfigureUOWMock(_unitOfWorkMock);
+            _fieldTypeService = new FieldTypeService(_unitOfWorkMock.Object, _repositoryMock.Object, _mapperFactoryMock.Object);
         }
 
         private List<FieldType> GenerateFieldTypes()
         {
             return new List<FieldType>() { new FieldType() { Id = 1 }, new FieldType() { Id = 2 } };
+        }
+
+        private void ConfigureUOWMock(Mock<IUnitOfWork> uowMock)
+        {
+            uowMock.Setup(uow => uow.CommitAsync());
         }
 
         private void ConfigureMapperFactoryMock(Mock<IMapperFactory> mapperFactoryMock)
