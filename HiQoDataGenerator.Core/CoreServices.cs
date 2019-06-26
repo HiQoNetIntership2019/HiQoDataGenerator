@@ -12,6 +12,8 @@ namespace HiQoDataGenerator.Core
         {
             services.AddScoped<ITimezonesService, TimezoneService>();
 
+            services.AddScoped<IRegexService, RegexService>();
+
             services.AddScoped<IEncodingTypesService, EncodingTypeService>();
 
             services.AddScoped<IRegexService, RegexService>();

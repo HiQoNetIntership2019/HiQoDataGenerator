@@ -18,7 +18,7 @@ namespace HiQoDataGenerator.DAL
 
             services.AddScoped<IFieldTypeRepository, FieldTypesRepository>();
 
-            services.AddScoped<IRegexRepository, RegexRepository>();
+            services.AddScoped<IRegexRepository, RegexRepository>();    
 
             services.AddScoped<IConstraintsRepository, ConstraintsRepository>();
 
