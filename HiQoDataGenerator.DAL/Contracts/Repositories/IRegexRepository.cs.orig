@@ -1,11 +1,24 @@
+<<<<<<< HEAD
+﻿
 using System.Linq;
 using System.Threading.Tasks;
+=======
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+>>>>>>> IRegexRep+ignore migrations
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
+<<<<<<< HEAD
     public interface IRegexRepository : IBaseRepository<Regex>
     {
         IQueryable<string> GetAllNames();
+=======
+    interface IRegexRepository
+    {
+
+>>>>>>> IRegexRep+ignore migrations
     }
 }
