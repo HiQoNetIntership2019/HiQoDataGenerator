@@ -51,12 +51,8 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureRepositoryMock_GetAll(Mock<IConstraintsRepository> repositoryMock)
         {
-            var constraintList = new List<Constraint>();
-            foreach (var constraintModel in _constraintModels)
-            {
-                var constraint = new Constraint() { Name = constraintModel.Name, Description = constraintModel.Description };
-                constraintList.Add(constraint);
-            }
+            var constraintList = _constraintModels.Select(item => new Constraint() { Name = item.Name, Description =  item.Description }).ToList();
+            
             ConfigureModelMapperCollections(constraintList, _constraintModels);
             repositoryMock.Setup(repository => repository.GetAll()).Returns(constraintList.AsQueryable());
         }
