@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Core.Services
 {
-    class ConfigurableObjectsService : IConfigurableObjectsService
+    public class ConfigurableObjectsService : IConfigurableObjectsService
     {
         private readonly IMapper _mapper;
         private readonly IConfigurableObjectsRepository _configurableObjectsRepository;
