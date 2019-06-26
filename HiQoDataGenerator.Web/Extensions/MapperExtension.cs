@@ -26,6 +26,8 @@ namespace HiQoDataGenerator.Web.Extensions
                 config.CreateMap<ConfigurableObjectModel, ConfigurableObjectViewModel>();
                 config.CreateMap<ConfigurableObjectViewModel, ConfigurableObjectModel>();
 
+                config.CreateMap<DatasetTypeModel, DatasetTypeViewModel>();
+                config.CreateMap<DatasetTypeViewModel, DatasetTypeModel>();
             }).CreateMapper();
         }
     }
