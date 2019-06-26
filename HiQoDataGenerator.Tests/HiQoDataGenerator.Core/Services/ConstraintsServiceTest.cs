@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HiQoDataGenerator.Core;
+using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Exceptions;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
@@ -15,62 +16,77 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 {
     public class ConstraintServiceTest
     {
-        private readonly IMapper _mapper;
+        private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<IMapperFactory> _mapperFactoryMock;
         private readonly Mock<IConstraintsRepository> _repositoryMock;
-        private readonly List<Constraint> _constraints;
+        private readonly List<ConstraintModel> _constraintModels;
         private readonly IConstraintsService _constraintsService;
 
         public ConstraintServiceTest()
         {
-            _mapper = CoreServices.GetMapper();
+            _mapperMock = new Mock<IMapper>();
             _repositoryMock = new Mock<IConstraintsRepository>();
             _mapperFactoryMock = new Mock<IMapperFactory>();
-            _constraints = GenerateConstraints();
+            _constraintModels = GenerateConstraintModels();
 
             ConfigureMapperFactoryMock(_mapperFactoryMock);
             _constraintsService = new ConstraintsService(_repositoryMock.Object, _mapperFactoryMock.Object);
         }
 
-        private List<Constraint> GenerateConstraints()
+        private List<ConstraintModel> GenerateConstraintModels()
         {
-            return new List<Constraint>()
+            return new List<ConstraintModel>()
             {
-                new Constraint() { Id = 1, Name = "Max Length"},
-                new Constraint() { Id = 2, Name = "Min Length"},
-                new Constraint() { Id = 3, Name = "Min Value"},
-                new Constraint() { Id = 4, Name = "Max Value"}
+                new ConstraintModel(1, "Max Length", "Description 1"),
+                new ConstraintModel(2, "Min Length", "Description 2"),
+                new ConstraintModel(3, "Min Value", "Description 3"),
+                new ConstraintModel(4, "Max Value", "Description 4")
             };
         }
 
         private void ConfigureMapperFactoryMock(Mock<IMapperFactory> mapperFactoryMock)
         {
-            mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(() => _mapper);
+            mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(() => _mapperMock.Object);
         }
 
         private void ConfigureRepositoryMock_GetAll(Mock<IConstraintsRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAll()).Returns(_constraints.AsQueryable());
+            var constraintList = new List<Constraint>();
+            foreach (var constraintModel in _constraintModels)
+            {
+                var constraint = new Constraint() { Name = constraintModel.Name, Description = constraintModel.Description };
+                constraintList.Add(constraint);
+            }
+            ConfigureModelMapperCollections(constraintList, _constraintModels);
+            repositoryMock.Setup(repository => repository.GetAll()).Returns(constraintList.AsQueryable());
         }
 
-        private void ConfigureRepositoryMock_GetByIdAsync(Mock<IConstraintsRepository> repositoryMock, int id)
+        private void ConfigureRepositoryMock_GetByIdAsync(Mock<IConstraintsRepository> repositoryMock, int id, Constraint constraint)
         {
             repositoryMock.Setup(repository => repository.GetByIdAsync(id)).
-                ReturnsAsync(() => _constraints.Find(constraint => constraint.Id == id));
+                ReturnsAsync(constraint);
         }
 
-        private void ConfigureRepositoryMock_GetByNameAsync(Mock<IConstraintsRepository> repositoryMock, string name)
+        private void ConfigureRepositoryMock_GetByNameAsync(Mock<IConstraintsRepository> repositoryMock, string name, Constraint constraint)
         {
             repositoryMock.Setup(repository => repository.GetByNameAsync(name)).
-                ReturnsAsync(() => _constraints.Find(constraint => constraint.Name == name));
+                ReturnsAsync(constraint);
         }
 
         private void ConfigureRepositoryMock_RemoveByIdAsync(Mock<IConstraintsRepository> repositoryMock, int id)
         {
             repositoryMock.Setup(repository => repository.RemoveByIdAsync(id)).ReturnsAsync(() =>
             {
-                var item = _constraints.Find(constraint => constraint.Id == id);
-                return _constraints.Remove(item);
+                var item = _constraintModels.Find(constraint => constraint.Id == id);
+                return _constraintModels.Remove(item);
+            });
+        }
+
+        private void ConfigureRepositoryMock_AddAsync(Mock<IConstraintsRepository> repositoryMock, ConstraintModel coreModel, Constraint dalModel)
+        {
+            _repositoryMock.Setup(repository => repository.AddAsync(dalModel)).Callback(() =>
+            {
+                _constraintModels.Add(coreModel);
             });
         }
 
@@ -81,7 +97,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
             var result = _constraintsService.GetAll();
 
-            Assert.Equal(_constraints.Count, result.Count());
+            Assert.Equal(_constraintModels.Count, result.Count());
         }
 
         [Theory]
@@ -90,12 +106,14 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [InlineData(4)]
         public async void GetByIdAsync_ExistingId_CorrectConstraint(int id)
         {
-            ConfigureRepositoryMock_GetByIdAsync(_repositoryMock, id);
-            var constraintName = _constraints.Find((element) => element.Id == id).Name;
+            var constraintModel = _constraintModels.Find((element) => element.Id == id);
+            var constraint = new Constraint() { Name = constraintModel.Name, Description = constraintModel.Description };
+            ConfigureModelMapper(constraint, constraintModel);
+            ConfigureRepositoryMock_GetByIdAsync(_repositoryMock, id, constraint);
 
             var result = await _constraintsService.GetByIdAsync(id);
 
-            Assert.Equal(constraintName, result.Name);
+            Assert.Equal(constraintModel, result);
         }
 
         [Theory]
@@ -103,21 +121,36 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [InlineData("Max Length")]
         public async void GetByNameAsync_ExistingName_CorrectConstraint(string name)
         {
-            ConfigureRepositoryMock_GetByNameAsync(_repositoryMock, name);
-            var constraintId = _constraints.Find((element) => element.Name == name).Id;
+            var constraintModel = _constraintModels.Find((element) => element.Name == name);
+            var constraint = new Constraint() { Name = name, Description = constraintModel.Description };
+            ConfigureModelMapper(constraint, constraintModel);
+            ConfigureRepositoryMock_GetByNameAsync(_repositoryMock, name, constraint);
 
             var result = await _constraintsService.GetByNameAsync(name);
 
-            Assert.Equal(constraintId, result.Id);
+            Assert.Equal(constraintModel, result);
         }
 
         [Theory]
         [InlineData(100)]
         public async Task GetByIdAsync_NonExistingId_ThrowsElementNotFoundException(int id)
         {
-            ConfigureRepositoryMock_GetByIdAsync(_repositoryMock, id);
+            ConfigureRepositoryMock_GetByIdAsync(_repositoryMock, id, null);
 
             await Assert.ThrowsAsync<InvalidDataException>(() => _constraintsService.GetByIdAsync(id));
+        }
+
+        [Fact]
+        public async Task AddAsync_NewConstraint_CanBeAdded()
+        {
+            var addedConstraint = new Constraint() { Name = "TimeZone", Description = "Description"};
+            var addedConstraintModel = new ConstraintModel(5, "TimeZone", "Description");
+            ConfigureModelMapper(addedConstraint, addedConstraintModel);
+            ConfigureRepositoryMock_AddAsync(_repositoryMock, addedConstraintModel, addedConstraint);
+
+            await _constraintsService.AddAsync(addedConstraintModel);
+
+            Assert.Contains(addedConstraintModel, _constraintModels);
         }
 
         [Theory]
@@ -125,12 +158,12 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [InlineData(4)]
         public void RemoveByIdAsync_ExistingId_CanBeRemoved(int id)
         {
-            var constraintToRemove = _constraints.Find(constraint => constraint.Id == id);
+            var constraintToRemove = _constraintModels.Find(constraint => constraint.Id == id);
             ConfigureRepositoryMock_RemoveByIdAsync(_repositoryMock, id);
 
             _constraintsService.RemoveByIdAsync(id);
 
-            Assert.DoesNotContain(constraintToRemove, _constraints);
+            Assert.DoesNotContain(constraintToRemove, _constraintModels);
         }
 
         [Theory]
@@ -140,6 +173,18 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             ConfigureRepositoryMock_RemoveByIdAsync(_repositoryMock, id);
 
             await Assert.ThrowsAsync<InvalidDataException>(() => _constraintsService.RemoveByIdAsync(id));
+        }
+
+        private void ConfigureModelMapper(Constraint objectForMapper, ConstraintModel modelForMapper)
+        {
+            _mapperMock.Setup(mapper => mapper.Map<Constraint>(modelForMapper)).Returns(objectForMapper);
+            _mapperMock.Setup(mapper => mapper.Map<ConstraintModel>(objectForMapper)).Returns(modelForMapper);
+        }
+
+        private void ConfigureModelMapperCollections(IEnumerable<Constraint> objectsForMapper, IEnumerable<ConstraintModel> modelsForMapper)
+        {
+            _mapperMock.Setup(mapper => mapper.Map<IEnumerable<Constraint>>(modelsForMapper)).Returns(objectsForMapper);
+            _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ConstraintModel>>(objectsForMapper)).Returns(modelsForMapper);
         }
     }
 }
