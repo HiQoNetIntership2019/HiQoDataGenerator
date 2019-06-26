@@ -2,6 +2,7 @@
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
+using HiQoDataGenerator.DAL.Models.DataSetModels;
 
 namespace HiQoDataGenerator.Core.Extensions
 {
@@ -26,6 +27,9 @@ namespace HiQoDataGenerator.Core.Extensions
 
                 config.CreateMap<ConfigurableObject, ConfigurableObjectModel>();
                 config.CreateMap<ConfigurableObjectModel, ConfigurableObject>();
+
+                config.CreateMap<DatasetTypeModel, DatasetType>();
+                config.CreateMap<DatasetType, DatasetTypeModel>();
 
             }).CreateMapper();
         }

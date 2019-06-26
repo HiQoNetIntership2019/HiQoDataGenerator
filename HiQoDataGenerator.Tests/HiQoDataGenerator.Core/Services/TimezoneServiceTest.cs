@@ -1,48 +1,81 @@
 ﻿using AutoMapper;
 using HiQoDataGenerator.Core;
+using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using Moq;
+using System.Collections.Generic;
 using Xunit;
 
 namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 {
     public class TimezoneServiceTest
     {
-        private readonly Mock<ITimezoneRepository> _repositoryMock = new Mock<ITimezoneRepository>();
+        private readonly Mock<ITimezoneRepository> _timezoneRepositoryMock = new Mock<ITimezoneRepository>();
         private readonly Mock<IMapperFactory> _mapperFactoryMock = new Mock<IMapperFactory>();
         private readonly Mock<IMapper> _mapperMock = new Mock<IMapper>();
 
         private readonly ITimezonesService _timezoneService;
 
+        private List<TimezoneModel> _timezoneModels = new List<TimezoneModel>();
+        
         public TimezoneServiceTest()
         {
-            _mapperMock.Setup(mapper => mapper.Map<Timezone>(null)).Returns(() => null);
+            
             _mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(() => _mapperMock.Object);
-            _timezoneService = new TimezoneService(_repositoryMock.Object, _mapperFactoryMock.Object);
+            _timezoneService = new TimezoneService(_timezoneRepositoryMock.Object, _mapperFactoryMock.Object);
         }
 
         [Fact]
-        public async void AddAsyncReturnedTrueIfRepositoryReturnedTrue()
-        {            
-            _repositoryMock.Setup(repository => repository.AddAsync(null)).ReturnsAsync(() => true);
-
-            bool isAdded = await _timezoneService.AddAsync(null);
-
-            Assert.True(isAdded);
-        }
-
-        [Fact]
-        public async void RemoveByIdReturnedFalseIfRepositoryReturnedFalse()
+        public async void AddAsync_IsAdded()
         {
-            const int id = 1;
-            _repositoryMock.Setup(repository => repository.RemoveByIdAsync(id)).Returns(async () => false);
+            var (CoreModel, DalModel) = GetModels();
+            _timezoneRepositoryMock.Setup(repository => repository.AddAsync(DalModel)).Callback(() =>
+            {
+                _timezoneModels.Add(CoreModel);
+            });
 
-            bool isRemoved = await _timezoneService.RemoveByIdAsync(id);
+            await _timezoneService.AddAsync(CoreModel);
 
-            Assert.False(isRemoved);
+            Assert.Contains(CoreModel, _timezoneModels);
         }
+
+        [Fact]
+        public async void RemoveByIdAsync_IsRemoved()
+        {
+            _timezoneModels = CreateModelSet();
+            int idForRemoved = 3;
+            var removedModel = _timezoneModels.Find(item => item.Id == idForRemoved);
+            _timezoneRepositoryMock.Setup(repository => repository.RemoveByIdAsync(idForRemoved)).Callback(() =>
+            {
+                var item = _timezoneModels.Find(model => model.Id == idForRemoved);
+                _timezoneModels.Remove(item);
+            }).ReturnsAsync(true);
+
+            await _timezoneService.RemoveByIdAsync(idForRemoved);
+
+            Assert.DoesNotContain(removedModel, _timezoneModels);
+        }
+
+        private (TimezoneModel CoreModel, Timezone DalModel) GetModels()
+        {
+            var objectForAdded = new Timezone() { Value = "UTC+12" };
+            var modelForAdded = new TimezoneModel(12, "UTC+12");
+            _mapperMock.Setup(mapper => mapper.Map<Timezone>(modelForAdded)).Returns(objectForAdded);
+            _mapperMock.Setup(mapper => mapper.Map<TimezoneModel>(objectForAdded)).Returns(modelForAdded);
+            return (modelForAdded, objectForAdded);
+        }
+
+
+        private List<TimezoneModel> CreateModelSet() =>
+            new List<TimezoneModel>()
+            {
+                new TimezoneModel(0, "UTC"),
+                new TimezoneModel(1, "UTC+1"),
+                new TimezoneModel(2, "UTC+2"),
+                new TimezoneModel(3, "UTC-1")
+            };
     }
 }
