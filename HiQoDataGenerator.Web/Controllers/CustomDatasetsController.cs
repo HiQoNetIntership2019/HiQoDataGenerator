@@ -31,7 +31,25 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(customDatasetModels);
         }
 
-        [HttpGet("values")]
+        [HttpGet("Values")]
+        public IActionResult GetAll()
+        {
+            var customDatasetModels = _customDatasetService.GetAll();
+            var customDatasetViewModels = _mapper.Map<IEnumerable<CustomDatasetViewModel>>(customDatasetModels);
+            return Ok(customDatasetModels);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var customDatasetModel = await _customDatasetService.GetByIdAsync(id);
+            var customDatasetViewModel = _mapper.Map<CustomDatasetViewModel>(customDatasetModel);
+            return Ok(customDatasetViewModel);
+        }
+
+
+
+        /*[HttpGet("values")]
         public IActionResult GetWithValues()
         {
             var customDatasetsModels = _customDatasetService.GetAll();

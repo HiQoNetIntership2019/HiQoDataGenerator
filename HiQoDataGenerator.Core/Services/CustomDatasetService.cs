@@ -29,6 +29,12 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<CustomDatasetModel>>(customDatasets);
         }
 
+        public IEnumerable<CustomDatasetValueModel> GetAllValues()
+        {
+            var customDatasetValues = _customDatasetRepository.GetAllValues();
+            return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
+        }
+
         public async Task<CustomDatasetModel> GetByIdAsync(int id)
         {
             var customDataset = await _customDatasetRepository.GetByIdAsync(id);
