@@ -43,20 +43,15 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 
         }
 
-        public async Task<bool> RemoveDatasetAsync(int datasetId)
+        public async Task<bool> RemoveValueByIdAsync(int valueId)
         {
-            var value = await _models.FindAsync(datasetId);
+            var value = await _datasetValues.FindAsync(valueId);
             if (value == null)
             {
                 return false;
             }
-            _models.Remove(value);
+            _datasetValues.Remove(value);
             return true;
-        }
-
-        public Task<bool> RemoveValueAsync(int id)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

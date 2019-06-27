@@ -85,7 +85,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task RemoveDatasetAsync(int datasetId)
         {
-            var result = await _customDatasetRepository.RemoveDatasetAsync(datasetId);
+            var result = await _customDatasetRepository.RemoveByIdAsync(datasetId);
             if (!result)
             {
                 throw new InvalidDataException("Can't delete Custom Dataset with id " + datasetId.ToString() + " !");
@@ -93,12 +93,12 @@ namespace HiQoDataGenerator.Core.Services
             await _uow.CommitAsync();
         }
 
-        public async Task RemoveByIdAsync(int id)
+        public async Task RemoveValueByIdAsync(int valueId)
         {
-            var result = await _customDatasetRepository.RemoveByIdAsync(id);
+            var result = await _customDatasetRepository.RemoveValueByIdAsync(valueId);
             if (!result)
             {
-                throw new InvalidDataException("Can't delete Custom Dataset with id " + id.ToString() + " !");
+                throw new InvalidDataException("Can't delete Custom Dataset value with id " + valueId.ToString() + " !");
             }
             await _uow.CommitAsync();
         }

@@ -85,36 +85,18 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteDataset(int id)
         {
             await _customDatasetService.RemoveDatasetAsync(id);
             return NoContent();
         }
 
-        /*
-        [HttpPost]
-        public async Task<IActionResult> Post(DateTimeFormatViewModel dateTimeFormatViewModel)
+        [HttpDelete]
+        [Route("Values/{id}")]
+        public async Task<IActionResult> DeleteValue(int id)
         {
-            var dateTimeFormatModel = _mapper.Map<DateTimeFormatModel>(dateTimeFormatViewModel);
-
-            await _customDatasetService.AddAsync(dateTimeFormatModel);
-            return Ok();
-        }
-
-        [HttpPost("Range")]
-        public async Task<IActionResult> Post(IEnumerable<DateTimeFormatViewModel> dateTimeFormatViewModels)
-        {
-            var dateTimeFormatModels = _mapper.Map<IEnumerable<DateTimeFormatModel>>(dateTimeFormatViewModels);
-
-            await _customDatasetService.AddRangeAsync(dateTimeFormatModels);
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await _customDatasetService.RemoveByIdAsync(id);
+            await _customDatasetService.RemoveValueByIdAsync(id);
             return NoContent();
-        }*/
+        }
     }
 }
