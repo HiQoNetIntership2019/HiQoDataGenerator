@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
@@ -8,19 +9,26 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.UnitOfWork;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
-
+using HiQoDataGenerator.DAL.Models.CustomObjectModels;
+using HiQoDataGenerator.DAL.Models.IntermediateModels;
+using HiQoDataGenerator.DAL.Repositories.EntityFramework;
 
 namespace HiQoDataGenerator.Core.Services
 {
     public class ConstraintsService : IConstraintsService
     {
         private readonly IConstraintsRepository _constraintsRepository;
+        private readonly IFieldTypesConstraintsRepository _fieldTypesConstraintsRepository;
+        private readonly IFieldTypeRepository _fieldTypeRepository;
         private readonly IUnitOfWork _uow;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
 
-        public ConstraintsService(IUnitOfWork unit, IConstraintsRepository constraintsRepository, IMapperFactory mapperFactory)
+        public ConstraintsService(IUnitOfWork unit, IConstraintsRepository constraintsRepository, IMapperFactory mapperFactory,
+            IFieldTypesConstraintsRepository fieldTypesConstraintsRepository, IFieldTypeRepository fieldTypeRepository)
         {
             _constraintsRepository = constraintsRepository;
+            _fieldTypesConstraintsRepository = fieldTypesConstraintsRepository;
+            _fieldTypeRepository = fieldTypeRepository;
             _uow = unit;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
@@ -65,6 +73,26 @@ namespace HiQoDataGenerator.Core.Services
             {
                 throw new InvalidDataException("Can't delete Constraint with id " + id.ToString() + "!");
             }
+            await _uow.CommitAsync();
+        }
+
+        public IEnumerable<ConstraintModel> GetByFieldTypeId(int id)
+        {
+            var constarints = _constraintsRepository.GetByFieldTypeId(id);
+            return _mapper.Map<IEnumerable<ConstraintModel>>(constarints);
+        }
+
+        public async Task AddFieldTypesForConstraint(ConstraintModel constraint, IEnumerable<FieldTypeModel> fieldTypes)
+        {
+            var constraintDalModel = _mapper.Map<Constraint>(constraint);
+            var fieldTypeDalModels = _mapper.Map<IEnumerable<FieldType>>(fieldTypes);
+            var fieldTypesConstraintsDalModels = fieldTypeDalModels.Select(item =>
+                new FieldTypeConstraint() { Constraint = constraintDalModel, FieldType = item });
+
+            await _fieldTypesConstraintsRepository.AddRangeAsync(fieldTypesConstraintsDalModels);
+            _constraintsRepository.Update(constraintDalModel);
+            _fieldTypeRepository.UpdateRange(fieldTypeDalModels);
+
             await _uow.CommitAsync();
         }
     }

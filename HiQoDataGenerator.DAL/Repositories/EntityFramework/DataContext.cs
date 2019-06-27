@@ -24,5 +24,19 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public DbSet<DatasetType> DatasetTypes { get; set; }
 
         public DataContext(DbContextOptions options) : base(options) { }
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<FieldTypeConstraint>()
+               .HasOne(p => p.FieldType)
+               .WithMany(p => p.SupportedConstraints)
+               .HasForeignKey(p => p.FieldTypeId);
+
+            builder.Entity<FieldTypeConstraint>()
+                .HasOne(p => p.Constraint)
+                .WithMany(p => p.SupportedTypes)
+                .HasForeignKey(p => p.ConstraintId);
+        }
     }
 }

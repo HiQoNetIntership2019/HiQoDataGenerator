@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
@@ -6,5 +7,6 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
     public interface IConstraintsRepository : IBaseRepository<Constraint>
     {
         Task<Constraint> GetByNameAsync(string name);
+        IEnumerable<Constraint> GetByFieldTypeId(int id);
     }
 }
