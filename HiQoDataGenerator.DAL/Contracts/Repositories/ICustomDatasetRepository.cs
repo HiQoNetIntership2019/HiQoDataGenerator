@@ -7,10 +7,10 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     public interface ICustomDatasetRepository :IBaseRepository<CustomDataset>
     {
-        CustomDataset GetDatasetWithValues(int datasetId);
-        CustomDataset GetDatasetWithValues(string datasetName);
-        Task AddValueAsync(CustomDatasetValue value);
-        Task AddValuesAsync(IEnumerable<CustomDatasetValue> values);
+        Task<CustomDataset> GetDatasetWithValues(int datasetId);
+        Task<CustomDataset> GetDatasetWithValues(string datasetName);
+        Task AddValueAsync(int datasetId, CustomDatasetValue value);
+        Task AddValuesAsync(int datasetId, IEnumerable<CustomDatasetValue> values);
         Task<bool> RemoveValueAsync(int id);
         Task<bool> RemoveAllValuesAsync(int id);
     }

@@ -9,26 +9,31 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
     public class CustomDatasetsRepository : BaseRepository<CustomDataset>, ICustomDatasetRepository
     {
-        public CustomDatasetsRepository(DataContext context) : base(context) { }
+        protected readonly DbSet<CustomDatasetValue> _datasetValues;
 
-        public CustomDataset GetDatasetWithValues(int datasetId)
+        public CustomDatasetsRepository(DataContext context) : base(context)
         {
-            return _models.Where(model => model.Id == datasetId).Include(d => d.CustomDatasetValues)?.FirstOrDefault();
+            _datasetValues = context.CustomDatasetsValues;
         }
 
-        public CustomDataset GetDatasetWithValues(string datasetName)
+        public async Task<CustomDataset> GetDatasetWithValues(int datasetId)
         {
-            return _models.Where(model => model.Name == datasetName).Include(d => d.CustomDatasetValues)?.FirstOrDefault();
+            return await _models.Where(model => model.Id == datasetId).Include(d => d.CustomDatasetValues)?.FirstOrDefaultAsync();
         }
 
-        public Task AddValueAsync(CustomDatasetValue value)
+        public async Task<CustomDataset> GetDatasetWithValues(string datasetName)
         {
-            throw new System.NotImplementedException();
+            return await _models.Where(model => model.Name == datasetName).Include(d => d.CustomDatasetValues)?.FirstOrDefaultAsync();
         }
 
-        public Task AddValuesAsync(IEnumerable<CustomDatasetValue> values)
+        public async Task AddValueAsync(int datasetId,CustomDatasetValue value)
         {
-            throw new System.NotImplementedException();
+            await _datasetValues.AddAsync(value);
+        }
+
+        public async Task AddValuesAsync(int datasetId, IEnumerable<CustomDatasetValue> values)
+        {
+            await _datasetValues.AddRangeAsync(values);
         }
 
         public Task<bool> RemoveAllValuesAsync(int id)
