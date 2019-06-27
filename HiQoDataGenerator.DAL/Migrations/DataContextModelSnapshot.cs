@@ -161,7 +161,7 @@ namespace HiQoDataGenerator.DAL.Migrations
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDatasetValue", b =>
                 {
                     b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDataset", "Dataset")
-                        .WithMany("CustomDatasetValues")
+                        .WithMany("Values")
                         .HasForeignKey("DatasetId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

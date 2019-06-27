@@ -18,7 +18,15 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public DbSet<DateTimeFormat> DateTimeFormats { get; set; }
         public DbSet<CustomDataset> CustomDatasets { get; set; }
         public DbSet<CustomDatasetValue> CustomDatasetsValues { get; set; }
-        public DbSet<DatasetType> DatasetTypes { get; set; }
+        //public DbSet<DatasetType> DatasetTypes { get; set; }
         public DataContext(DbContextOptions options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CustomDatasetValue>()
+                .HasOne(v => v.Dataset)
+                .WithMany(d => d.Values);
+        }
+
     }
 }
