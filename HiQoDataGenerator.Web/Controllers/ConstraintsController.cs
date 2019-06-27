@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
-using Microsoft.Extensions.Logging;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -43,12 +39,29 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(constraintViewModel);
         }
 
+        [HttpGet("fieldtype/{id}")]
+        public IActionResult GetByFieldTypeId(int id)
+        {
+            var constraintModels = _constraintsService.GetByFieldTypeId(id);
+            return Ok(_mapper.Map<IEnumerable<ConstraintViewModel>>(constraintModels));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(ConstraintViewModel constraintViewModel)
         {
             var constraintModel = _mapper.Map<ConstraintModel>(constraintViewModel);
             await _constraintsService.AddAsync(constraintModel);
             return Ok(constraintModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddFieldTypesInConstraint([FromBody] (ConstraintViewModel constraintViewModel, 
+            IEnumerable<FieldTypeViewModel> fieldTypeViewModels) body)
+        {
+            var constraint = _mapper.Map<ConstraintModel>(body.constraintViewModel);
+            var fieldTypes = _mapper.Map<IEnumerable<FieldTypeModel>>(body.fieldTypeViewModels);
+            await _constraintsService.AddFieldTypesForConstraint(constraint, fieldTypes);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
