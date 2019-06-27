@@ -2,11 +2,11 @@
 {
     public class CustomDatasetModel : BaseModel
     {
-        public string Value { get; }
+        public string Name { get; }
 
-        public CustomDatasetModel(int id, string value) : base(id)
+        public CustomDatasetModel(int id, string name) : base(id)
         {
-            Value = value;
+            Name = name;
         }
     }
 }
