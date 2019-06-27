@@ -12,6 +12,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
     {
         public DbSet<FieldType> Types { get; set; }
         public DbSet<Constraint> Constraints { get; set; }
+        public DbSet<ConstraintValue> ConstraintValues { get; set; }
         public DbSet<Timezone> Timezones { get; set; }
         public DbSet<Regex> Regexes { get; set; }
         public DbSet<EncodingType> EncodingTypes { get; set; }

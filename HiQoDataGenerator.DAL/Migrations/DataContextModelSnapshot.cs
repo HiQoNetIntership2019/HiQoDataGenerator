@@ -36,6 +36,24 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("Constraints");
                 });
 
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.ConstraintValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ConstraintId");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(300);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConstraintId");
+
+                    b.ToTable("ConstraintValues");
+                });
+
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.DateTimeFormat", b =>
                 {
                     b.Property<int>("Id")
@@ -63,7 +81,6 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.ToTable("EncodingTypes");
                 });
-
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.Regex", b =>
                 {
@@ -107,6 +124,18 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("Types");
                 });
 
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.DatasetType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("TypeName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DatasetTypes");
+                });
+
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.IntermediateModels.FieldTypeConstraint", b =>
                 {
                     b.Property<int>("Id")
@@ -125,6 +154,14 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Types_Support_Constraints");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.ConstraintValue", b =>
+                {
+                    b.HasOne("HiQoDataGenerator.DAL.Models.ConstraintModels.Constraint", "Constraint")
+                        .WithMany()
+                        .HasForeignKey("ConstraintId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.IntermediateModels.FieldTypeConstraint", b =>

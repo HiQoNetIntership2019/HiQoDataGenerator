@@ -26,6 +26,8 @@ namespace HiQoDataGenerator.DAL
 
             services.AddScoped<IDatasetTypesRepository, DatasetTypesRepository>();
 
+            services.AddScoped<IConstraintValuesRepository, ConstraintValuesRepository>();
+
             services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
 
             services.AddScoped<IConfigurableObjectsRepository, ConfigurableObjectsRepository>();
