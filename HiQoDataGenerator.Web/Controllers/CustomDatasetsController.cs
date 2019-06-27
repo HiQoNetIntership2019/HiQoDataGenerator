@@ -26,9 +26,9 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var customDatasetsModels = _customDatasetService.GetAll();
-            //var dateTimeFormatViewModels = _mapper.Map<IEnumerable<DateTimeFormatViewModel>>(dateTimeFormatModels);
-            return Ok(customDatasetsModels);
+            var customDatasetModels = _customDatasetService.GetAll();
+            var customDatasetViewModels = _mapper.Map<IEnumerable<CustomDatasetViewModel>>(customDatasetModels);
+            return Ok(customDatasetModels);
         }
 
         [HttpGet("values")]

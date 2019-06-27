@@ -18,12 +18,12 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 
         public async Task<CustomDataset> GetDatasetWithValues(int datasetId)
         {
-            return await _models.Where(model => model.Id == datasetId).Include(d => d.CustomDatasetValues)?.FirstOrDefaultAsync();
+            return await _models.Where(model => model.Id == datasetId).Include(d => d.Values)?.FirstOrDefaultAsync();
         }
 
         public async Task<CustomDataset> GetDatasetWithValues(string datasetName)
         {
-            return await _models.Where(model => model.Name == datasetName).Include(d => d.CustomDatasetValues)?.FirstOrDefaultAsync();
+            return await _models.Where(model => model.Name == datasetName).Include(d => d.Values)?.FirstOrDefaultAsync();
         }
 
         public async Task AddValueAsync(int datasetId,CustomDatasetValue value)
