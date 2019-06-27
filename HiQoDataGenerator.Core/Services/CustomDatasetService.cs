@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Exceptions;
 using HiQoDataGenerator.Core.UnitOfWork;
+using System.Linq;
 
 namespace HiQoDataGenerator.Core.Services
 {
@@ -31,7 +32,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<CustomDatasetValueModel> GetAllValues()
         {
-            var customDatasetValues = _customDatasetRepository.GetAllValues();
+            var customDatasetValues = _customDatasetRepository.GetAllValues().ToList();
             return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
         }
 

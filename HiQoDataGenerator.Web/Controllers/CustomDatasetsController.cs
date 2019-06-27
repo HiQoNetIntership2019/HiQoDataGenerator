@@ -28,15 +28,16 @@ namespace HiQoDataGenerator.Web.Controllers
         {
             var customDatasetModels = _customDatasetService.GetAll();
             var customDatasetViewModels = _mapper.Map<IEnumerable<CustomDatasetViewModel>>(customDatasetModels);
-            return Ok(customDatasetModels);
+            return Ok(customDatasetViewModels);
         }
 
-        [HttpGet("Values")]
+        [HttpGet]
+        [Route("Values")]
         public IActionResult GetAll()
         {
-            var customDatasetModels = _customDatasetService.GetAll();
-            var customDatasetViewModels = _mapper.Map<IEnumerable<CustomDatasetViewModel>>(customDatasetModels);
-            return Ok(customDatasetModels);
+            var customDatasetValueModels = _customDatasetService.GetAllValues();
+            var customDatasetValueViewModels = _mapper.Map<IEnumerable<CustomDatasetValueViewModel>>(customDatasetValueModels);
+            return Ok(customDatasetValueViewModels);
         }
 
         [HttpGet("{id}")]
