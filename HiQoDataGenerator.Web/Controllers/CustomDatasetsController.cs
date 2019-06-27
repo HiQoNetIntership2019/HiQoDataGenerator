@@ -84,6 +84,12 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _customDatasetService.RemoveDatasetAsync(id);
+            return NoContent();
+        }
 
         /*
         [HttpPost]

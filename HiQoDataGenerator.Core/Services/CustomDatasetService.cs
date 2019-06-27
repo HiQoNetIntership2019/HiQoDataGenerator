@@ -74,10 +74,22 @@ namespace HiQoDataGenerator.Core.Services
             await _uow.CommitAsync();
         }
 
+        // ------------------------------------------------------- //
         public async Task AddAsync(CustomDatasetModel customDatasetModel)
         {
             var customDataset = _mapper.Map<CustomDataset>(customDatasetModel);
             await _customDatasetRepository.AddAsync(customDataset);
+            await _uow.CommitAsync();
+        }
+        // ------------------------------------------------------- //
+
+        public async Task RemoveDatasetAsync(int datasetId)
+        {
+            var result = await _customDatasetRepository.RemoveDatasetAsync(datasetId);
+            if (!result)
+            {
+                throw new InvalidDataException("Can't delete Custom Dataset with id " + datasetId.ToString() + " !");
+            }
             await _uow.CommitAsync();
         }
 

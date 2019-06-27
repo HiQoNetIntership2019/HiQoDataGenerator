@@ -14,6 +14,6 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
         Task AddValuesAsync(IEnumerable<CustomDatasetValue> values);
 
         Task<bool> RemoveValueAsync(int id);
-        Task<bool> RemoveAllValuesAsync(int id);
+        Task<bool> RemoveDatasetAsync(int datasetId);
     }
 }
