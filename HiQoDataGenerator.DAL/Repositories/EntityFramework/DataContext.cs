@@ -20,13 +20,6 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public DbSet<CustomDatasetValue> CustomDatasetsValues { get; set; }
         //public DbSet<DatasetType> DatasetTypes { get; set; }
         public DataContext(DbContextOptions options) : base(options) { }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<CustomDatasetValue>()
-                .HasOne(v => v.Dataset)
-                .WithMany(d => d.Values);
-        }
-
+        
     }
 }

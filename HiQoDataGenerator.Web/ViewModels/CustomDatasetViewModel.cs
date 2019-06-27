@@ -6,6 +6,6 @@ namespace HiQoDataGenerator.Web.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<CustomDatasetValueViewModel> Values { get; set; }
+        public ICollection<CustomDatasetValueViewModel> Values { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 
         public IQueryable<CustomDatasetValue> GetAllValues()
         {
-            return _datasetValues.Include(v => v.Dataset);
+            return _datasetValues;//Include(v => v.Dataset);
         }
 
         public async Task<CustomDataset> GetDatasetWithValues(int datasetId)

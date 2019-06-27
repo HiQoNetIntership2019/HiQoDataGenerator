@@ -6,9 +6,9 @@ namespace HiQoDataGenerator.Core.Entities
     {
         public string Name { get; }
 
-        public IEnumerable<CustomDatasetValueModel> Values;
+        public ICollection<CustomDatasetValueModel> Values;
 
-        public CustomDatasetModel(int id, string name, IEnumerable<CustomDatasetValueModel> values) : base(id)
+        public CustomDatasetModel(int id, string name, ICollection<CustomDatasetValueModel> values) : base(id)
         {
             Name = name;
             Values = values;

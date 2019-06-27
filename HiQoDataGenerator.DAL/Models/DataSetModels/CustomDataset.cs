@@ -9,6 +9,6 @@ namespace HiQoDataGenerator.DAL.Models.DataSetModels
         [StringLength(50)]
         public string Name { get; set; }
 
-        public List<CustomDatasetValue> Values { get; set; }
+        public virtual ICollection<CustomDatasetValue> Values { get; set; }
     }
 }
