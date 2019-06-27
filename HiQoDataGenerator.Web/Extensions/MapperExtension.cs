@@ -28,6 +28,10 @@ namespace HiQoDataGenerator.Web.Extensions
 
                 config.CreateMap<DatasetTypeModel, DatasetTypeViewModel>();
                 config.CreateMap<DatasetTypeViewModel, DatasetTypeModel>();
+
+                config.CreateMap<ConstraintValueModel, ConstraintValueViewModel>();
+                config.CreateMap<ConstraintValueViewModel, ConstraintValueModel>();
+
             }).CreateMapper();
         }
     }

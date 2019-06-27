@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190627085319_AddConstraintsValues.cs" />
+    <Compile Remove="Migrations\20190627090405_Create_ConstraintsValues.cs" />
+    <Compile Remove="Migrations\20190627091752_Create_ConstraintsValues.cs" />
+    <Compile Remove="Migrations\20190627092026_Create_ConstraintsValues.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.4">
       <PrivateAssets>all</PrivateAssets>

@@ -12,7 +12,6 @@ namespace HiQoDataGenerator.Core.Entities
         {
             Name = name;
             Description = description;
-            //FieldTypes = fieldTypes;
         }
     }
 }
