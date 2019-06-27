@@ -10,8 +10,9 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
         IQueryable<CustomDatasetValue> GetAllValues();
         IQueryable<CustomDatasetValue> GetValuesByDatasetId(int datasetId);
         IQueryable<CustomDatasetValue> GetValuesByDatasetName(string datasetName);
-        Task AddValueAsync(int datasetId, CustomDatasetValue value);
-        Task AddValuesAsync(int datasetId, IEnumerable<CustomDatasetValue> values);
+
+        Task AddValuesAsync(IEnumerable<CustomDatasetValue> values);
+
         Task<bool> RemoveValueAsync(int id);
         Task<bool> RemoveAllValuesAsync(int id);
     }

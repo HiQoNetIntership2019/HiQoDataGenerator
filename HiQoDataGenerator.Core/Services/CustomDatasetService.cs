@@ -67,17 +67,17 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
         }
 
+        public async Task AddValuesAsync(IEnumerable<CustomDatasetValueModel> customDatasetValueModels)
+        {
+            var customDatasetValues = _mapper.Map<IEnumerable<CustomDatasetValue>>(customDatasetValueModels);
+            await _customDatasetRepository.AddValuesAsync(customDatasetValues);
+            await _uow.CommitAsync();
+        }
+
         public async Task AddAsync(CustomDatasetModel customDatasetModel)
         {
             var customDataset = _mapper.Map<CustomDataset>(customDatasetModel);
             await _customDatasetRepository.AddAsync(customDataset);
-            await _uow.CommitAsync();
-        }
-
-        public async Task AddRangeAsync(IEnumerable<CustomDatasetModel> customDatasetsModels)
-        {
-            var customDatasets = _mapper.Map<IEnumerable<CustomDataset>>(customDatasetsModels);
-            await _customDatasetRepository.AddRangeAsync(customDatasets);
             await _uow.CommitAsync();
         }
 

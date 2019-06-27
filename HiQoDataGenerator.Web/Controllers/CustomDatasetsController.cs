@@ -66,24 +66,25 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(customDatasetValueViewModels);
         }
 
-
-
-        /*[HttpGet("values")]
-        public IActionResult GetWithValues()
+        /*[HttpPost]
+        public async Task<IActionResult> Post(DateTimeFormatViewModel customDatasetViewModel)
         {
-            var customDatasetsModels = _customDatasetService.GetAll();
-            //var dateTimeFormatViewModels = _mapper.Map<IEnumerable<DateTimeFormatViewModel>>(dateTimeFormatModels);
-            return Ok(customDatasetsModels);
+            var dateTimeFormatModel = _mapper.Map<DateTimeFormatModel>(customDatasetViewModel);
+
+            await _customDatasetService.AddAsync(dateTimeFormatModel);
+            return Ok();
+        }*/
+
+        [HttpPost("Values")]
+        public async Task<IActionResult> AddValues(IEnumerable<CustomDatasetValueViewModel> customDatasetValueViewModels)
+        {
+            var customDatasetValueModels = _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValueViewModels);
+
+            await _customDatasetService.AddValuesAsync(customDatasetValueModels);
+            return Ok();
         }
 
-        /*
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var dateTimeFormatModel = await _customDatasetService.GetByIdAsync(id);
-            //var dateTimeFormatViewModel = _mapper.Map<DateTimeFormatViewModel>(dateTimeFormatModel);
-            return Ok(dateTimeFormatViewModel);
-        }
+
         /*
         [HttpPost]
         public async Task<IActionResult> Post(DateTimeFormatViewModel dateTimeFormatViewModel)

@@ -32,13 +32,8 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             var result = _datasetValues.Include(v => v.Dataset).Where(value => value.Dataset.Name.ToLower() == datasetName);
             return result.Count() == 0 ? null : result;
         }
-
-        public async Task AddValueAsync(int datasetId,CustomDatasetValue value)
-        {
-            await _datasetValues.AddAsync(value);
-        }
-
-        public async Task AddValuesAsync(int datasetId, IEnumerable<CustomDatasetValue> values)
+        //
+        public async Task AddValuesAsync(IEnumerable<CustomDatasetValue> values)
         {
             await _datasetValues.AddRangeAsync(values);
         }
