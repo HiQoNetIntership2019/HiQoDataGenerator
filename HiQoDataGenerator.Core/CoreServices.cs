@@ -30,6 +30,8 @@ namespace HiQoDataGenerator.Core
             services.AddScoped<IConfigurableObjectsService, ConfigurableObjectsService>();
 
             services.AddScoped<IDatasetTypesService, DatasetTypesService>();
+
+            services.AddScoped<ICustomDatasetService, CustomDatasetService>();
         }
 
         public static IMapper GetMapper() => MapperExtension.GetMapper();

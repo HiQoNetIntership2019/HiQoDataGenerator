@@ -31,6 +31,8 @@ namespace HiQoDataGenerator.Core.Extensions
                 config.CreateMap<DatasetTypeModel, DatasetType>();
                 config.CreateMap<DatasetType, DatasetTypeModel>();
 
+                config.CreateMap<CustomDatasetModel, CustomDataset>();
+                config.CreateMap<CustomDataset, CustomDatasetModel>();
             }).CreateMapper();
         }
     }
