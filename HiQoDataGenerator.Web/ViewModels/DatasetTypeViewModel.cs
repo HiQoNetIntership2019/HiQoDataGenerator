@@ -9,5 +9,7 @@ namespace HiQoDataGenerator.Web.ViewModels
     {
         public int Id { get; set; }
         public string TypeName { get; set; }
+
+        public IEnumerable<FieldTypeViewModel> FieldTypeViewModels { get; set; }
     }
 }

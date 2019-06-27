@@ -11,6 +11,6 @@ namespace HiQoDataGenerator.DAL.Models.CustomObjectModels
         [StringLength(30)]
         public string Name { get; set; }
 
-        public virtual List<FieldTypeConstraint> SupportedConstraints { get; set; }
+        public virtual ICollection<FieldTypeConstraint> SupportedConstraints { get; set; }
     }      
 }
