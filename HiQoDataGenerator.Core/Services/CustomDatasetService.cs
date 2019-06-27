@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Exceptions;
 using HiQoDataGenerator.Core.UnitOfWork;
 using System.Linq;
+using System;
 
 namespace HiQoDataGenerator.Core.Services
 {
@@ -26,7 +27,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<CustomDatasetModel> GetAll()
         {
-            var customDatasets = _customDatasetRepository.GetAll();
+            var customDatasets = _customDatasetRepository.GetAll().ToList();
             return _mapper.Map<IEnumerable<CustomDatasetModel>>(customDatasets);
         }
 
@@ -44,6 +45,26 @@ namespace HiQoDataGenerator.Core.Services
                 throw new InvalidDataException("Can't get Custom Dataset with id " + id.ToString() + " !");
             }
             return _mapper.Map<CustomDatasetModel>(customDataset);
+        }
+
+        public IEnumerable<CustomDatasetValueModel> GetValuesByDatasetId(int id)
+        {
+            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetId(id)?.ToList();
+            if (customDatasetValues == null)
+            {
+                throw new InvalidDataException("Can't get values of Custom Dataset with id " + id.ToString() + " !");
+            }
+            return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
+        }
+
+        public IEnumerable<CustomDatasetValueModel> GetValuesByDatasetName(string name)
+        {
+            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetName(name.ToLower())?.ToList();
+            if (customDatasetValues == null)
+            {
+                throw new InvalidDataException("Can't get values of Custom Dataset <" + name + "> !");
+            }
+            return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
         }
 
         public async Task AddAsync(CustomDatasetModel customDatasetModel)

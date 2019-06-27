@@ -22,7 +22,7 @@ namespace HiQoDataGenerator.Web.Controllers
             _customDatasetService = customDatasetService;
             _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
         }
-        //ok
+        
         [HttpGet]
         public IActionResult Get()
         {
@@ -30,8 +30,7 @@ namespace HiQoDataGenerator.Web.Controllers
             var customDatasetViewModels = _mapper.Map<IEnumerable<CustomDatasetViewModel>>(customDatasetModels);
             return Ok(customDatasetViewModels);
         }
-
-        //ok
+        
         [HttpGet]
         [Route("Values")]
         public IActionResult GetAll()
@@ -40,13 +39,31 @@ namespace HiQoDataGenerator.Web.Controllers
             var customDatasetValueViewModels = _mapper.Map<IEnumerable<CustomDatasetValueViewModel>>(customDatasetValueModels);
             return Ok(customDatasetValueViewModels);
         }
-
+        
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var customDatasetModel = await _customDatasetService.GetByIdAsync(id);
             var customDatasetViewModel = _mapper.Map<CustomDatasetViewModel>(customDatasetModel);
             return Ok(customDatasetViewModel);
+        }
+        
+        [HttpGet]
+        [Route("Values/ById/{id}")]
+        public IActionResult GetValuesByDatasetId(int id)
+        {
+            var customDatasetValueModels = _customDatasetService.GetValuesByDatasetId(id);
+            var customDatasetValueViewModels = _mapper.Map<IEnumerable<CustomDatasetValueViewModel>>(customDatasetValueModels);
+            return Ok(customDatasetValueViewModels);
+        }
+               
+        [HttpGet]
+        [Route("Values/ByName/{name}")]
+        public IActionResult GetValuesByDatasetName(string name)
+        {
+            var customDatasetValueModels = _customDatasetService.GetValuesByDatasetName(name);
+            var customDatasetValueViewModels = _mapper.Map<IEnumerable<CustomDatasetValueViewModel>>(customDatasetValueModels);
+            return Ok(customDatasetValueViewModels);
         }
 
 

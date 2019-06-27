@@ -26,11 +26,12 @@ namespace HiQoDataGenerator.DAL
 
             services.AddScoped<IDatasetTypesRepository, DatasetTypesRepository>();
 
+            services.AddScoped<ICustomDatasetRepository, CustomDatasetsRepository>();
+
             services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
 
             services.AddScoped<IConfigurableObjectsRepository, ConfigurableObjectsRepository>();
 
-            services.AddScoped<ICustomDatasetRepository, CustomDatasetsRepository>();
         }
     }
 }
