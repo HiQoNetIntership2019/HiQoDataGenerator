@@ -22,7 +22,7 @@ namespace HiQoDataGenerator.Web.Controllers
             _customDatasetService = customDatasetService;
             _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
         }
-
+        //ok
         [HttpGet]
         public IActionResult Get()
         {
@@ -31,6 +31,7 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(customDatasetViewModels);
         }
 
+        //ok
         [HttpGet]
         [Route("Values")]
         public IActionResult GetAll()

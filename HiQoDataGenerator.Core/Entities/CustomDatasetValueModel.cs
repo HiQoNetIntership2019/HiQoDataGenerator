@@ -4,12 +4,12 @@
     {
         public string Value { get; }
 
-        //public string DatasetName { get; }
-        public CustomDatasetModel Dataset { get; }
+        public string DatasetName { get; }
+
         public CustomDatasetValueModel(int id, string value, CustomDatasetModel dataset) : base(id)
         {
             Value = value;
-            Dataset = dataset;
+            DatasetName = dataset.Name;
         }
     }
 }

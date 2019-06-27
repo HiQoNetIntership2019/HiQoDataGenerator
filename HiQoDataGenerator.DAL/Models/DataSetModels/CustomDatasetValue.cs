@@ -9,6 +9,6 @@ namespace HiQoDataGenerator.DAL.Models.DataSetModels
         public string Value { get; set; }
 
         public int DatasetId { get; set; }
-        public CustomDataset Dataset { get; set; }
+        public virtual CustomDataset Dataset { get; set; }
     }
 }

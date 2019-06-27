@@ -10,25 +10,25 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
     public class CustomDatasetsRepository : BaseRepository<CustomDataset>, ICustomDatasetRepository
     {
         protected readonly DbSet<CustomDatasetValue> _datasetValues;
-
+        
         public CustomDatasetsRepository(DataContext context) : base(context)
         {
-            _datasetValues = context.CustomDatasetsValues;
+            _datasetValues = context.Set<CustomDatasetValue>();
         }
 
         public IQueryable<CustomDatasetValue> GetAllValues()
         {
-            return _datasetValues;//Include(v => v.Dataset);
+            return _datasetValues.Include(v => v.Dataset);
         }
 
         public async Task<CustomDataset> GetDatasetWithValues(int datasetId)
         {
-            return await _models.Where(model => model.Id == datasetId).Include(d => d.Values)?.FirstOrDefaultAsync();
+            return null;// await _models.Where(model => model.Id == datasetId).Include(d => d.Values)?.FirstOrDefaultAsync();
         }
 
         public async Task<CustomDataset> GetDatasetWithValues(string datasetName)
         {
-            return await _models.Where(model => model.Name == datasetName).Include(d => d.Values)?.FirstOrDefaultAsync();
+            return null; //await _models.Where(model => model.Name == datasetName).Include(d => d.Values)?.FirstOrDefaultAsync();
         }
 
         public async Task AddValueAsync(int datasetId,CustomDatasetValue value)
@@ -50,6 +50,5 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         {
             throw new System.NotImplementedException();
         }
-
     }
 }
