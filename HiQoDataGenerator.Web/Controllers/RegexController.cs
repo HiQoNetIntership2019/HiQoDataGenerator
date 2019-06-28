@@ -1,28 +1,20 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
-using AutoMapper;
 using HiQoDataGenerator.Web.ViewModels;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Entities;
-using HiQoDataGenerator.Web.Attributes;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [ServiceFilter(typeof(LoggingAttribute))]
-    public class RegexController : ControllerBase
+    public class RegexController : RootController
     {
-       // private readonly IMapper _mapper;
+       
         private readonly IRegexService _regexService;
-        private readonly IMapper _mapper;
-
-        public RegexController(IRegexService regexService, IMapperFactory mapperFactory)
-        {
-            this._regexService = regexService;
-            this._mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
-        }
+     
+        public RegexController(IRegexService regexService, IMapperFactory mapperFactory) :
+            base(mapperFactory) => _regexService = regexService;
+        
 
         [HttpGet]
         public IActionResult Get()

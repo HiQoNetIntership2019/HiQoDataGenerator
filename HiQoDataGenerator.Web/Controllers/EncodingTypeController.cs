@@ -9,19 +9,13 @@ using HiQoDataGenerator.Web.Attributes;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [ServiceFilter(typeof(LoggingAttribute))]
-    public class EncodingTypeController : ControllerBase
+    public class EncodingTypeController : RootController
     {
         private readonly IEncodingTypesService _encodingTypesService;
-        private readonly IMapper _mapper;
 
-        public EncodingTypeController(IEncodingTypesService encodingTypesService, IMapperFactory mapperFactory)
-        {
-            _encodingTypesService = encodingTypesService;
-            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
-        }
+        public EncodingTypeController(IEncodingTypesService encodingTypesService, IMapperFactory mapperFactory) :
+            base (mapperFactory) => _encodingTypesService = encodingTypesService;
+        
 
         [HttpGet]
         public IActionResult Get()

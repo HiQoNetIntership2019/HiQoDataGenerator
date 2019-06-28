@@ -1,28 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using HiQoDataGenerator.Web.Attributes;
 using HiQoDataGenerator.Web.ViewModels.Helpers;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [ServiceFilter(typeof(LoggingAttribute))]
-    public class ConstraintsController : ControllerBase
+    public class ConstraintsController : RootController
     {
         private readonly IConstraintsService _constraintsService;
-        private readonly IMapper _mapper;
-
-        public ConstraintsController(IConstraintsService constraintsService, IMapperFactory mapperFactory)
-        {
-            _constraintsService = constraintsService;
-            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
-        }
+        public ConstraintsController(IConstraintsService constraintsService, IMapperFactory mapperFactory) :
+            base(mapperFactory) => _constraintsService = constraintsService;
+        
 
         [HttpGet]
         public IActionResult Get()

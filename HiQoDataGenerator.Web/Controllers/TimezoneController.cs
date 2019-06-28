@@ -4,30 +4,22 @@ using HiQoDataGenerator.Core.Interfaces;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
-using AutoMapper;
-using HiQoDataGenerator.Web.Attributes;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [ServiceFilter(typeof(LoggingAttribute))]
-    public class TimezoneController : ControllerBase
+    public class TimezoneController : RootController
     {
         private readonly ITimezonesService _timezonesService;
-        private readonly IMapper _mapper;
 
-        public TimezoneController(ITimezonesService timezonesService, IMapperFactory mapperFactory)
-        {
-            _timezonesService = timezonesService;
-            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
-        }
+
+        public TimezoneController(ITimezonesService timezonesService, IMapperFactory mapperFactory) : 
+            base(mapperFactory) => _timezonesService = timezonesService;
+        
 
         [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok(_mapper.Map<IEnumerable<TimezoneViewModel>>(_timezonesService.GetAll()));
-        }
+        public IActionResult Get() => 
+            Ok(_mapper.Map<IEnumerable<TimezoneViewModel>>(_timezonesService.GetAll()));
+        
         
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
