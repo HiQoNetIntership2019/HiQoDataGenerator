@@ -124,36 +124,16 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("Types");
                 });
 
-            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDataset", b =>
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.DatasetType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("TypeName");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomDatasets");
-                });
-
-            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDatasetValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("DatasetId");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DatasetId");
-
-                    b.ToTable("CustomDatasetsValues");
+                    b.ToTable("DatasetTypes");
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.IntermediateModels.FieldTypeConstraint", b =>
@@ -175,12 +155,6 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.ToTable("Types_Support_Constraints");
                 });
-
-            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDatasetValue", b =>
-                {
-                    b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDataset", "Dataset")
-                        .WithMany()
-                        .HasForeignKey("DatasetId")
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.ConstraintValue", b =>
                 {
