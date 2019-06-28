@@ -6,6 +6,7 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Web.Attributes;
+using HiQoDataGenerator.Web.ViewModels.Helpers;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -63,11 +64,11 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddFieldTypesInConstraint([FromBody] (ConstraintViewModel constraintViewModel, 
-            IEnumerable<FieldTypeViewModel> fieldTypeViewModels) body)
+        [Route("AddFieldType")]
+        public async Task<IActionResult> AddFieldTypesInConstraint([FromBody] AddFieldTypeInConstraintViewModel viewModel)
         {
-            var constraint = _mapper.Map<ConstraintModel>(body.constraintViewModel);
-            var fieldTypes = _mapper.Map<IEnumerable<FieldTypeModel>>(body.fieldTypeViewModels);
+            var constraint = _mapper.Map<ConstraintModel>(viewModel.ConstraintViewModel);
+            var fieldTypes = _mapper.Map<IEnumerable<FieldTypeModel>>(viewModel.FieldTypeViewModels);
             await _constraintsService.AddFieldTypesForConstraint(constraint, fieldTypes);
             return Ok();
         }

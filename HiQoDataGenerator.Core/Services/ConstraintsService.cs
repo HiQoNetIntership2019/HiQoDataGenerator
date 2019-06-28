@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
@@ -18,14 +19,16 @@ namespace HiQoDataGenerator.Core.Services
     {
         private readonly IConstraintsRepository _constraintsRepository;
         private readonly IFieldTypesConstraintsRepository _fieldTypesConstraintsRepository;
+        private readonly IFieldTypeRepository _fieldTypeRepository;
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
 
         public ConstraintsService(IUnitOfWork unit, IConstraintsRepository constraintsRepository, IMapperFactory mapperFactory,
-            IFieldTypesConstraintsRepository fieldTypesConstraintsRepository)
+            IFieldTypesConstraintsRepository fieldTypesConstraintsRepository, IFieldTypeRepository fieldTypeRepository)
         {
             _constraintsRepository = constraintsRepository;
             _fieldTypesConstraintsRepository = fieldTypesConstraintsRepository;
+            _fieldTypeRepository = fieldTypeRepository;
             _uow = unit;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
@@ -82,15 +85,13 @@ namespace HiQoDataGenerator.Core.Services
         public async Task AddFieldTypesForConstraint(ConstraintModel constraint, IEnumerable<FieldTypeModel> fieldTypes)
         {
             var constraintDalModel = _mapper.Map<Constraint>(constraint);
-            foreach (var fieldType in fieldTypes)
-            {
-                var fieldTypeDalModel = _mapper.Map<FieldType>(fieldType);
-                await _fieldTypesConstraintsRepository.AddAsync(new FieldTypeConstraint()
-                {
-                    Constraint = constraintDalModel,
-                    FieldType = fieldTypeDalModel
-                });
-            }
+            var fieldTypeDalModels = _mapper.Map<IEnumerable<FieldType>>(fieldTypes);
+            var fieldTypesConstraintsDalModels = fieldTypeDalModels.Select(item =>
+                new FieldTypeConstraint() { Constraint = constraintDalModel, FieldType = item });
+
+            await _fieldTypesConstraintsRepository.AddRangeAsync(fieldTypesConstraintsDalModels);
+            _constraintsRepository.Update(constraintDalModel);
+            _fieldTypeRepository.UpdateRange(fieldTypeDalModels);
 
             await _uow.CommitAsync();
         }

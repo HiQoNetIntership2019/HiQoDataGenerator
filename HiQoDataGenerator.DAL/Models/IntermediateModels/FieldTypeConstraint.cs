@@ -9,10 +9,7 @@ namespace HiQoDataGenerator.DAL.Models.IntermediateModels
     public class FieldTypeConstraint : BaseModel
     {
         public int FieldTypeId { get; set; }
-        
-        [ForeignKey("TypeId")]
         public virtual FieldType FieldType { get; set; }
-
         public int ConstraintId { get; set; }
         public virtual Constraint Constraint { get; set; }
     }

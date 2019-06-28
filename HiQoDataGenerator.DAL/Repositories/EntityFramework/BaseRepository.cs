@@ -45,5 +45,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         }
 
         public void Update(T item) => _models.Update(item);
+
+        public void UpdateRange(IEnumerable<T> items) => _models.UpdateRange(items);
     }
 }

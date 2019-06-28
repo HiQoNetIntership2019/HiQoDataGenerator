@@ -12,5 +12,6 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
         Task AddRangeAsync(IEnumerable<T> items);
         Task<bool> RemoveByIdAsync(int id);
         void Update(T item);
+        void UpdateRange(IEnumerable<T> items);
     }
 }
