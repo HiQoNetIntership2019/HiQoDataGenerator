@@ -46,6 +46,14 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(_mapper.Map<IEnumerable<ConstraintViewModel>>(constraintModels));
         }
 
+        [HttpGet]
+        [Route("[action]/{name}")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            var constraintModel = await _constraintsService.GetByNameAsync(name);
+            return Ok(_mapper.Map<ConstraintViewModel>(constraintModel));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(ConstraintViewModel constraintViewModel)
         {
