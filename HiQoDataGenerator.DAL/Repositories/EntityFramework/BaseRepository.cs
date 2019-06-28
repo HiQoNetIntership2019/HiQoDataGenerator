@@ -43,5 +43,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             _models.Remove(value);
             return true;
         }
+
+        public void Update(T item) => _models.Update(item);
     }
 }

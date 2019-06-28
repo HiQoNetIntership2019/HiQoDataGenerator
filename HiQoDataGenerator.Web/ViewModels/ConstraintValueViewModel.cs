@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Web.ViewModels
 {
-    public class DatasetTypeViewModel
+    public class ConstraintValueViewModel
     {
         public int Id { get; set; }
-        public string TypeName { get; set; }
+        public string Value { get; set; }
 
-        public IEnumerable<FieldTypeViewModel> FieldTypeViewModels { get; set; }
+        public ConstraintViewModel ConstraintViewModel { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
     {
         public DbSet<FieldType> Types { get; set; }
         public DbSet<Constraint> Constraints { get; set; }
+        public DbSet<ConstraintValue> ConstraintValues { get; set; }
         public DbSet<Timezone> Timezones { get; set; }
         public DbSet<Regex> Regexes { get; set; }
         public DbSet<EncodingType> EncodingTypes { get; set; }
@@ -20,6 +21,18 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public DbSet<CustomDatasetValue> CustomDatasetsValues { get; set; }
         //public DbSet<DatasetType> DatasetTypes { get; set; }
         public DataContext(DbContextOptions options) : base(options) { }
-        
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<FieldTypeConstraint>()
+               .HasOne(p => p.FieldType)
+               .WithMany(p => p.SupportedConstraints)
+               .HasForeignKey(p => p.FieldTypeId);
+
+            builder.Entity<FieldTypeConstraint>()
+                .HasOne(p => p.Constraint)
+                .WithMany(p => p.SupportedTypes)
+                .HasForeignKey(p => p.ConstraintId);
+        }
     }
 }

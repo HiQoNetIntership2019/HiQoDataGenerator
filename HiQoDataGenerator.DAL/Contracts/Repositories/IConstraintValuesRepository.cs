@@ -4,9 +4,8 @@ using HiQoDataGenerator.DAL.Models.ConstraintModels;
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface IConstraintsRepository : IBaseRepository<Constraint>
+    public interface IConstraintValuesRepository : IBaseRepository<ConstraintValue>
     {
-        Task<Constraint> GetByNameAsync(string name);
-        IEnumerable<Constraint> GetByFieldTypeId(int id);
+        Task<IEnumerable<ConstraintValue>> GetByTypeAsync(int id);
     }
 }
