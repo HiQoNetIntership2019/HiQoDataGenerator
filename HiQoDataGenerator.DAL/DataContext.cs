@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
-using HiQoDataGenerator.DAL.Models.ConstraintModels;
-using HiQoDataGenerator.DAL.Models.IntermediateModels;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 using HiQoDataGenerator.DAL.Models.DataSetModels;
+using HiQoDataGenerator.DAL.Models.IntermediateModels;
+using Microsoft.EntityFrameworkCore;
 
-namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
+namespace HiQoDataGenerator.DAL
 {
     public class DataContext : DbContext
     {
