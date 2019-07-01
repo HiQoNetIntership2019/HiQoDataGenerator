@@ -11,18 +11,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ConstraintValuesController : ControllerBase
+    public class ConstraintValuesController : RootController
     {
         private readonly IConstraintValuesService _constraintValuesService;
-        private readonly IMapper _mapper;
 
-        public ConstraintValuesController(IConstraintValuesService constraintValuesService, IMapperFactory mapperFactory)
-        {
-            _constraintValuesService = constraintValuesService;
-            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
-        }
+        public ConstraintValuesController(IConstraintValuesService constraintValuesService, IMapperFactory mapperFactory) :
+            base(mapperFactory) => _constraintValuesService = constraintValuesService;
+        
 
         [HttpGet]
         public IActionResult Get()

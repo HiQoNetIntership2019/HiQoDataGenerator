@@ -1,27 +1,19 @@
-﻿using AutoMapper;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
-using HiQoDataGenerator.Web.Attributes;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [ServiceFilter(typeof(LoggingAttribute))]
-    public class CustomDatasetsController : ControllerBase
+    public class CustomDatasetsController : RootController
     {
         private readonly ICustomDatasetService _customDatasetService;
-        private readonly IMapper _mapper;
-
-        public CustomDatasetsController(ICustomDatasetService customDatasetService, IMapperFactory mapperFactory)
-        {
-            _customDatasetService = customDatasetService;
-            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
-        }
+ 
+        public CustomDatasetsController(ICustomDatasetService customDatasetService, IMapperFactory mapperFactory) :
+            base(mapperFactory) => _customDatasetService = customDatasetService;
+         
         
         [HttpGet]
         public IActionResult Get()

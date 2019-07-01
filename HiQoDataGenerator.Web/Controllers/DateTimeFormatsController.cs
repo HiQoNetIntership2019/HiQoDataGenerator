@@ -1,27 +1,19 @@
-﻿using AutoMapper;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
-using HiQoDataGenerator.Web.Attributes;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [ServiceFilter(typeof(LoggingAttribute))]
-    public class DateTimeFormatsController : ControllerBase
+
+    public class DateTimeFormatsController : RootController
     {
         private readonly IDateTimeFormatService _dateTimeFormatService;
-        private readonly IMapper _mapper;
-
-        public DateTimeFormatsController(IDateTimeFormatService dateTimeFormatService, IMapperFactory mapperFactory)
-        {
-            _dateTimeFormatService = dateTimeFormatService;
-            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
-        }
+        public DateTimeFormatsController(IDateTimeFormatService dateTimeFormatService, IMapperFactory mapperFactory) : 
+            base(mapperFactory) => _dateTimeFormatService = dateTimeFormatService;
+        
 
         [HttpGet]
         public IActionResult Get()
