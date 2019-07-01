@@ -56,7 +56,7 @@ namespace HiQoDataGenerator.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _constraintValuesService.RemoveByIdAsync(id);
-            return NoContent();
+            return Ok();
         }
     }
 }
