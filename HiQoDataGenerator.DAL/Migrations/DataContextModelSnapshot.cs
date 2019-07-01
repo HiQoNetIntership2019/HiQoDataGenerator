@@ -41,7 +41,7 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ConstraintId");
+                    b.Property<int?>("ConstraintId");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -110,6 +110,44 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("Timezones");
                 });
 
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.CustomObjectModels.ConfigurableObject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DateChange");
+
+                    b.Property<DateTime>("DateCreation");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConfigurableObject");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.CustomObjectModels.Field", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ConfigurableObjectId");
+
+                    b.Property<bool>("IsRequired");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("TypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConfigurableObjectId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Fields");
+                });
+
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.CustomObjectModels.FieldType", b =>
                 {
                     b.Property<int>("Id")
@@ -124,16 +162,36 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.ToTable("Types");
                 });
 
-            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.DatasetType", b =>
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDataset", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("TypeName");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
-                    b.ToTable("DatasetTypes");
+                    b.ToTable("CustomDatasets");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDatasetValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DatasetId");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DatasetId");
+
+                    b.ToTable("CustomDatasetsValues");
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.IntermediateModels.FieldTypeConstraint", b =>
@@ -145,13 +203,11 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.Property<int>("FieldTypeId");
 
-                    b.Property<int?>("TypeId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ConstraintId");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("FieldTypeId");
 
                     b.ToTable("Types_Support_Constraints");
                 });
@@ -159,8 +215,26 @@ namespace HiQoDataGenerator.DAL.Migrations
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.ConstraintValue", b =>
                 {
                     b.HasOne("HiQoDataGenerator.DAL.Models.ConstraintModels.Constraint", "Constraint")
+                        .WithMany("Values")
+                        .HasForeignKey("ConstraintId");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.CustomObjectModels.Field", b =>
+                {
+                    b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.ConfigurableObject", "ConfigurableObject")
+                        .WithMany("Fields")
+                        .HasForeignKey("ConfigurableObjectId");
+
+                    b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.FieldType", "Type")
                         .WithMany()
-                        .HasForeignKey("ConstraintId")
+                        .HasForeignKey("TypeId");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDatasetValue", b =>
+                {
+                    b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDataset", "Dataset")
+                        .WithMany()
+                        .HasForeignKey("DatasetId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -173,7 +247,8 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.FieldType", "FieldType")
                         .WithMany("SupportedConstraints")
-                        .HasForeignKey("TypeId");
+                        .HasForeignKey("FieldTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
