@@ -36,6 +36,9 @@ namespace HiQoDataGenerator.Web.Extensions
 
                 config.CreateMap<ConstraintValueModel, ConstraintValueViewModel>();
                 config.CreateMap<ConstraintValueViewModel, ConstraintValueModel>();
+
+                config.CreateMap<FieldModel, FieldViewModel>();
+                config.CreateMap<FieldViewModel, FieldModel>();
             }).CreateMapper();
         }
     }
