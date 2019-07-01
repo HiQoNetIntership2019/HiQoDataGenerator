@@ -9,6 +9,7 @@ using HiQoDataGenerator.DAL;
 using HiQoDataGenerator.Web.Attributes;
 using HiQoDataGenerator.Web.Extensions;
 using HiQoDataGenerator.Web.Middleware;
+using FluentValidation.AspNetCore;
 
 namespace HiQoDataGenerator.Web
 {
@@ -23,7 +24,9 @@ namespace HiQoDataGenerator.Web
         public void ConfigureServices(IServiceCollection services)
         {
         
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options => options.Filters.Add(new ModelStateFilter()))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddLogging();
             services.AddScoped<LoggingAttribute>();
 
