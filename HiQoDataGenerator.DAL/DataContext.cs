@@ -18,19 +18,130 @@ namespace HiQoDataGenerator.DAL
         public DbSet<CustomDataset> CustomDatasets { get; set; }
         public DbSet<CustomDatasetValue> CustomDatasetsValues { get; set; }
         //public DbSet<DatasetType> DatasetTypes { get; set; }
+
         public DataContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<FieldTypeConstraint>()
-               .HasOne(p => p.FieldType)
-               .WithMany(p => p.SupportedConstraints)
-               .HasForeignKey(p => p.FieldTypeId);
+            builder.Entity<FieldTypeConstraint>().ToTable("Types_Support_Constraints");
+
+            #region Properties Constraints
+
+            builder.Entity<Constraint>()
+                .Property(p => p.Name)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Entity<Constraint>()
+                .Property(p => p.Description)
+                .HasMaxLength(50);
+
+            builder.Entity<ConstraintValue>()
+                .Property(p => p.Value)
+                .HasMaxLength(300)
+                .IsRequired();
+
+            builder.Entity<DateTimeFormat>()
+                .Property(p => p.Value)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Entity<EncodingType>()
+                .Property(p => p.Name)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Entity<Regex>()
+                .Property(p => p.Name)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Entity<Regex>()
+                .Property(p => p.Value)
+                .HasMaxLength(150)
+                .IsRequired();
+
+            builder.Entity<Timezone>()
+                .Property(p => p.Value)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Entity<ConfigurableObject>()
+                .Property(p => p.Name)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Entity<ConfigurableObject>()
+                .Property(p => p.DateCreation)
+                .IsRequired();
+
+            builder.Entity<Field>()
+                .Property(p => p.Name)
+                .HasMaxLength(250)
+                .IsRequired();
+
+            builder.Entity<FieldType>()
+                .Property(p => p.Name)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Entity<CustomDataset>()
+                .Property(p => p.Name)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Entity<CustomDatasetValue>()
+                .Property(p => p.Value)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Entity<DatasetType>()
+                .Property(p => p.TypeName)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            #endregion
+
+            #region One-To-One
+
+            builder.Entity<CustomDatasetValue>()
+                .HasOne(p => p.Dataset);
+
+            #endregion
+
+            #region One-To-Many
+
+            builder.Entity<Constraint>()
+                .HasMany<ConstraintValue>(c => c.Values)
+                .WithOne(cv => cv.Constraint)
+                .HasForeignKey(cv => cv.ConstraintId);
+
+            builder.Entity<FieldType>()
+                .HasMany(ft => ft.Fields)
+                .WithOne(f => f.Type)
+                .HasForeignKey(f => f.TypeId);
+
+            builder.Entity<ConfigurableObject>()
+                .HasMany(co => co.Fields)
+                .WithOne(f => f.ConfigurableObject)
+                .HasForeignKey(f => f.ObjectId);
+
+            #endregion
+
+            #region m2m FieldTypeConstraint
 
             builder.Entity<FieldTypeConstraint>()
-                .HasOne(p => p.Constraint)
-                .WithMany(p => p.SupportedTypes)
-                .HasForeignKey(p => p.ConstraintId);
+                .HasOne(ftc => ftc.FieldType)
+                .WithMany(ft => ft.SupportedConstraints)
+                .HasForeignKey(ft => ft.ConstraintId);
+
+            builder.Entity<FieldTypeConstraint>()
+                .HasOne(ftc => ftc.Constraint)
+                .WithMany(c => c.SupportedTypes)
+                .HasForeignKey(c => c.FieldTypeId);
+
+            #endregion
+
         }
     }
 }

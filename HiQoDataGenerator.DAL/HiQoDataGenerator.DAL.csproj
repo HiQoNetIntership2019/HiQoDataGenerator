@@ -9,6 +9,11 @@
     <Compile Remove="Migrations\20190627090405_Create_ConstraintsValues.cs" />
     <Compile Remove="Migrations\20190627091752_Create_ConstraintsValues.cs" />
     <Compile Remove="Migrations\20190627092026_Create_ConstraintsValues.cs" />
+    <Compile Remove="Migrations\20190701100746_ModelChanges.cs" />
+    <Compile Remove="Migrations\20190701102234_ModelChanges.cs" />
+    <Compile Remove="Migrations\20190701102727_ModelChanges.cs" />
+    <Compile Remove="Migrations\20190701103026_ModelChanges.cs" />
+    <Compile Remove="Migrations\20190701110800_ModelChanges.cs" />
   </ItemGroup>
 
   <ItemGroup>
