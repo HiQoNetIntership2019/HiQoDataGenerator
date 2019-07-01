@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Scrutor;
 
 namespace HiQoDataGenerator.DAL
 {
@@ -14,18 +15,11 @@ namespace HiQoDataGenerator.DAL
         {
             services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
 
-            services.AddScoped<ITimezoneRepository, TimezonesRepository>();
-            services.AddScoped<IEncodingTypeRepository, EncodingTypesRepository>();
-            services.AddScoped<IFieldTypeRepository, FieldTypesRepository>();
-            services.AddScoped<IRegexRepository, RegexRepository>();    
-            services.AddScoped<IConstraintsRepository, ConstraintsRepository>();
-            services.AddScoped<IDateTimeFormatRepository, DateTimeFormatsRepository>();
-            services.AddScoped<IDatasetTypesRepository, DatasetTypesRepository>();
-            services.AddScoped<ICustomDatasetRepository, CustomDatasetsRepository>();
-            services.AddScoped<IConstraintValuesRepository, ConstraintValuesRepository>();
-            services.AddScoped<IConfigurableObjectsRepository, ConfigurableObjectsRepository>();
-            services.AddScoped<IFieldTypesConstraintsRepository, FieldTypesConstraintsRepository>();
-            services.AddScoped<IFieldRepository, FieldRepository>();
+            services.Scan(sc =>
+                sc.FromCallingAssembly()
+                    .AddClasses(classes => classes.AssignableTo(typeof(IBaseRepository<>)), publicOnly: true)
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime());
         }
     }
 }
