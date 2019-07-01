@@ -52,7 +52,7 @@ namespace HiQoDataGenerator.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _fieldTypesService.RemoveByIdAsync(id);          
-            return NoContent();
+            return Ok();
         }
     }
 }

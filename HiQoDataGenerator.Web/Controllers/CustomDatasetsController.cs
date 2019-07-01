@@ -80,7 +80,7 @@ namespace HiQoDataGenerator.Web.Controllers
         public async Task<IActionResult> DeleteDataset(int id)
         {
             await _customDatasetService.RemoveDatasetAsync(id);
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete]
@@ -88,7 +88,7 @@ namespace HiQoDataGenerator.Web.Controllers
         public async Task<IActionResult> DeleteValue(int id)
         {
             await _customDatasetService.RemoveValueByIdAsync(id);
-            return NoContent();
+            return Ok();
         }
     }
 }

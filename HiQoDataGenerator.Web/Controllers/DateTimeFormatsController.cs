@@ -53,7 +53,7 @@ namespace HiQoDataGenerator.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _dateTimeFormatService.RemoveByIdAsync(id);
-            return NoContent();
+            return Ok();
         }
     }
 }
