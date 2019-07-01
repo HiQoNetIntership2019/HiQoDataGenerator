@@ -6,8 +6,6 @@ namespace HiQoDataGenerator.DAL.Models.ConstraintModels
 {
     public class EncodingType: BaseModel
     {
-        [Required()]
-        [StringLength(50)]
         public string Name { get; set; }
     }
 }

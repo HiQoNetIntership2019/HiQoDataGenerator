@@ -7,10 +7,9 @@ namespace HiQoDataGenerator.DAL.Models.CustomObjectModels
 {
     public class FieldType : BaseModel
     {
-        [Required()]
-        [StringLength(30)]
         public string Name { get; set; }
 
+        public virtual ICollection<Field> Fields { get; set; }
         public virtual ICollection<FieldTypeConstraint> SupportedConstraints { get; set; }
     }      
 }
