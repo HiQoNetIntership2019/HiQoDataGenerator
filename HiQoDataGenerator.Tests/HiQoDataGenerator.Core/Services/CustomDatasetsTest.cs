@@ -148,7 +148,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void RemoveRemoveValueByIdAsync_ExistingId_NoException()
+        public void RemoveValueByIdAsync_ExistingId_NoException()
         {
             var ex = Record.ExceptionAsync(() => _customDatasetService.RemoveValueByIdAsync(1));
 
@@ -156,7 +156,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public async Task RemoveRemoveValueByIdAsync_NonExistingId_ElementNotFoundException()
+        public async Task RemoveValueByIdAsync_NonExistingId_ElementNotFoundException()
         {
             await Assert.ThrowsAsync<InvalidDataException>(() => _customDatasetService.RemoveValueByIdAsync(5));
         }
