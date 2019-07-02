@@ -34,7 +34,7 @@ namespace HiQoDataGenerator.Core.Services
             var dateTimeFormat = await _dateTimeFormatRepository.GetByIdAsync(id);
             if (dateTimeFormat == null)
             {
-                throw new InvalidDataException("Can't get DateTime format with id "+id.ToString()+" !");
+                throw new InvalidDataException($"Can't get DateTime format with id {id} !");
             }
             return _mapper.Map<DateTimeFormatModel>(dateTimeFormat);
         }
@@ -58,7 +58,7 @@ namespace HiQoDataGenerator.Core.Services
             var result = await _dateTimeFormatRepository.RemoveByIdAsync(id);
             if (!result)
             {
-                throw new InvalidDataException("Can't delete DateTime format with id "+id.ToString()+" !");
+                throw new InvalidDataException($"Can't delete DateTime format with id {id} !");
             }
             await _uow.CommitAsync();
         }

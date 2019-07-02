@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HiQoDataGenerator.Web.ViewModels;
 using HiQoDataGenerator.Core.Entities;
+using HiQoDataGenerator.Web.ViewModels.Helpers;
 
 namespace HiQoDataGenerator.Web.Extensions
 {
@@ -33,6 +34,7 @@ namespace HiQoDataGenerator.Web.Extensions
                 config.CreateMap<CustomDatasetViewModel, CustomDatasetModel>();
                 config.CreateMap<CustomDatasetValueModel, CustomDatasetValueViewModel>();
                 config.CreateMap<CustomDatasetValueViewModel, CustomDatasetValueModel>();
+                config.CreateMap<AddCustomDatasetWithValues, CustomDatasetModel>();
 
                 config.CreateMap<ConstraintValueModel, ConstraintValueViewModel>();
                 config.CreateMap<ConstraintValueViewModel, ConstraintValueModel>();

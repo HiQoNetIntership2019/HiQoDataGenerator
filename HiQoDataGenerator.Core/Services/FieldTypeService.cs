@@ -34,7 +34,7 @@ namespace HiQoDataGenerator.Core.Services
             var type = await _fieldTypeRepostory.GetByIdAsync(id);
             if (type == null)
             {
-                throw new InvalidDataException("Can't get Type with id " + id.ToString() + " !");
+                throw new InvalidDataException($"Can't get Type with id {id} !");
             }
             return _mapper.Map<FieldTypeModel>(type);
         }
@@ -51,7 +51,7 @@ namespace HiQoDataGenerator.Core.Services
             var result = await _fieldTypeRepostory.RemoveByIdAsync(id);
             if (!result)
             {
-                throw new InvalidDataException("Can't delete Type with id " + id.ToString() + " !");
+                throw new InvalidDataException($"Can't delete Type with id {id} !");
             }
             await _uow.CommitAsync();
         }

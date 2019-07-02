@@ -1,26 +1,21 @@
 ﻿using System.Collections.Generic;
-using AutoMapper;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
-using HiQoDataGenerator.Web.Attributes;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ServiceFilter(typeof(LoggingAttribute))]
-    public class TypesController : ControllerBase
+    public class TypesController : RootController
     {
         private readonly IFieldTypeService _fieldTypesService;
-        private readonly IMapper _mapper;
 
-        public TypesController(IFieldTypeService fieldTypesService,IMapperFactory mapperFactory)
+        public TypesController(IFieldTypeService fieldTypesService,IMapperFactory mapperFactory):base(mapperFactory)
         {
             _fieldTypesService = fieldTypesService;
-            _mapper = mapperFactory.GetMapper(typeof(WebServices).Name);
         }
         
         [HttpGet]
