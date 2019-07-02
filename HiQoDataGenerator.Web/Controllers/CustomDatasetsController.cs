@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
+using HiQoDataGenerator.Web.ViewModels.Helpers;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -27,7 +28,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [Route("Values")]
         public IActionResult GetAll()
         {
-            var customDatasetValueModels = _customDatasetService.GetAllValues();
+            var customDatasetValueModels = _customDatasetService.GetValues();
             var customDatasetValueViewModels = _mapper.Map<IEnumerable<CustomDatasetValueViewModel>>(customDatasetValueModels);
             return Ok(customDatasetValueViewModels);
         }
@@ -58,14 +59,14 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(customDatasetValueViewModels);
         }
 
-        /*[HttpPost]
-        public async Task<IActionResult> Post(DateTimeFormatViewModel customDatasetViewModel)
+        [HttpPost]
+        public async Task<IActionResult> Post(AddCustomDatasetWithValues customDatasetWithValuesViewModel)
         {
-            var dateTimeFormatModel = _mapper.Map<DateTimeFormatModel>(customDatasetViewModel);
+            var customDatasetModel = _mapper.Map<CustomDatasetModel>(customDatasetWithValuesViewModel);
 
-            await _customDatasetService.AddAsync(dateTimeFormatModel);
+            await _customDatasetService.AddAsync(customDatasetModel);
             return Ok();
-        }*/
+        }
 
         [HttpPost("Values")]
         public async Task<IActionResult> AddValues(IEnumerable<CustomDatasetValueViewModel> customDatasetValueViewModels)

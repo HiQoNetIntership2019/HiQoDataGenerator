@@ -8,12 +8,12 @@ namespace HiQoDataGenerator.Core.Interfaces
     {
         IEnumerable<CustomDatasetModel> GetAll();
         Task<CustomDatasetModel> GetByIdAsync(int id);
-        IEnumerable<CustomDatasetValueModel> GetAllValues();
+        IEnumerable<CustomDatasetValueModel> GetValues();
         IEnumerable<CustomDatasetValueModel> GetValuesByDatasetId(int id);
         IEnumerable<CustomDatasetValueModel> GetValuesByDatasetName(string name);
 
         Task AddValuesAsync(IEnumerable<CustomDatasetValueModel> customDatasetValueModels);
-        Task AddAsync(CustomDatasetModel customDatasetModel);//!!
+        Task AddAsync(CustomDatasetModel customDatasetModel);
         Task RemoveDatasetAsync(int datasetId);
         Task RemoveValueByIdAsync(int valueId);
     }

@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Exceptions;
 using HiQoDataGenerator.Core.UnitOfWork;
 using System.Linq;
-using System;
 
 namespace HiQoDataGenerator.Core.Services
 {
@@ -31,9 +30,9 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<CustomDatasetModel>>(customDatasets);
         }
 
-        public IEnumerable<CustomDatasetValueModel> GetAllValues()
+        public IEnumerable<CustomDatasetValueModel> GetValues()
         {
-            var customDatasetValues = _customDatasetRepository.GetAllValues().ToList();
+            var customDatasetValues = _customDatasetRepository.GetValues().ToList();
             return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
         }
 
@@ -42,7 +41,7 @@ namespace HiQoDataGenerator.Core.Services
             var customDataset = await _customDatasetRepository.GetByIdAsync(id);
             if (customDataset == null)
             {
-                throw new InvalidDataException("Can't get Custom Dataset with id " + id.ToString() + " !");
+                throw new InvalidDataException($"Can't get Custom Dataset with id {id}!");
             }
             return _mapper.Map<CustomDatasetModel>(customDataset);
         }
@@ -52,7 +51,7 @@ namespace HiQoDataGenerator.Core.Services
             var customDatasetValues = _customDatasetRepository.GetValuesByDatasetId(id)?.ToList();
             if (customDatasetValues == null)
             {
-                throw new InvalidDataException("Can't get values of Custom Dataset with id " + id.ToString() + " !");
+                throw new InvalidDataException($"Can't get values of Custom Dataset with id {id} !");
             }
             return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
         }
@@ -62,7 +61,7 @@ namespace HiQoDataGenerator.Core.Services
             var customDatasetValues = _customDatasetRepository.GetValuesByDatasetName(name.ToLower())?.ToList();
             if (customDatasetValues == null)
             {
-                throw new InvalidDataException("Can't get values of Custom Dataset <" + name + "> !");
+                throw new InvalidDataException($"Can't get values of Custom Dataset <{name}> !");
             }
             return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
         }
@@ -73,22 +72,23 @@ namespace HiQoDataGenerator.Core.Services
             await _customDatasetRepository.AddValuesAsync(customDatasetValues);
             await _uow.CommitAsync();
         }
-
-        // ------------------------------------------------------- //
+        
         public async Task AddAsync(CustomDatasetModel customDatasetModel)
         {
             var customDataset = _mapper.Map<CustomDataset>(customDatasetModel);
+            var customDatasetValues = _mapper.Map<IEnumerable<CustomDatasetValue>>(customDatasetModel.Values).Select(item => { item.Dataset = customDataset; return item;}).ToList();
             await _customDatasetRepository.AddAsync(customDataset);
+            await _customDatasetRepository.AddValuesAsync(customDatasetValues);
+
             await _uow.CommitAsync();
         }
-        // ------------------------------------------------------- //
 
         public async Task RemoveDatasetAsync(int datasetId)
         {
             var result = await _customDatasetRepository.RemoveByIdAsync(datasetId);
             if (!result)
             {
-                throw new InvalidDataException("Can't delete Custom Dataset with id " + datasetId.ToString() + " !");
+                throw new InvalidDataException($"Can't delete Custom Dataset with id {datasetId} !");
             }
             await _uow.CommitAsync();
         }
@@ -98,7 +98,7 @@ namespace HiQoDataGenerator.Core.Services
             var result = await _customDatasetRepository.RemoveValueByIdAsync(valueId);
             if (!result)
             {
-                throw new InvalidDataException("Can't delete Custom Dataset value with id " + valueId.ToString() + " !");
+                throw new InvalidDataException($"Can't delete Custom Dataset value with id {valueId} !");
             }
             await _uow.CommitAsync();
         }

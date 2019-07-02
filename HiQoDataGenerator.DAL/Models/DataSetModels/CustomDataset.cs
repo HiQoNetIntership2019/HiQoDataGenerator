@@ -6,8 +6,6 @@ namespace HiQoDataGenerator.DAL.Models.DataSetModels
 {
     public class CustomDataset : BaseModel
     {
-        public string Name { get; set; }        
-
-        public virtual ICollection<CustomDatasetValue> Values { get; set; }
+        public string Name { get; set; }    
     }
 }

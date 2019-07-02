@@ -16,7 +16,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             _datasetValues = context.Set<CustomDatasetValue>();
         }
 
-        public IQueryable<CustomDatasetValue> GetAllValues()
+        public IQueryable<CustomDatasetValue> GetValues()
         {
             return _datasetValues.Include(v => v.Dataset);
         }
@@ -38,9 +38,9 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             await _datasetValues.AddRangeAsync(values);
         }
 
-        public async Task AddDatasetWithValues()
+        public async Task AddDatasetWithValues(CustomDataset customDataset)
         {
-
+            await _models.AddAsync(customDataset);
         }
 
         public async Task<bool> RemoveValueByIdAsync(int valueId)

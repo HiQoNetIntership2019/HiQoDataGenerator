@@ -97,29 +97,7 @@ namespace HiQoDataGenerator.DAL
                 .IsRequired();
 
             #endregion
-
-
-            #region One-To-Many
-
-            builder.Entity<Constraint>()
-                .HasMany<ConstraintValue>(c => c.Values)
-                .WithOne(cv => cv.Constraint).IsRequired();
-
-            builder.Entity<FieldType>()
-                .HasMany<Field>(ft => ft.Fields)
-                .WithOne(f => f.FieldType).IsRequired();
-
-            builder.Entity<ConfigurableObject>()
-                .HasMany<Field>(co => co.Fields)
-                .WithOne(f => f.ConfigurableObject);
-
-            builder.Entity<CustomDataset>()
-                .HasMany<CustomDatasetValue>(cd => cd.Values)
-                .WithOne(cdv => cdv.Dataset).IsRequired()
-                .HasForeignKey(cdv => cdv.DatasetId);
-
-            #endregion
-
+            
             #region Many-To-Many FieldType-Constraints
 
             builder.Entity<FieldTypeConstraint>()
