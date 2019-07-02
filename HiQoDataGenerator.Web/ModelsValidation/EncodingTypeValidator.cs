@@ -8,11 +8,10 @@ namespace HiQoDataGenerator.Web.ModelsValidation
     {
         public EncodingTypeValidator()
         {
-            string propertyName = "Name";
             RuleFor(x => x.Name)
-                .MaximumLength(50).WithMessage(propertyName.MaximumLengthExceeded(50))
-                .NotNull().WithMessage(propertyName.CanNotBeNull())
-                .NotEmpty().WithMessage(propertyName.CanNotBeEmpty());
+                .MaximumLength(50).WithMessage("{PropertyName}".MaximumLengthExceeded(50))
+                .NotNull().WithMessage("{PropertyName}".CanNotBeNull())
+                .NotEmpty().WithMessage("{PropertyName}".CanNotBeEmpty());
         }
     }
 }

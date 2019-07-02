@@ -10,15 +10,13 @@ namespace HiQoDataGenerator.Web.ModelsValidation
     {
         public ConstraintValueValidator()
         {
-            string propertyName = "Value";
             RuleFor(x => x.Value)
-                .MaximumLength(300).WithMessage(propertyName.MaximumLengthExceeded(300))
-                .NotNull().WithMessage(propertyName.CanNotBeNull())
-                .NotEmpty().WithMessage(propertyName.CanNotBeEmpty());
+                .MaximumLength(300).WithMessage("{PropertyName}".MaximumLengthExceeded(300))
+                .NotNull().WithMessage("{PropertyName}".CanNotBeNull())
+                .NotEmpty().WithMessage("{PropertyName}".CanNotBeEmpty());
 
-            propertyName = "ConstraintViewModel";
             RuleFor(x => x.ConstraintViewModel)
-                .NotNull().WithMessage(propertyName.CanNotBeNull());
+                .NotNull().WithMessage("{PropertyName}".CanNotBeNull());
         }
     }
 }
