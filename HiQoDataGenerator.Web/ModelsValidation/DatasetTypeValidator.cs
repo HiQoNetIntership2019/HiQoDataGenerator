@@ -17,7 +17,7 @@ namespace HiQoDataGenerator.Web.ModelsValidation
                 .NotNull().WithMessage("{PropertyName}".CanNotBeNull());
 
             RuleForEach(x => x.FieldTypeViewModels)
-                .SetValidator(new FieldValidator());
+                .SetValidator(new FieldTypeValidator());
         }
     }
 }
