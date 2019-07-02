@@ -1,15 +1,13 @@
 ﻿using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
+    public abstract class BaseRepository<T> : IRepository<T> where T : BaseModel
     {
         protected DbSet<T> _models;
 
@@ -29,9 +27,15 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             await _models.AddRangeAsync(items);
         }
 
-        public IQueryable<T> GetAll() => _models;
+        public IQueryable<T> GetAll()
+        {
+            return _models;
+        }
 
-        public async Task<T> GetByIdAsync(int id) => await _models.FindAsync(id);
+        public async Task<T> GetByIdAsync(int id)
+        {
+            return await _models.FindAsync(id);
+        }
 
         public async Task<bool> RemoveByIdAsync(int id)
         {
@@ -44,8 +48,14 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             return true;
         }
 
-        public void Update(T item) => _models.Update(item);
+        public async Task Update(T item)
+        {
+            await Task.Run(() => _models.Update(item));
+        }
 
-        public void UpdateRange(IEnumerable<T> items) => _models.UpdateRange(items);
+        public async Task UpdateRange(IEnumerable<T> items)
+        {
+            await Task.Run(() => _models.UpdateRange(items));
+        }
     }
 }

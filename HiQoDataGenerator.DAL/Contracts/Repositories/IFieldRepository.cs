@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface IFieldRepository : IBaseRepository<Field>
+    public interface IFieldRepository : IRepository<Field>
     {
         Task<Field> GetByConfigurableObjectId(int id);
     }

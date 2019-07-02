@@ -90,8 +90,8 @@ namespace HiQoDataGenerator.Core.Services
                 new FieldTypeConstraint() { Constraint = constraintDalModel, FieldType = item });
 
             await _fieldTypesConstraintsRepository.AddRangeAsync(fieldTypesConstraintsDalModels);
-            _constraintsRepository.Update(constraintDalModel);
-            _fieldTypeRepository.UpdateRange(fieldTypeDalModels);
+            await _constraintsRepository.Update(constraintDalModel);
+            await _fieldTypeRepository.UpdateRange(fieldTypeDalModels);
 
             await _uow.CommitAsync();
         }

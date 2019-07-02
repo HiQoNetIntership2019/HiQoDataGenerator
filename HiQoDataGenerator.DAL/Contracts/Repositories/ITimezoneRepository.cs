@@ -2,7 +2,7 @@
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface ITimezoneRepository: IBaseRepository<Timezone>
+    public interface ITimezoneRepository: IRepository<Timezone>
     {
     }
 }

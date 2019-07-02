@@ -2,5 +2,5 @@
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface IDatasetTypesRepository : IBaseRepository<DatasetType> { }
+    public interface IDatasetTypesRepository : IRepository<DatasetType> { }
 }

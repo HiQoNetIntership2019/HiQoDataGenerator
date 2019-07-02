@@ -2,7 +2,7 @@
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface IEncodingTypeRepository: IBaseRepository<EncodingType>
+    public interface IEncodingTypeRepository: IRepository<EncodingType>
     {
     }
 }
