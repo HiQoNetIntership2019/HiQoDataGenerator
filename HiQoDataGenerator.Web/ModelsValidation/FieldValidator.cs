@@ -16,8 +16,12 @@ namespace HiQoDataGenerator.Web.ModelsValidation
             RuleFor(x => x.Constraints)
                 .NotNull().WithMessage("{PropertyName}".CanNotBeNull());
 
+            RuleForEach(x => x.Constraints)
+                .SetValidator(new ConstraintValidator());
+
             RuleFor(x => x.FieldType)
-                .NotNull().WithMessage("{PropertyName}".CanNotBeNull());
+                .NotNull().WithMessage("{PropertyName}".CanNotBeNull())
+                .SetValidator(new FieldTypeValidator());
         }
     }
 }
