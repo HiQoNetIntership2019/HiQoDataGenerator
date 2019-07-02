@@ -1,15 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29009.5
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiQoDataGenerator.Web", "HiQoDataGenerator.Web\HiQoDataGenerator.Web.csproj", "{CD835655-049E-44CB-9F2A-12E3B350196F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiQoDataGenerator.Web", "HiQoDataGenerator.Web\HiQoDataGenerator.Web.csproj", "{CD835655-049E-44CB-9F2A-12E3B350196F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiQoDataGenerator.Core", "HiQoDataGenerator.Core\HiQoDataGenerator.Core.csproj", "{F84841CA-1158-4909-AFB1-796D59CBC8DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiQoDataGenerator.Core", "HiQoDataGenerator.Core\HiQoDataGenerator.Core.csproj", "{F84841CA-1158-4909-AFB1-796D59CBC8DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiQoDataGenerator.DAL", "HiQoDataGenerator.DAL\HiQoDataGenerator.DAL.csproj", "{83EF0A29-40F0-4118-9215-764B1C923C87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiQoDataGenerator.DAL", "HiQoDataGenerator.DAL\HiQoDataGenerator.DAL.csproj", "{83EF0A29-40F0-4118-9215-764B1C923C87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiQoDataGenerator.Tests", "HiQoDataGenerator.Tests\HiQoDataGenerator.Tests.csproj", "{E2EC00A6-65E0-418D-A0BC-B8FB84C25B45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiQoDataGenerator.Tests", "HiQoDataGenerator.Tests\HiQoDataGenerator.Tests.csproj", "{E2EC00A6-65E0-418D-A0BC-B8FB84C25B45}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CD835655-049E-44CB-9F2A-12E3B350196F} = {CD835655-049E-44CB-9F2A-12E3B350196F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

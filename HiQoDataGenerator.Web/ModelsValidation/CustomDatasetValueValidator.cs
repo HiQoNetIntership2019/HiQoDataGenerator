@@ -8,17 +8,15 @@ namespace HiQoDataGenerator.Web.ModelsValidation
     {
         public CustomDatasetValueValidator()
         {
-            string propertyName = "DatasetName";
             RuleFor(x => x.DatasetName)
-                .MaximumLength(50).WithMessage(propertyName.MaximumLengthExceeded(50))
-                .NotNull().WithMessage(propertyName.CanNotBeNull())
-                .NotEmpty().WithMessage(propertyName.CanNotBeEmpty());
+                .MaximumLength(50).WithMessage("{PropertyName}".MaximumLengthExceeded(50))
+                .NotNull().WithMessage("{PropertyName}".CanNotBeNull())
+                .NotEmpty().WithMessage("{PropertyName}".CanNotBeEmpty());
 
-            propertyName = "Value";
             RuleFor(x => x.Value)
-                .MaximumLength(150).WithMessage(propertyName.MaximumLengthExceeded(150))
-                .NotNull().WithMessage(propertyName.CanNotBeNull())
-                .NotEmpty().WithMessage(propertyName.CanNotBeEmpty());
+                .MaximumLength(150).WithMessage("{PropertyName}".MaximumLengthExceeded(150))
+                .NotNull().WithMessage("{PropertyName}".CanNotBeNull())
+                .NotEmpty().WithMessage("{PropertyName}".CanNotBeEmpty());
         }
     }
 }

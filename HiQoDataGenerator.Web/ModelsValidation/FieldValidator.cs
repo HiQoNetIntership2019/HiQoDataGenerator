@@ -8,19 +8,16 @@ namespace HiQoDataGenerator.Web.ModelsValidation
     {
         public FieldValidator()
         {
-            string propertyName = "Name";
             RuleFor(x => x.Name)
-                .MaximumLength(150).WithMessage(propertyName.MaximumLengthExceeded(150))
-                .NotNull().WithMessage(propertyName.CanNotBeNull())
-                .NotEmpty().WithMessage(propertyName.CanNotBeEmpty());
+                .MaximumLength(150).WithMessage("{PropertyName}".MaximumLengthExceeded(150))
+                .NotNull().WithMessage("{PropertyName}".CanNotBeNull())
+                .NotEmpty().WithMessage("{PropertyName}".CanNotBeEmpty());
 
-            propertyName = "Constraints";
             RuleFor(x => x.Constraints)
-                .NotNull().WithMessage(propertyName.CanNotBeNull());
+                .NotNull().WithMessage("{PropertyName}".CanNotBeNull());
 
-            propertyName = "FieldType";
             RuleFor(x => x.FieldType)
-                .NotNull().WithMessage(propertyName.CanNotBeNull());
+                .NotNull().WithMessage("{PropertyName}".CanNotBeNull());
         }
     }
 }
