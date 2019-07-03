@@ -18,4 +18,8 @@
     <ProjectReference Include="..\HiQoDataGenerator.Infrastructure\HiQoDataGenerator.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Helpers\" />
+  </ItemGroup>
+
 </Project>

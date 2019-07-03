@@ -4,7 +4,6 @@ using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using HiQoDataGenerator.Web.ViewModels.Helpers;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -52,16 +51,6 @@ namespace HiQoDataGenerator.Web.Controllers
             var constraintModel = _mapper.Map<ConstraintModel>(constraintViewModel);
             await _constraintsService.AddAsync(constraintModel);
             return Ok(constraintModel);
-        }
-
-        [HttpPost]
-        [Route("AddFieldType")]
-        public async Task<IActionResult> AddFieldTypesInConstraint([FromBody] AddFieldTypeInConstraintViewModel viewModel)
-        {
-            var constraint = _mapper.Map<ConstraintModel>(viewModel.ConstraintViewModel);
-            var fieldTypes = _mapper.Map<IEnumerable<FieldTypeModel>>(viewModel.FieldTypeViewModels);
-            await _constraintsService.AddFieldTypesForConstraint(constraint, fieldTypes);
-            return Ok();
         }
 
         [HttpDelete("{id}")]

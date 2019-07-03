@@ -3,6 +3,7 @@ using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using HiQoDataGenerator.DAL.Models.DataSetModels;
+using System.Linq;
 
 namespace HiQoDataGenerator.Core.Extensions
 {
@@ -21,9 +22,13 @@ namespace HiQoDataGenerator.Core.Extensions
                 config.CreateMap<RegexModel, Regex>();
                 config.CreateMap<Regex, RegexModel>();
                 config.CreateMap<ConstraintModel, Constraint>();
-                config.CreateMap<Constraint, ConstraintModel>();
+                config.CreateMap<Constraint, ConstraintModel>()
+                    .ForMember(dest => dest.FieldTypes, opt => 
+                        opt.MapFrom(item => item.SupportedTypes.Select(i => 
+                            new FieldTypeModel(i.FieldType.Id, i.FieldType.Name))));
+
                 config.CreateMap<DateTimeFormatModel, DateTimeFormat>();
-                config.CreateMap<DateTimeFormat, DateTimeFormatModel>();
+                config.CreateMap<DateTimeFormat, DateTimeFormatModel>();    
 
                 config.CreateMap<ConfigurableObject, ConfigurableObjectModel>();
                 config.CreateMap<ConfigurableObjectModel, ConfigurableObject>();

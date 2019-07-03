@@ -12,6 +12,5 @@ namespace HiQoDataGenerator.Core.Interfaces
         IEnumerable<ConstraintModel> GetByFieldTypeId(int id);
         Task AddAsync(ConstraintModel constraintModel);
         Task RemoveByIdAsync(int id);
-        Task AddFieldTypesForConstraint(ConstraintModel constraint, IEnumerable<FieldTypeModel> fieldTypes);
     }
 }
