@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HiQoDataGenerator.Core\HiQoDataGenerator.Core.csproj" />
+    <ProjectReference Include="..\HiQoDataGenerator.Infrastructure\HiQoDataGenerator.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
+using HiQoDataGenerator.Infrastructure.ValidationExtensions;
 using HiQoDataGenerator.Web.ViewModels;
-using HiQoDataGenerator.Web.Extensions;
 
 namespace HiQoDataGenerator.Web.ModelsValidation
 {
@@ -9,9 +9,9 @@ namespace HiQoDataGenerator.Web.ModelsValidation
         public TimezoneValidator()
         {
             RuleFor(x => x.Value)
-                .MaximumLength(50).WithMessage("{PropertyName}".MaximumLengthExceeded(50))
-                .NotNull().WithMessage("{PropertyName}".CanNotBeNull())
-                .NotEmpty().WithMessage("{PropertyName}".CanNotBeEmpty());
+                .MaxLengthWithMessage(50)
+                .CanNotBeNullWithMessage()
+                .CanNotBeEmptyWithMessage();
         }
     }
 }
