@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Web.ViewModels
 {
@@ -9,8 +7,8 @@ namespace HiQoDataGenerator.Web.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public DateTime DateCreation { get; set; }
+        public DateTime? DateCreation { get; set; }
         public DateTime? DateChange { get; set; }
-
+        public IEnumerable<FieldViewModel> Fields { get; set; }
     }
 }

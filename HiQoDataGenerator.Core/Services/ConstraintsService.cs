@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -90,8 +89,8 @@ namespace HiQoDataGenerator.Core.Services
                 new FieldTypeConstraint() { Constraint = constraintDalModel, FieldType = item });
 
             await _fieldTypesConstraintsRepository.AddRangeAsync(fieldTypesConstraintsDalModels);
-            _constraintsRepository.Update(constraintDalModel);
-            _fieldTypeRepository.UpdateRange(fieldTypeDalModels);
+            await _constraintsRepository.UpdateAsync(constraintDalModel);
+            await _fieldTypeRepository.UpdateRangeAsync(fieldTypeDalModels);
 
             await _uow.CommitAsync();
         }

@@ -3,15 +3,17 @@ using System;
 using HiQoDataGenerator.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HiQoDataGenerator.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190704102531_ConfObjectsFields")]
+    partial class ConfObjectsFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +43,8 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("ConfigurableObjectId");
+
                     b.Property<int?>("ConstraintId");
 
                     b.Property<int?>("FieldId");
@@ -50,6 +54,8 @@ namespace HiQoDataGenerator.DAL.Migrations
                         .HasMaxLength(300);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ConfigurableObjectId");
 
                     b.HasIndex("ConstraintId");
 
@@ -274,12 +280,16 @@ namespace HiQoDataGenerator.DAL.Migrations
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.ConstraintValue", b =>
                 {
+                    b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.ConfigurableObject")
+                        .WithMany("ConstraintValues")
+                        .HasForeignKey("ConfigurableObjectId");
+
                     b.HasOne("HiQoDataGenerator.DAL.Models.ConstraintModels.Constraint", "Constraint")
                         .WithMany("Values")
                         .HasForeignKey("ConstraintId");
 
                     b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.Field", "Field")
-                        .WithMany("ConstraintValues")
+                        .WithMany()
                         .HasForeignKey("FieldId");
                 });
 

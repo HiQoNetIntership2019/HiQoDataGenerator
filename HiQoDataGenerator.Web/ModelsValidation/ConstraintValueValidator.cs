@@ -14,7 +14,7 @@ namespace HiQoDataGenerator.Web.ModelsValidation
                 .CanNotBeEmptyWithMessage();
 
 
-            RuleFor(x => x.ConstraintViewModel)
+            RuleFor(x => x.ConstraintType)
                 .CanNotBeNullWithMessage()
                 .SetValidator(new ConstraintValidator());
         }
