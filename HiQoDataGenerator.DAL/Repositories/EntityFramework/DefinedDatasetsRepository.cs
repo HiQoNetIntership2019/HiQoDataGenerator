@@ -33,6 +33,18 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             return result.Count() == 0 ? null : result;
         }
 
+        public IEnumerable<DefinedDataset> GetDatasetsByTypeId(int typeId)
+        {
+            var result = _models.Where(model => model.TypeId == typeId).ToList();
+            return result.Count() == 0 ? null : result;
+        }
+
+        public IEnumerable<DefinedDataset> GetDatasetsByTypeName(string typeName)
+        {
+            var result = _models.Include(model => model.Type).Where(model => model.Type.Name == typeName).ToList();
+            return result.Count() == 0 ? null : result;
+        }
+
         public async Task AddValuesAsync(IEnumerable<DefinedDatasetValue> values)
         {
             await _datasetValues.AddRangeAsync(values);

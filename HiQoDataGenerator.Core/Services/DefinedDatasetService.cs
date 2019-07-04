@@ -23,7 +23,7 @@ namespace HiQoDataGenerator.Core.Services
             _definedDatasetRepository = definedDatasetRepository;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
-
+        
         public async Task AddAsync(DefinedDatasetModel definedDatasetModel)
         {
             var definedDataset = _mapper.Map<DefinedDataset>(definedDatasetModel);
@@ -33,20 +33,20 @@ namespace HiQoDataGenerator.Core.Services
 
             await _uow.CommitAsync();
         }
-
+        
         public async Task AddValuesAsync(IEnumerable<DefinedDatasetValueModel> definedDatasetValueModels)
         {
             var definedDatasetValues = _mapper.Map<IEnumerable<DefinedDatasetValue>>(definedDatasetValueModels);
             await _definedDatasetRepository.AddValuesAsync(definedDatasetValues);
             await _uow.CommitAsync();
         }
-
+        
         public IEnumerable<DefinedDatasetModel> GetAll()
         {
             var definedDatasets = _definedDatasetRepository.GetAll().ToList();
             return _mapper.Map<IEnumerable<DefinedDatasetModel>>(definedDatasets);
         }
-
+        
         public async Task<DefinedDatasetModel> GetByIdAsync(int id)
         {
             var definedDataset = await _definedDatasetRepository.GetByIdAsync(id);
@@ -57,12 +57,32 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<DefinedDatasetModel>(definedDataset);
         }
 
+        public IEnumerable<DefinedDatasetModel> GetDatasetsByTypeId(int id)
+        {
+            var definedDatasets = _definedDatasetRepository.GetDatasetsByTypeId(id);
+            if (definedDatasets == null)
+            {
+                throw new InvalidDataException($"Can't get Defined Datasets with Type id {id} !");
+            }
+            return _mapper.Map<IEnumerable<DefinedDatasetModel>>(definedDatasets);
+        }
+
+        public IEnumerable<DefinedDatasetModel> GetDatasetsByTypeName(string name)
+        {
+            var definedDatasets = _definedDatasetRepository.GetDatasetsByTypeName(name.ToLower());
+            if (definedDatasets == null)
+            {
+                throw new InvalidDataException($"Can't get Defined Datasets with Type <{name}> !");
+            }
+            return _mapper.Map<IEnumerable<DefinedDatasetModel>>(definedDatasets);
+        }
+        
         public IEnumerable<DefinedDatasetValueModel> GetValues()
         {
             var definedDatasetValues = _definedDatasetRepository.GetValues();
             return _mapper.Map<IEnumerable<DefinedDatasetValueModel>>(definedDatasetValues);
         }
-
+        
         public IEnumerable<DefinedDatasetValueModel> GetValuesByDatasetId(int id)
         {
             var definedDatasetValues = _definedDatasetRepository.GetValuesByDatasetId(id);
@@ -72,7 +92,7 @@ namespace HiQoDataGenerator.Core.Services
             }
             return _mapper.Map<IEnumerable<DefinedDatasetValueModel>>(definedDatasetValues);
         }
-
+        
         public IEnumerable<DefinedDatasetValueModel> GetValuesByDatasetName(string name)
         {
             var definedDatasetValues = _definedDatasetRepository.GetValuesByDatasetName(name.ToLower());
@@ -82,7 +102,7 @@ namespace HiQoDataGenerator.Core.Services
             }
             return _mapper.Map<IEnumerable<DefinedDatasetValueModel>>(definedDatasetValues);
         }
-
+        
         public async Task RemoveDatasetAsync(int datasetId)
         {
             var result = await _definedDatasetRepository.RemoveByIdAsync(datasetId);
@@ -92,7 +112,7 @@ namespace HiQoDataGenerator.Core.Services
             }
             await _uow.CommitAsync();
         }
-
+        
         public async Task RemoveValueByIdAsync(int valueId)
         {
             var result = await _definedDatasetRepository.RemoveValueByIdAsync(valueId);

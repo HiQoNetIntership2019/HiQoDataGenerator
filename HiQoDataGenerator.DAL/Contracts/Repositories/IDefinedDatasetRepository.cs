@@ -9,6 +9,8 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
         IEnumerable<DefinedDatasetValue> GetValues();
         IEnumerable<DefinedDatasetValue> GetValuesByDatasetId(int datasetId);
         IEnumerable<DefinedDatasetValue> GetValuesByDatasetName(string datasetName);
+        IEnumerable<DefinedDataset> GetDatasetsByTypeId(int typeId);
+        IEnumerable<DefinedDataset> GetDatasetsByTypeName(string typeName);
 
         Task AddValuesAsync(IEnumerable<DefinedDatasetValue> values);
 

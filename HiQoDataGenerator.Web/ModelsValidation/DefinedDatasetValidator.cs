@@ -5,9 +5,9 @@ using HiQoDataGenerator.Infrastructure.ValidationExtensions;
 
 namespace HiQoDataGenerator.Web.ModelsValidation
 {
-    public class CustomDatasetValidator : AbstractValidator<CustomDatasetViewModel>
+    public class DefinedDatasetValidator : AbstractValidator<DefinedDatasetViewModel>
     {
-        public CustomDatasetValidator()
+        public DefinedDatasetValidator()
         {
             RuleFor(x => x.Name)
                 .MaxLengthWithMessage(50)
@@ -16,9 +16,9 @@ namespace HiQoDataGenerator.Web.ModelsValidation
         }
     }
 
-    public class CustomDatasetWithValuesValidator : AbstractValidator<AddCustomDatasetWithValues>
+    public class DefinedDatasetWithValuesValidator : AbstractValidator<AddDefinedDatasetWithValues>
     {
-        public CustomDatasetWithValuesValidator()
+        public DefinedDatasetWithValuesValidator()
         {
             RuleFor(x => x.Name)
                 .MaxLengthWithMessage(50)
@@ -26,7 +26,7 @@ namespace HiQoDataGenerator.Web.ModelsValidation
                 .CanNotBeEmptyWithMessage();
 
             RuleForEach(x => x.Values)
-                .SetValidator(new CustomDatasetValueValidator());
+                .SetValidator(new DefinedDatasetValueValidator());
         }
     }
 }

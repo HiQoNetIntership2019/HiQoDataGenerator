@@ -69,9 +69,9 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         [HttpPost("Values")]
-        public async Task<IActionResult> AddValues(IEnumerable<CustomDatasetValueViewModel> customDatasetValueViewModels)
+        public async Task<IActionResult> AddValues(AddCustomDatasetValues customDatasetValueViewModels)
         {
-            var customDatasetValueModels = _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValueViewModels);
+            var customDatasetValueModels = _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValueViewModels.Values);
 
             await _customDatasetService.AddValuesAsync(customDatasetValueModels);
             return Ok();
