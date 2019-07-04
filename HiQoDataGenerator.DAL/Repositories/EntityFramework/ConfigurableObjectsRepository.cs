@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    class ConfigurableObjectsRepository : BaseRepository<ConfigurableObject>, IConfigurableObjectsRepository
+    class ConfigurableObjectsRepository : GenericRepository<ConfigurableObject>, IConfigurableObjectsRepository
     {
         public ConfigurableObjectsRepository(DataContext context) : base(context) { }
 

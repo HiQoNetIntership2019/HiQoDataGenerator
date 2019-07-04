@@ -1,11 +1,11 @@
 ﻿namespace HiQoDataGenerator.Core.Entities
 {
-    public class CustomDatasetValueModel : BaseModel
+    public class DefinedDatasetValueModel : BaseModel
     {
         public string Value { get; }
         public int DatasetId { get; }
 
-        public CustomDatasetValueModel(int id, string value, int datasetId) : base(id)
+        public DefinedDatasetValueModel(int id, string value, int datasetId) : base(id)
         {
             Value = value;
             DatasetId = datasetId;

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace HiQoDataGenerator.DAL.Models.DataSetModels
+﻿namespace HiQoDataGenerator.DAL.Models.DataSetModels
 {
     public class CustomDataset : BaseModel
     {

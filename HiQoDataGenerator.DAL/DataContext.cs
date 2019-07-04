@@ -18,7 +18,9 @@ namespace HiQoDataGenerator.DAL
         public DbSet<CustomDataset> CustomDatasets { get; set; }
         public DbSet<CustomDatasetValue> CustomDatasetsValues { get; set; }
         public DbSet<Field> Fields { get; set; }
-        public DbSet<DatasetType> DatasetTypes { get; set; }
+        //public DbSet<DatasetType> DatasetTypes { get; set; }
+        public DbSet<DefinedDataset> DefinedDatasets { get; set; }
+        public DbSet<DefinedDatasetValue> DefinedDatasetsValues { get; set; }
         public DataContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -83,6 +85,16 @@ namespace HiQoDataGenerator.DAL
                 .IsRequired();
 
             builder.Entity<CustomDatasetValue>()
+                .Property(p => p.Value)
+                .HasMaxLength(150)
+                .IsRequired();
+
+            builder.Entity<DefinedDataset>()
+                .Property(p => p.Name)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Entity<DefinedDatasetValue>()
                 .Property(p => p.Value)
                 .HasMaxLength(150)
                 .IsRequired();

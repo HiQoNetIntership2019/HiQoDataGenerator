@@ -6,7 +6,7 @@ using System.Text;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class DatasetTypesRepository : BaseRepository<DatasetType>, IDatasetTypesRepository
+    public class DatasetTypesRepository : GenericRepository<DatasetType>, IDatasetTypesRepository
     {
         public DatasetTypesRepository(DataContext context) : base(context) { }
     }

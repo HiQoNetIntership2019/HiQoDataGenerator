@@ -39,6 +39,10 @@ namespace HiQoDataGenerator.Core.Extensions
                 config.CreateMap<ConstraintValueModel, ConstraintValue>();
                 config.CreateMap<ConstraintValue, ConstraintValueModel>();
 
+                config.CreateMap<DefinedDataset, DefinedDatasetModel>();
+                config.CreateMap<DefinedDatasetModel, DefinedDataset>();
+                config.CreateMap<DefinedDatasetValue, DefinedDatasetValueModel>();
+                config.CreateMap<DefinedDatasetValueModel, DefinedDatasetValue>();
 
                 config.CreateMap<FieldModel, Field>();
                 config.CreateMap<Field, FieldModel>();  

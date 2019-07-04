@@ -3,7 +3,7 @@ using HiQoDataGenerator.DAL.Models.ConstraintModels;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class EncodingTypesRepository: BaseRepository<EncodingType>, IEncodingTypeRepository
+    public class EncodingTypesRepository: GenericRepository<EncodingType>, IEncodingTypeRepository
     {
         public EncodingTypesRepository(DataContext context) : base(context) { }
     }

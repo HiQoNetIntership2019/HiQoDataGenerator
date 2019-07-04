@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface IBaseRepository<T>
+    public interface IGenericRepository<T>
     {
         IQueryable<T> GetAll();
         Task<T> GetByIdAsync(int id);

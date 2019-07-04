@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
     {
         protected DbSet<T> _models;
 
-        public BaseRepository(DataContext dataContext)
+        public GenericRepository(DataContext dataContext)
         {           
             _models = dataContext.Set<T>();
         }

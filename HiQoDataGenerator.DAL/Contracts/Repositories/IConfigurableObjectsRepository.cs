@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface IConfigurableObjectsRepository : IBaseRepository<ConfigurableObject>
+    public interface IConfigurableObjectsRepository : IGenericRepository<ConfigurableObject>
     {
         Task<ConfigurableObject> GetByName(string name);
         IEnumerable<ConfigurableObject> GetByDateCreation(Predicate<DateTime> datePredicate);

@@ -5,7 +5,7 @@ using HiQoDataGenerator.DAL.Models.DataSetModels;
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface ICustomDatasetRepository :IBaseRepository<CustomDataset>
+    public interface ICustomDatasetRepository :IGenericRepository<CustomDataset>
     {
         IQueryable<CustomDatasetValue> GetValues();
         IQueryable<CustomDatasetValue> GetValuesByDatasetId(int datasetId);
