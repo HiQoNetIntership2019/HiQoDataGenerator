@@ -13,8 +13,11 @@ namespace HiQoDataGenerator.Web.Controllers
         private readonly IDateTimeFormatService _dateTimeFormatService;
         public DateTimeFormatsController(IDateTimeFormatService dateTimeFormatService, IMapperFactory mapperFactory) : 
             base(mapperFactory) => _dateTimeFormatService = dateTimeFormatService;
-        
 
+        /// <summary>
+        ///     Gets all datetime formats.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -23,6 +26,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(dateTimeFormatViewModels);
         }
 
+        /// <summary>
+        ///     Gets datetime format by id.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -31,6 +38,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(dateTimeFormatViewModel);
         }
 
+        /// <summary>
+        ///     Adds new datetime format.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
         public async Task<IActionResult> Post(DateTimeFormatViewModel dateTimeFormatViewModel)
         {
@@ -40,6 +51,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        ///     Adds range of new datetime formats.
+        /// </summary>
+        /// <returns>Status code 200.</returns>
         [HttpPost("Range")]
         public async Task<IActionResult> Post(IEnumerable<DateTimeFormatViewModel> dateTimeFormatViewModels)
         {            
@@ -49,6 +64,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        ///     Deletes datetime format by id.
+        /// </summary>
+        /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

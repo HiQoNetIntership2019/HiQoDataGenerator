@@ -14,10 +14,17 @@ namespace HiQoDataGenerator.Web.Controllers
         public DatasetTypesController(IMapperFactory mapperFactory, IDatasetTypesService datasetTypesService) :
             base(mapperFactory) => _datasetTypesService = datasetTypesService;
 
+        /// <summary>
+        ///     Gets all dataset values.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         public IActionResult Get() => Ok(_mapper.Map<IEnumerable<DatasetTypeViewModel>>(_datasetTypesService.GetAllTypes()));
 
-
+        /// <summary>
+        ///     Saves new dataset type.
+        /// </summary>
+        /// <returns>Status code 200.</returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] string value)
         {
@@ -25,6 +32,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        ///     Deletes dataset type.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

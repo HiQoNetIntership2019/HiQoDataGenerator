@@ -17,8 +17,12 @@ namespace HiQoDataGenerator.Web.Controllers
 
         public ConstraintValuesController(IConstraintValuesService constraintValuesService, IMapperFactory mapperFactory) :
             base(mapperFactory) => _constraintValuesService = constraintValuesService;
-        
 
+
+        /// <summary>
+        ///     Retrieves all constraint values.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -27,6 +31,11 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(constraintValuesViewModels);
         }
 
+        /// <summary>
+        ///     Retrieves constraint value by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -35,6 +44,11 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(constraintValueViewModel);
         }
 
+        /// <summary>
+        ///     Retrieves constraint value by constraint [type] id.
+        /// </summary>
+        /// <param name="typeId">Id of constraint, which is type for constraint value.</param>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         [Route("[action]/{typeId}")]
         public async Task<IActionResult> GetByType(int typeId)
@@ -44,14 +58,23 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(constraintValueViewModels);
         }
 
+        /// <summary>
+        ///     Saves a new constraint value.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post(ConstraintViewModel constraintValueViewModel)
+        public async Task<IActionResult> Post(ConstraintValueViewModel constraintValueViewModel)
         {
             var constraintValueModel = _mapper.Map<ConstraintValueModel>(constraintValueViewModel);
             await _constraintValuesService.AddAsync(constraintValueModel);
             return Ok(constraintValueModel);
         }
 
+        /// <summary>
+        ///     Removes constraint value.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

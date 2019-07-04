@@ -15,6 +15,10 @@ namespace HiQoDataGenerator.Web.Controllers
         public DefinedDatasetsController(IDefinedDatasetService definedDatasetService, IMapperFactory mapperFactory) :
             base(mapperFactory) => _definedDatasetService = definedDatasetService;
 
+        /// <summary>
+        ///     Gets all defined datasets.
+        /// </summary>
+        /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -23,6 +27,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(definedDatasetViewModels);
         }
 
+        /// <summary>
+        ///     Gets all defined values.
+        /// </summary>
+        /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
         [Route("Values")]
         public IActionResult GetValues()
@@ -32,6 +40,11 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(definedDatasetValueViewModels);
         }
 
+        /// <summary>
+        ///     Gets defined dataset by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -40,6 +53,11 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(definedDatasetViewModel);
         }
 
+        /// <summary>
+        ///     Gets defined value by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         [Route("Values/ById/{id}")]
         public IActionResult GetValuesByDatasetId(int id)
@@ -49,6 +67,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(definedDatasetValueViewModels);
         }
 
+        /// <summary>
+        ///     Gets all defined values by dataset name.
+        /// </summary>
+        /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
         [Route("Values/ByName/{name}")]
         public IActionResult GetValuesByDatasetName(string name)
@@ -58,6 +80,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(definedDatasetValueViewModels);
         }
 
+        /// <summary>
+        ///     Gets all defined values by field type id.
+        /// </summary>
+        /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
         [Route("ByTypeId/{id}")]
         public IActionResult GetDatasetsByTypeId(int id)
@@ -67,6 +93,13 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(definedDatasetViewModels);
         }
 
+        /// <summary>
+        ///     Adds new dataset with values.
+        /// </summary>
+        /// <remarks>
+        ///     Complex model is used as a parameter.
+        /// </remarks>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
         public async Task<IActionResult> Post(AddDefinedDatasetWithValues definedDatasetWithValuesViewModel)
         {
@@ -76,6 +109,13 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        ///     Adds new values for specific dataset.
+        /// </summary>
+        /// <remarks>
+        ///     Complex model is used as a parameter.
+        /// </remarks>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpPost("Values")]
         public async Task<IActionResult> AddValues(AddDefinedDatasetValues definedDatasetValueViewModels)
         {
@@ -85,6 +125,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        ///     Deletes dataset by id.
+        /// </summary>
+        /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDataset(int id)
         {
@@ -92,6 +136,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        ///     Deletes defined value by id.
+        /// </summary>
+        /// <returns>Status code 200.</returns>
         [HttpDelete]
         [Route("Values/{id}")]
         public async Task<IActionResult> DeleteValue(int id)

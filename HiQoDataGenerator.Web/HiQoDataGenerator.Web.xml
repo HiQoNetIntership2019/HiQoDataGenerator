@@ -1,0 +1,420 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HiQoDataGenerator.Web</name>
+    </assembly>
+    <members>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConfigurableObjectsController.Get">
+            <summary>
+                Retrieves all configurable objects.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConfigurableObjectsController.GetByDateLater(System.DateTime)">
+            <summary>
+                Retrieves all configurable objects created later than given date and time.
+            </summary>
+            <param name="date"></param>
+            <remarks>
+                Date example: 2019-07-04T14:26:03.527Z
+            </remarks>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConfigurableObjectsController.Post(HiQoDataGenerator.Web.ViewModels.ConfigurableObjectViewModel)">
+            <summary>
+                Saves a new configurable object.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConfigurableObjectsController.Delete(System.Int32)">
+            <summary>
+                Deletes a configurable object with given id.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintsController.Get">
+            <summary>
+                Retrieves all constraints.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintsController.Get(System.Int32)">
+            <summary>
+                Retrieves constraint with given id.
+            </summary>
+            <param name="id"></param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintsController.GetByFieldTypeId(System.Int32)">
+            <summary>
+                Retrieves all constraints assignable to specific field type.
+            </summary>
+            <param name="id">Field type id.</param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintsController.GetByName(System.String)">
+            <summary>
+                Retrieves constraint with given name.
+            </summary>
+            <param name="name">Name of constraint.</param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintsController.Post(HiQoDataGenerator.Web.ViewModels.ConstraintViewModel)">
+            <summary>
+                Saves new constraint.
+            </summary>
+            <param name="constraintViewModel"></param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintsController.AddFieldTypesInConstraint(HiQoDataGenerator.Web.ViewModels.Helpers.AddFieldTypeInConstraintViewModel)">
+            <summary>
+                Saves new available field type for constraint.
+            </summary>
+            <param name="viewModel">Complex view model for adding field type.</param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintsController.Delete(System.Int32)">
+            <summary>
+                Deletes constraint by its id.
+            </summary>
+            <param name="id"></param>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintValuesController.Get">
+            <summary>
+                Retrieves all constraint values.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintValuesController.Get(System.Int32)">
+            <summary>
+                Retrieves constraint value by id.
+            </summary>
+            <param name="id"></param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintValuesController.GetByType(System.Int32)">
+            <summary>
+                Retrieves constraint value by constraint [type] id.
+            </summary>
+            <param name="typeId">Id of constraint, which is type for constraint value.</param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintValuesController.Post(HiQoDataGenerator.Web.ViewModels.ConstraintValueViewModel)">
+            <summary>
+                Saves a new constraint value.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.ConstraintValuesController.Delete(System.Int32)">
+            <summary>
+                Removes constraint value.
+            </summary>
+            <param name="id"></param>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.CustomDatasetsController.Get">
+            <summary>
+                Gets all custom datasets.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.CustomDatasetsController.GetAll">
+            <summary>
+                Gets all custom dataset values.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.CustomDatasetsController.GetById(System.Int32)">
+            <summary>
+                Gets custom dataset by id.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.CustomDatasetsController.GetValuesByDatasetId(System.Int32)">
+            <summary>
+                Gets values by dataset id.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.CustomDatasetsController.GetValuesByDatasetName(System.String)">
+            <summary>
+                Gets values by dataset name.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.CustomDatasetsController.Post(HiQoDataGenerator.Web.ViewModels.Helpers.AddCustomDatasetWithValues)">
+            <summary>
+                Saves custom dataset and its values. 
+            </summary>
+            <remarks>
+                Param is a Complex view model.
+            </remarks>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.CustomDatasetsController.AddValues(HiQoDataGenerator.Web.ViewModels.Helpers.AddCustomDatasetValues)">
+            <summary>
+                Saves custom dataset values.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.CustomDatasetsController.DeleteDataset(System.Int32)">
+            <summary>
+                Deletes dataset by id.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.CustomDatasetsController.DeleteValue(System.Int32)">
+            <summary>
+                Deletes dataset value by id.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DatasetTypesController.Get">
+            <summary>
+                Gets all dataset values.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DatasetTypesController.Post(System.String)">
+            <summary>
+                Saves new dataset type.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DatasetTypesController.Delete(System.Int32)">
+            <summary>
+                Deletes dataset type.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DateTimeFormatsController.Get">
+            <summary>
+                Gets all datetime formats.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DateTimeFormatsController.Get(System.Int32)">
+            <summary>
+                Gets datetime format by id.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DateTimeFormatsController.Post(HiQoDataGenerator.Web.ViewModels.DateTimeFormatViewModel)">
+            <summary>
+                Adds new datetime format.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DateTimeFormatsController.Post(System.Collections.Generic.IEnumerable{HiQoDataGenerator.Web.ViewModels.DateTimeFormatViewModel})">
+            <summary>
+                Adds range of new datetime formats.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DateTimeFormatsController.Delete(System.Int32)">
+            <summary>
+                Deletes datetime format by id.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DefinedDatasetsController.GetAll">
+            <summary>
+                Gets all defined datasets.
+            </summary>
+            <returns>Status code 200 and view models.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DefinedDatasetsController.GetValues">
+            <summary>
+                Gets all defined values.
+            </summary>
+            <returns>Status code 200 and view models.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DefinedDatasetsController.GetById(System.Int32)">
+            <summary>
+                Gets defined dataset by id.
+            </summary>
+            <param name="id"></param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DefinedDatasetsController.GetValuesByDatasetId(System.Int32)">
+            <summary>
+                Gets defined value by id.
+            </summary>
+            <param name="id"></param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DefinedDatasetsController.GetValuesByDatasetName(System.String)">
+            <summary>
+                Gets all defined values by dataset name.
+            </summary>
+            <returns>Status code 200 and view models.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DefinedDatasetsController.GetDatasetsByTypeId(System.Int32)">
+            <summary>
+                Gets all defined values by field type id.
+            </summary>
+            <returns>Status code 200 and view models.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DefinedDatasetsController.Post(HiQoDataGenerator.Web.ViewModels.Helpers.AddDefinedDatasetWithValues)">
+            <summary>
+                Adds new dataset with values.
+            </summary>
+            <remarks>
+                Complex model is used as a parameter.
+            </remarks>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DefinedDatasetsController.AddValues(HiQoDataGenerator.Web.ViewModels.Helpers.AddDefinedDatasetValues)">
+            <summary>
+                Adds new values for specific dataset.
+            </summary>
+            <remarks>
+                Complex model is used as a parameter.
+            </remarks>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DefinedDatasetsController.DeleteDataset(System.Int32)">
+            <summary>
+                Deletes dataset by id.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.DefinedDatasetsController.DeleteValue(System.Int32)">
+            <summary>
+                Deletes defined value by id.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.EncodingTypeController.Get">
+            <summary>
+                Gets all encoding types.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.EncodingTypeController.Get(System.Int32)">
+            <summary>
+                AGets encoding type by given id.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.EncodingTypeController.Post(HiQoDataGenerator.Web.ViewModels.EncodingTypeViewModel)">
+            <summary>
+                Adds new encoding type.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.EncodingTypeController.Delete(System.Int32)">
+            <summary>
+                Deletes encoding type by id.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.FieldsController.Get">
+            <summary>
+                Gets all fields.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.FieldsController.Get(System.Int32)">
+            <summary>
+                Gets field by id.
+            </summary>
+            <param name="id"></param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.FieldsController.Post(HiQoDataGenerator.Web.ViewModels.FieldViewModel)">
+            <summary>
+                Adds new field.
+            </summary>
+            <param name="fieldViewModel">Field for adding.</param>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.FieldsController.Delete(System.Int32)">
+            <summary>
+                Deletes a field by id.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.RegexController.Get">
+            <summary>
+               Gets all regexes.
+            </summary>
+            <returns>Status code 200 and view models.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.RegexController.Get(System.Int32)">
+            <summary>
+                Gets regex by id.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.RegexController.GetNames">
+            <summary>
+                Gets all regex names.
+            </summary>
+            <returns>Status code 200 and view models.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.RegexController.Post(HiQoDataGenerator.Web.ViewModels.RegexViewModel)">
+            <summary>
+                Adds new regex.
+            </summary>
+            <param name="regexViewModel"></param>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.RegexController.Delete(System.Int32)">
+            <summary>
+                Deletes regex by id.
+            </summary>
+            <param name="id"></param>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.TimezoneController.Get">
+            <summary>
+                Gets all timezones.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.TimezoneController.Get(System.Int32)">
+            <summary>
+                Gets timezone by id.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.TimezoneController.Post(HiQoDataGenerator.Web.ViewModels.TimezoneViewModel)">
+            <summary>
+                Saves new timezone.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.TimezoneController.Delete(System.Int32)">
+            <summary>
+                Deletes timezone by id.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.TypesController.Get">
+            <summary>
+                Gets all field types.
+            </summary>
+            <returns>Status code 200 and view models.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.TypesController.Get(System.Int32)">
+            <summary>
+                Gets field type by id.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.TypesController.Post(HiQoDataGenerator.Web.ViewModels.FieldTypeViewModel)">
+            <summary>
+                Adds new field type.
+            </summary>
+            <returns>Status code 200 and view model.</returns>
+        </member>
+        <member name="M:HiQoDataGenerator.Web.Controllers.TypesController.Delete(System.Int32)">
+            <summary>
+                Deletes field type by id.
+            </summary>
+            <returns>Status code 200.</returns>
+        </member>
+    </members>
+</doc>

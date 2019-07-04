@@ -14,8 +14,12 @@ namespace HiQoDataGenerator.Web.Controllers
  
         public CustomDatasetsController(ICustomDatasetService customDatasetService, IMapperFactory mapperFactory) :
             base(mapperFactory) => _customDatasetService = customDatasetService;
-         
-        
+
+
+        /// <summary>
+        ///     Gets all custom datasets.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -23,7 +27,11 @@ namespace HiQoDataGenerator.Web.Controllers
             var customDatasetViewModels = _mapper.Map<IEnumerable<CustomDatasetViewModel>>(customDatasetModels);
             return Ok(customDatasetViewModels);
         }
-        
+
+        /// <summary>
+        ///     Gets all custom dataset values.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         [Route("Values")]
         public IActionResult GetAll()
@@ -32,7 +40,11 @@ namespace HiQoDataGenerator.Web.Controllers
             var customDatasetValueViewModels = _mapper.Map<IEnumerable<CustomDatasetValueViewModel>>(customDatasetValueModels);
             return Ok(customDatasetValueViewModels);
         }
-        
+
+        /// <summary>
+        ///     Gets custom dataset by id.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -40,7 +52,11 @@ namespace HiQoDataGenerator.Web.Controllers
             var customDatasetViewModel = _mapper.Map<CustomDatasetViewModel>(customDatasetModel);
             return Ok(customDatasetViewModel);
         }
-        
+
+        /// <summary>
+        ///     Gets values by dataset id.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         [Route("Values/ById/{id}")]
         public IActionResult GetValuesByDatasetId(int id)
@@ -49,7 +65,11 @@ namespace HiQoDataGenerator.Web.Controllers
             var customDatasetValueViewModels = _mapper.Map<IEnumerable<CustomDatasetValueViewModel>>(customDatasetValueModels);
             return Ok(customDatasetValueViewModels);
         }
-               
+
+        /// <summary>
+        ///     Gets values by dataset name.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         [Route("Values/ByName/{name}")]
         public IActionResult GetValuesByDatasetName(string name)
@@ -59,6 +79,13 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(customDatasetValueViewModels);
         }
 
+        /// <summary>
+        ///     Saves custom dataset and its values. 
+        /// </summary>
+        /// <remarks>
+        ///     Param is a Complex view model.
+        /// </remarks>
+        /// <returns>Status code 200.</returns>
         [HttpPost]
         public async Task<IActionResult> Post(AddCustomDatasetWithValues customDatasetWithValuesViewModel)
         {
@@ -68,6 +95,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        ///     Saves custom dataset values.
+        /// </summary>
+        /// <returns>Status code 200.</returns>
         [HttpPost("Values")]
         public async Task<IActionResult> AddValues(AddCustomDatasetValues customDatasetValueViewModels)
         {
@@ -77,6 +108,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        ///     Deletes dataset by id.
+        /// </summary>
+        /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDataset(int id)
         {
@@ -84,6 +119,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        ///     Deletes dataset value by id.
+        /// </summary>
+        /// <returns>Status code 200.</returns>
         [HttpDelete]
         [Route("Values/{id}")]
         public async Task<IActionResult> DeleteValue(int id)
