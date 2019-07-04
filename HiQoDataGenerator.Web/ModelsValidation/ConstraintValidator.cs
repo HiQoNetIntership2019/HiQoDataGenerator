@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using HiQoDataGenerator.Web.Extensions;
 using HiQoDataGenerator.Web.ViewModels;
+using HiQoDataGenerator.Infrastructure.ValidationExtensions;
 
 namespace HiQoDataGenerator.Web.ModelsValidation
 {
@@ -9,14 +9,14 @@ namespace HiQoDataGenerator.Web.ModelsValidation
         public ConstraintValidator()
         {
             RuleFor(x => x.Name)
-                .MaximumLength(50).WithMessage("{PropertyName}".MaximumLengthExceeded(50))
-                .NotNull().WithMessage("{PropertyName}".CanNotBeNull())
-                .NotEmpty().WithMessage("{PropertyName}".CanNotBeEmpty());
+                .MaxLengthWithMessage(50)
+                .CanNotBeNullWithMessage()
+                .CanNotBeEmptyWithMessage();
 
             RuleFor(x => x.Description)
-                .MaximumLength(50).WithMessage("{PropertyName}".MaximumLengthExceeded(50))
-                .NotNull().WithMessage("{PropertyName}".CanNotBeNull())
-                .NotEmpty().WithMessage("{PropertyName}".CanNotBeEmpty());
+                .MaxLengthWithMessage(50)
+                .CanNotBeNullWithMessage()
+                .CanNotBeEmptyWithMessage();
         }
     }
 }

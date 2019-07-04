@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using HiQoDataGenerator.Web.ViewModels;
 using HiQoDataGenerator.Web.Extensions;
+using HiQoDataGenerator.Infrastructure.ValidationExtensions;
 
 namespace HiQoDataGenerator.Web.ModelsValidation
 {
@@ -9,12 +10,12 @@ namespace HiQoDataGenerator.Web.ModelsValidation
         public DatasetTypeValidator()
         {
             RuleFor(x => x.TypeName)
-                .MaximumLength(50).WithMessage("{PropertyName}".MaximumLengthExceeded(50))
-                .NotNull().WithMessage("{PropertyName}".CanNotBeNull())
-                .NotEmpty().WithMessage("{PropertyName}".CanNotBeEmpty());
+                .MaxLengthWithMessage(50)
+                .CanNotBeNullWithMessage()
+                .CanNotBeEmptyWithMessage();
 
             RuleFor(x => x.FieldTypeViewModels)
-                .NotNull().WithMessage("{PropertyName}".CanNotBeNull());
+                .CanNotBeNullWithMessage();
 
             RuleForEach(x => x.FieldTypeViewModels)
                 .SetValidator(new FieldTypeValidator());
