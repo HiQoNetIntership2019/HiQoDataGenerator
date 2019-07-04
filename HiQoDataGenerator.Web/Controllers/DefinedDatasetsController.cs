@@ -8,40 +8,96 @@ using HiQoDataGenerator.Web.ViewModels.Helpers;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DefinedDatasetsController : ControllerBase
+    public class DefinedDatasetsController : RootController
     {
-        // GET: api/DefinedDatasets
+        private readonly IDefinedDatasetService _definedDatasetService;
+
+        public DefinedDatasetsController(IDefinedDatasetService definedDatasetService, IMapperFactory mapperFactory) :
+            base(mapperFactory) => _definedDatasetService = definedDatasetService;
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult GetAll()
         {
-            return new string[] { "value1", "value2" };
+            var definedDatasetModels = _definedDatasetService.GetAll();
+            var definedDatasetViewModels = _mapper.Map<IEnumerable<DefinedDatasetViewModel>>(definedDatasetModels);
+            return Ok(definedDatasetViewModels);
         }
 
-        // GET: api/DefinedDatasets/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet]
+        [Route("Values")]
+        public IActionResult GetValues()
         {
-            return "value";
+            var definedDatasetValueModels = _definedDatasetService.GetValues();
+            var definedDatasetValueViewModels = _mapper.Map<IEnumerable<DefinedDatasetValueViewModel>>(definedDatasetValueModels);
+            return Ok(definedDatasetValueViewModels);
         }
 
-        // POST: api/DefinedDatasets
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var definedDatasetModel = await _definedDatasetService.GetByIdAsync(id);
+            var definedDatasetViewModel = _mapper.Map<DefinedDatasetViewModel>(definedDatasetModel);
+            return Ok(definedDatasetViewModel);
+        }
+
+        [HttpGet]
+        [Route("Values/ById/{id}")]
+        public IActionResult GetValuesByDatasetId(int id)
+        {
+            var definedDatasetValueModels = _definedDatasetService.GetValuesByDatasetId(id);
+            var definedDatasetValueViewModels = _mapper.Map<IEnumerable<DefinedDatasetValueViewModel>>(definedDatasetValueModels);
+            return Ok(definedDatasetValueViewModels);
+        }
+
+        [HttpGet]
+        [Route("Values/ByName/{name}")]
+        public IActionResult GetValuesByDatasetName(string name)
+        {
+            var definedDatasetValueModels = _definedDatasetService.GetValuesByDatasetName(name);
+            var definedDatasetValueViewModels = _mapper.Map<IEnumerable<DefinedDatasetValueViewModel>>(definedDatasetValueModels);
+            return Ok(definedDatasetValueViewModels);
+        }
+
+        [HttpGet]
+        [Route("ByTypeId/{id}")]
+        public IActionResult GetDatasetsByTypeId(int id)
+        {
+            var definedDatasetModels = _definedDatasetService.GetDatasetsByTypeId(id);
+            var definedDatasetViewModels = _mapper.Map<IEnumerable<DefinedDatasetViewModel>>(definedDatasetModels);
+            return Ok(definedDatasetViewModels);
+        }
+
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post(AddDefinedDatasetWithValues definedDatasetWithValuesViewModel)
         {
+            var definedDatasetModel = _mapper.Map<DefinedDatasetModel>(definedDatasetWithValuesViewModel);
+
+            await _definedDatasetService.AddAsync(definedDatasetModel);
+            return Ok();
         }
 
-        // PUT: api/DefinedDatasets/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPost("Values")]
+        public async Task<IActionResult> AddValues(AddDefinedDatasetValues definedDatasetValueViewModels)
         {
+            var definedDatasetValueModels = _mapper.Map<IEnumerable<DefinedDatasetValueModel>>(definedDatasetValueViewModels.Values);
+
+            await _definedDatasetService.AddValuesAsync(definedDatasetValueModels);
+            return Ok();
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteDataset(int id)
         {
+            await _definedDatasetService.RemoveDatasetAsync(id);
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("Values/{id}")]
+        public async Task<IActionResult> DeleteValue(int id)
+        {
+            await _definedDatasetService.RemoveValueByIdAsync(id);
+            return Ok();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace HiQoDataGenerator.Core.Entities
             TypeId = typeId;
         }
 
-        public DefinedDatasetModel(int id, string name, int typeId, ICollection<DefinedDatasetValueModel> values) : base(id)
+        public DefinedDatasetModel(int id, string name, int typeId, IEnumerable<DefinedDatasetValueModel> values) : base(id)
         {
             Name = name;
             TypeId = typeId;
