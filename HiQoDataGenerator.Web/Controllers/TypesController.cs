@@ -17,7 +17,11 @@ namespace HiQoDataGenerator.Web.Controllers
         {
             _fieldTypesService = fieldTypesService;
         }
-        
+
+        /// <summary>
+        ///     Gets all field types.
+        /// </summary>
+        /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -25,7 +29,11 @@ namespace HiQoDataGenerator.Web.Controllers
             var typeViewModels = _mapper.Map<IEnumerable<FieldTypeViewModel>>(typeModels);
             return Ok(typeViewModels);
         }
-        
+
+        /// <summary>
+        ///     Gets field type by id.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -33,7 +41,11 @@ namespace HiQoDataGenerator.Web.Controllers
             var typeViewModel = _mapper.Map<FieldTypeViewModel>(typeModel);
             return Ok(typeViewModel);
         }
-        
+
+        /// <summary>
+        ///     Adds new field type.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
         public async Task<IActionResult> Post(FieldTypeViewModel typeViewModel)
         {
@@ -42,7 +54,11 @@ namespace HiQoDataGenerator.Web.Controllers
             await _fieldTypesService.AddAsync(typeModel);
             return Ok(typeModel);
         }
-                
+
+        /// <summary>
+        ///     Deletes field type by id.
+        /// </summary>
+        /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

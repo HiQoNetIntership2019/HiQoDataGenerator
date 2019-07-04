@@ -15,8 +15,12 @@ namespace HiQoDataGenerator.Web.Controllers
 
         public EncodingTypeController(IEncodingTypesService encodingTypesService, IMapperFactory mapperFactory) :
             base (mapperFactory) => _encodingTypesService = encodingTypesService;
-        
 
+
+        /// <summary>
+        ///     Gets all encoding types.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -25,6 +29,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(encodingTypeViewModels);
         }
 
+        /// <summary>
+        ///     AGets encoding type by given id.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -33,6 +41,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(encodingTypeViewModel);
         }
 
+        /// <summary>
+        ///     Adds new encoding type.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
         public async Task<IActionResult> Post(EncodingTypeViewModel encodingTypeViewModel)
         {
@@ -42,6 +54,10 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(encodingTypeModel);
         }
 
+        /// <summary>
+        ///     Deletes encoding type by id.
+        /// </summary>
+        /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

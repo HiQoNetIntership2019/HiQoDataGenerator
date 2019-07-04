@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +13,7 @@ using HiQoDataGenerator.Web.Attributes;
 using HiQoDataGenerator.Web.Extensions;
 using HiQoDataGenerator.Web.Middleware;
 using FluentValidation.AspNetCore;
+using Microsoft.OpenApi.Models;
 
 namespace HiQoDataGenerator.Web
 {
@@ -34,6 +38,15 @@ namespace HiQoDataGenerator.Web
             services.AddDALServices(Configuration.GetConnectionString("Connection"));
 
             services.AddMapperFactory();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Data Generator API", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +66,13 @@ namespace HiQoDataGenerator.Web
             app.UseMiddleware<ExceptionsHandlerMidlleware>();
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Data Generator API V1");
+            });
+
             app.UseMvc();
         }
     }

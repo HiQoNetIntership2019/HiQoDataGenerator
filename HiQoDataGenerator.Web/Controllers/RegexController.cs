@@ -14,8 +14,11 @@ namespace HiQoDataGenerator.Web.Controllers
      
         public RegexController(IRegexService regexService, IMapperFactory mapperFactory) :
             base(mapperFactory) => _regexService = regexService;
-        
 
+        /// <summary>
+        ///    Gets all regexes.
+        /// </summary>
+        /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -23,7 +26,11 @@ namespace HiQoDataGenerator.Web.Controllers
             var regexViewModels = _mapper.Map<IEnumerable<RegexViewModel>>(regexModels);
             return Ok(regexViewModels);
         }
-        
+
+        /// <summary>
+        ///     Gets regex by id.
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -32,13 +39,22 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(regexViewModel);
         }
 
+        /// <summary>
+        ///     Gets all regex names.
+        /// </summary>
+        /// <returns>Status code 200 and view models.</returns>
         [HttpGet("names")]
         public IActionResult GetNames()
         {
             var models = _regexService.GetAllNames();
             return Ok(models);
         }
-        
+
+        /// <summary>
+        ///     Adds new regex.
+        /// </summary>
+        /// <param name="regexViewModel"></param>
+        /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
         public async Task<IActionResult> Post(RegexViewModel regexViewModel)
         {
@@ -48,6 +64,11 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok(regexModel);
         }
 
+        /// <summary>
+        ///     Deletes regex by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
