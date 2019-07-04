@@ -3,5 +3,5 @@ using HiQoDataGenerator.DAL.Models.IntermediateModels;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public interface IFieldTypesConstraintsRepository : IBaseRepository<FieldTypeConstraint> { }
+    public interface IFieldTypesConstraintsRepository : IGenericRepository<FieldTypeConstraint> { }
 }

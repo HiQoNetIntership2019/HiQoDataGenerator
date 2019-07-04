@@ -3,7 +3,7 @@ using HiQoDataGenerator.DAL.Contracts.Repositories;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class DateTimeFormatsRepository : BaseRepository<DateTimeFormat>, IDateTimeFormatRepository
+    public class DateTimeFormatsRepository : GenericRepository<DateTimeFormat>, IDateTimeFormatRepository
     {
         public DateTimeFormatsRepository(DataContext context) : base(context) { }
     }

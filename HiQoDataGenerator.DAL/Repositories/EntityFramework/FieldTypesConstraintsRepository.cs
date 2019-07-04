@@ -6,7 +6,7 @@ using System.Text;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class FieldTypesConstraintsRepository : BaseRepository<FieldTypeConstraint>, IFieldTypesConstraintsRepository
+    public class FieldTypesConstraintsRepository : GenericRepository<FieldTypeConstraint>, IFieldTypesConstraintsRepository
     {
         public FieldTypesConstraintsRepository(DataContext context) : base(context) { }
     }

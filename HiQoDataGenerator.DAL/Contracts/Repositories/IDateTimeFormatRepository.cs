@@ -2,7 +2,7 @@
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface IDateTimeFormatRepository : IBaseRepository<DateTimeFormat>
+    public interface IDateTimeFormatRepository : IGenericRepository<DateTimeFormat>
     {
     }
 }

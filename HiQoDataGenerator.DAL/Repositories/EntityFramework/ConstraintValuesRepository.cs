@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class ConstraintValuesRepository : BaseRepository<ConstraintValue>, IConstraintValuesRepository
+    public class ConstraintValuesRepository : GenericRepository<ConstraintValue>, IConstraintValuesRepository
     {
         public ConstraintValuesRepository(DataContext context) : base(context) { }
 

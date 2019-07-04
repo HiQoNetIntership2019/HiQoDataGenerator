@@ -4,7 +4,7 @@ using HiQoDataGenerator.DAL.Models.ConstraintModels;
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    public interface IRegexRepository : IBaseRepository<Regex>
+    public interface IRegexRepository : IGenericRepository<Regex>
     {
         IQueryable<string> GetAllNames();
     }

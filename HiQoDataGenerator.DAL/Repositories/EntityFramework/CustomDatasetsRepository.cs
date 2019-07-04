@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class CustomDatasetsRepository : BaseRepository<CustomDataset>, ICustomDatasetRepository
+    public class CustomDatasetsRepository : GenericRepository<CustomDataset>, ICustomDatasetRepository
     {
         protected readonly DbSet<CustomDatasetValue> _datasetValues;
         
@@ -18,12 +18,12 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 
         public IQueryable<CustomDatasetValue> GetValues()
         {
-            return _datasetValues.Include(v => v.Dataset);
+            return _datasetValues;
         }
 
         public IQueryable<CustomDatasetValue> GetValuesByDatasetId(int datasetId)
         {
-            var result = _datasetValues.Where(value => value.DatasetId == datasetId).Include(v => v.Dataset);
+            var result = _datasetValues.Where(value => value.DatasetId == datasetId);
             return result.Count() == 0 ? null : result;
         }
 

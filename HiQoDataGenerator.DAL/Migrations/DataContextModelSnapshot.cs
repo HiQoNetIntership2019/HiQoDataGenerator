@@ -41,7 +41,7 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ConstraintId");
+                    b.Property<int?>("ConstraintId");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -137,7 +137,7 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.Property<int?>("ConfigurableObjectId");
 
-                    b.Property<int>("FieldTypeId");
+                    b.Property<int?>("FieldTypeId");
 
                     b.Property<bool>("IsRequired");
 
@@ -211,7 +211,43 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DatasetTypes");
+                    b.ToTable("DatasetType");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.DefinedDataset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int>("TypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("DefinedDatasets");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.DefinedDatasetValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DatasetId");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DatasetId");
+
+                    b.ToTable("DefinedDatasetsValues");
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.IntermediateModels.FieldTypeConstraint", b =>
@@ -236,8 +272,7 @@ namespace HiQoDataGenerator.DAL.Migrations
                 {
                     b.HasOne("HiQoDataGenerator.DAL.Models.ConstraintModels.Constraint", "Constraint")
                         .WithMany("Values")
-                        .HasForeignKey("ConstraintId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ConstraintId");
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.CustomObjectModels.Field", b =>
@@ -247,15 +282,30 @@ namespace HiQoDataGenerator.DAL.Migrations
                         .HasForeignKey("ConfigurableObjectId");
 
                     b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.FieldType", "FieldType")
-                        .WithMany("Fields")
-                        .HasForeignKey("FieldTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("FieldTypeId");
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDatasetValue", b =>
                 {
                     b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDataset", "Dataset")
-                        .WithMany("Values")
+                        .WithMany()
+                        .HasForeignKey("DatasetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.DefinedDataset", b =>
+                {
+                    b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.FieldType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.DefinedDatasetValue", b =>
+                {
+                    b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.DefinedDataset", "Dataset")
+                        .WithMany()
                         .HasForeignKey("DatasetId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

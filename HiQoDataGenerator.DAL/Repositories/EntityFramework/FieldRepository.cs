@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    public class FieldRepository : BaseRepository<Field>, IFieldRepository
+    public class FieldRepository : GenericRepository<Field>, IFieldRepository
     {
         public FieldRepository(DataContext context) : base(context) { }
 

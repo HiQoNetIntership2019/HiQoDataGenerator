@@ -17,7 +17,7 @@ namespace HiQoDataGenerator.DAL
 
             services.Scan(sc =>
                 sc.FromCallingAssembly()
-                    .AddClasses(classes => classes.AssignableTo(typeof(IBaseRepository<>)), publicOnly: true)
+                    .AddClasses(classes => classes.AssignableTo(typeof(IGenericRepository<>)), publicOnly: true)
                     .AsImplementedInterfaces()
                     .WithScopedLifetime());
         }
