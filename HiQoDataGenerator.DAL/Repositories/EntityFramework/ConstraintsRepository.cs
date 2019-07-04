@@ -15,6 +15,6 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public async Task<Constraint> GetByNameAsync(string name) => await _models.FirstAsync(constraint => constraint.Name == name);
 
         public IEnumerable<Constraint> GetByFieldTypeId(int id) =>
-            _models.Where(contstraint => contstraint.SupportedTypes.Any(type => type.Id == id));
+            _models.Where(constraint => constraint.SupportedTypes.Any(type => type.Id == id));
     }
 }

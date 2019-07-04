@@ -7,6 +7,7 @@ namespace HiQoDataGenerator.DAL.Models.ConstraintModels
     {
         public string Value { get; set; }
 
-        public virtual Constraint Constraint { get; set; }
+        public int ConstraintId { get; set; }
+        public Constraint Constraint { get; set; }
     }
 }

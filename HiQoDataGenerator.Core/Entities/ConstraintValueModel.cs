@@ -8,11 +8,13 @@ namespace HiQoDataGenerator.Core.Entities
     {
         public string Value { get; }
         public int ConstraintId { get; }
+        public virtual ConstraintModel Constraint { get; set; }
 
-        public ConstraintValueModel(int id, string value, int constraintId) : base(id)
+        public ConstraintValueModel(int id, string value, int constraintId, ConstraintModel constraint = null) : base(id)
         {
             Value = value;
             ConstraintId = constraintId;
+            Constraint = constraint;
         }
     }
 }

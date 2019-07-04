@@ -11,7 +11,6 @@ namespace HiQoDataGenerator.DAL.Models.ConstraintModels
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public virtual ICollection<FieldTypeConstraint> SupportedTypes { get; set; } 
-        public virtual ICollection<ConstraintValue> Values { get; set; }
+        public virtual ICollection<FieldTypeConstraint> SupportedTypes { get; set; }
     }
 }

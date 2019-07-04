@@ -15,12 +15,14 @@ namespace HiQoDataGenerator.Core.Services
     public class ConstraintValuesService : IConstraintValuesService
     {
         private readonly IConstraintValuesRepository _constraintValuesRepository;
+        private readonly IConstraintsRepository _constraintsRepository;
         private readonly IUnitOfWork _uow;
         private IMapper _mapper;
 
-        public ConstraintValuesService(IUnitOfWork unit, IConstraintValuesRepository constraintValuesRepository, IMapperFactory mapperFactory)
+        public ConstraintValuesService(IUnitOfWork unit, IConstraintValuesRepository constraintValuesRepository, IConstraintsRepository constraintsRepository, IMapperFactory mapperFactory)
         {
             _constraintValuesRepository = constraintValuesRepository;
+            _constraintsRepository = constraintsRepository;
             _uow = unit;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
@@ -55,6 +57,16 @@ namespace HiQoDataGenerator.Core.Services
         {
             var constraint = _mapper.Map<ConstraintValue>(constraintValueModel);
             await _constraintValuesRepository.AddAsync(constraint);
+            await _uow.CommitAsync();
+        }
+
+        public async Task AddWithTypeAsync(ConstraintValueModel constraintValueModel)
+        {
+            var constraintValue = _mapper.Map<ConstraintValue>(constraintValueModel);
+            constraintValue.ConstraintId = constraintValueModel.Constraint.Id;
+            var constraint = _mapper.Map<Constraint>(constraintValueModel.Constraint);
+            await _constraintValuesRepository.AddAsync(constraintValue);
+            await _constraintsRepository.AddAsync(constraint);
             await _uow.CommitAsync();
         }
 

@@ -6,6 +6,7 @@ using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
+using HiQoDataGenerator.Web.ViewModels.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,10 +46,19 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(ConstraintViewModel constraintValueViewModel)
+        public async Task<IActionResult> Post(ConstraintValueViewModel constraintValueViewModel)
         {
             var constraintValueModel = _mapper.Map<ConstraintValueModel>(constraintValueViewModel);
             await _constraintValuesService.AddAsync(constraintValueModel);
+            return Ok(constraintValueModel);
+        }
+
+        [HttpPost]
+        [Route("AddWithConstraintType")]
+        public async Task<IActionResult> AddWithConstraintType(AddConstraintWithValue viewModel)
+        {
+            var constraintValueModel = _mapper.Map<ConstraintValueModel>(viewModel);
+            await _constraintValuesService.AddWithTypeAsync(constraintValueModel);
             return Ok(constraintValueModel);
         }
 
