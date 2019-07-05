@@ -5,22 +5,18 @@ namespace HiQoDataGenerator.Core.Entities
     public class FieldModel : BaseModel
     {
         public string Name { get; }
-
         public bool IsRequired { get; }
-
         public FieldTypeModel FieldType { get; }
-
-        public IEnumerable<ConstraintValueModel> Constraints { get; }
+        public ICollection<ConstraintValueModel> Constraints { get; }
 
         public FieldModel(int id, string name, bool isRequired, FieldTypeModel fieldType, 
-            IEnumerable<ConstraintValueModel> constraints) : base(id)
+            ICollection<ConstraintValueModel> constraints) : base(id)
         {
             Name = name;
             IsRequired = isRequired;
             FieldType = fieldType;
-            Constraints = constraints;
+            Constraints = constraints ?? new List<ConstraintValueModel>();
         }
-
-        public FieldModel(int id, string name, bool isRequired) : this(id, name, isRequired, null, null) { }
+     
     }
 }

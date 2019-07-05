@@ -9,7 +9,6 @@ namespace HiQoDataGenerator.Web.ViewModels
     {
         public int Id { get; set; }
         public string Value { get; set; }
-
-        public ConstraintViewModel ConstraintViewModel { get; set; }
+        public ConstraintViewModel ConstraintType { get; set; }
     }
 }

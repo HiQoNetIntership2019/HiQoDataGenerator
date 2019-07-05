@@ -7,12 +7,12 @@ namespace HiQoDataGenerator.Core.Entities
     public class ConstraintValueModel : BaseModel
     {
         public string Value { get; }
-        public int ConstraintId { get; }
+        public ConstraintModel ConstraintType { get; }
 
-        public ConstraintValueModel(int id, string value, int constraintId) : base(id)
+        public ConstraintValueModel(int id, string value, ConstraintModel constraintType) : base(id)
         {
             Value = value;
-            ConstraintId = constraintId;
+            ConstraintType = constraintType;
         }
     }
 }

@@ -14,11 +14,14 @@ namespace HiQoDataGenerator.Web.ModelsValidation
                 .CanNotBeNullWithMessage()
                 .CanNotBeEmptyWithMessage();
 
+            RuleFor(x => x.IsRequired)
+                .CanNotBeNullWithMessage();
+
             RuleFor(x => x.Constraints)
                 .CanNotBeNullWithMessage();
 
             RuleForEach(x => x.Constraints)
-                .SetValidator(new ConstraintValidator());
+                .SetValidator(new ConstraintValueValidator());
 
             RuleFor(x => x.FieldType)
                 .CanNotBeNullWithMessage()

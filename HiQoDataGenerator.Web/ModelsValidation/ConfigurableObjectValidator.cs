@@ -13,8 +13,11 @@ namespace HiQoDataGenerator.Web.ModelsValidation
                 .CanNotBeNullWithMessage()
                 .CanNotBeEmptyWithMessage();
 
-            RuleFor(x => x.DateCreation)
+            RuleFor(x => x.Fields)
                 .CanNotBeNullWithMessage();
+
+            RuleForEach(x => x.Fields)
+                .SetValidator(new FieldValidator());
         }
     }
 }

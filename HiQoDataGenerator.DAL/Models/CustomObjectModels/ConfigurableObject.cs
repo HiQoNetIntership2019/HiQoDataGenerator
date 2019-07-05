@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HiQoDataGenerator.DAL.Models.ConstraintModels;
+using System;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.DAL.Models.CustomObjectModels
@@ -8,8 +9,6 @@ namespace HiQoDataGenerator.DAL.Models.CustomObjectModels
         public string Name { get; set; }
         public DateTime DateCreation { get; set; }
         public DateTime? DateChange { get; set; }
-
-
         public ICollection<Field> Fields { get; set; }
     }
 }

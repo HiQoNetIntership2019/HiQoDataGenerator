@@ -66,7 +66,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             bool isRequired = true;
 
             var dalModel = new Field() { Id = id, Name = name, IsRequired = isRequired, ConfigurableObject = null, FieldType = null, };
-            var coreModel = new FieldModel(id, name, isRequired);
+            var coreModel = new FieldModel(id, name, isRequired, null, null);
 
             return (dalModel, coreModel);
         }
@@ -75,9 +75,9 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         {
             return new List<FieldModel>()
             {
-                new FieldModel(1, "first", true),
-                new FieldModel(2, "second", false),
-                new FieldModel(3, "third", true)
+                new FieldModel(1, "first", true, null, null),
+                new FieldModel(2, "second", false, null, null),
+                new FieldModel(3, "third", true, null, null)
             };
         }
 

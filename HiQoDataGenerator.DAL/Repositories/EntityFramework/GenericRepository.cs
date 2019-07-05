@@ -1,10 +1,8 @@
 ﻿using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
@@ -44,8 +42,8 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             return true;
         }
 
-        public void Update(T item) => _models.Update(item);
+        public async Task UpdateAsync(T item) => await Task.Run(() =>_models.Update(item));
 
-        public void UpdateRange(IEnumerable<T> items) => _models.UpdateRange(items);
+        public async Task UpdateRangeAsync(IEnumerable<T> items) => await Task.Run(() => _models.UpdateRange(items));
     }
 }

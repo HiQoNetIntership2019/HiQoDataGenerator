@@ -8,14 +8,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {
-    class ConfigurableObjectsRepository : GenericRepository<ConfigurableObject>, IConfigurableObjectsRepository
+    public class ConfigurableObjectsRepository : GenericRepository<ConfigurableObject>, IConfigurableObjectsRepository
     {
         public ConfigurableObjectsRepository(DataContext context) : base(context) { }
 
-        public IEnumerable<ConfigurableObject> GetByDateCreation(Predicate<DateTime> datePredicate) =>
+        public IQueryable<ConfigurableObject> GetByDateCreation(Predicate<DateTime> datePredicate) =>
             _models.Where(model => datePredicate(model.DateCreation));
 
         public async Task<ConfigurableObject> GetByName(string name) => await _models.FirstAsync(obj => obj.Name == name);
 
+        public IQueryable<ConfigurableObject> GetAllWithFields()
+        {
+            return _models
+                .Include(i => i.Fields)
+                    .ThenInclude(i => i.FieldType)
+                .Include(i => i.Fields)
+                    .ThenInclude(i => i.ConstraintValues)
+                        .ThenInclude(i => i.Constraint);
+                    
+        }
     }
 }
