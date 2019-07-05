@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HiQoDataGenerator.Core\HiQoDataGenerator.Core.csproj" />
     <ProjectReference Include="..\HiQoDataGenerator.DAL\HiQoDataGenerator.DAL.csproj" />
+    <ProjectReference Include="..\HiQoDataGenerator.GeneratorCore\HiQoDataGenerator.GeneratorCore.csproj" />
   </ItemGroup>
 
 </Project>
