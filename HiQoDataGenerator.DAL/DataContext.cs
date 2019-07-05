@@ -1,4 +1,5 @@
-﻿using HiQoDataGenerator.DAL.Models.ConstraintModels;
+﻿using HiQoDataGenerator.DAL.Extensions;
+using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using HiQoDataGenerator.DAL.Models.DataSetModels;
 using HiQoDataGenerator.DAL.Models.IntermediateModels;
@@ -124,6 +125,7 @@ namespace HiQoDataGenerator.DAL
 
             #endregion
 
+            builder.Seed();
         }
     }
 }
