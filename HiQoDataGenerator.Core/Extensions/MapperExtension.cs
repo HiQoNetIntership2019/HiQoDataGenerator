@@ -13,42 +13,31 @@ namespace HiQoDataGenerator.Core.Extensions
         {
             return new MapperConfiguration(config =>
             {
-                config.CreateMap<TimezoneModel, Timezone>();
-                config.CreateMap<Timezone, TimezoneModel>();
+                config.CreateMap<TimezoneModel, Timezone>().ReverseMap();
 
-                config.CreateMap<EncodingTypeModel, EncodingType>();
-                config.CreateMap<EncodingType, EncodingTypeModel>();
+                config.CreateMap<EncodingTypeModel, EncodingType>().ReverseMap();
 
-                config.CreateMap<RegexModel, Regex>();
-                config.CreateMap<Regex, RegexModel>();
+                config.CreateMap<RegexModel, Regex>().ReverseMap();
 
-                config.CreateMap<ConstraintModel, Constraint>();
-                config.CreateMap<Constraint, ConstraintModel>();
+                config.CreateMap<ConstraintModel, Constraint>().ReverseMap();
 
-                config.CreateMap<DateTimeFormatModel, DateTimeFormat>();
-                config.CreateMap<DateTimeFormat, DateTimeFormatModel>();
+                config.CreateMap<DateTimeFormatModel, DateTimeFormat>().ReverseMap();
 
-                config.CreateMap<ConfigurableObject, ConfigurableObjectModel>();
-                config.CreateMap<ConfigurableObjectModel, ConfigurableObject>();
+                config.CreateMap<ConfigurableObject, ConfigurableObjectModel>().ReverseMap();
 
-                config.CreateMap<DatasetTypeModel, DatasetType>();
-                config.CreateMap<DatasetType, DatasetTypeModel>();
+                config.CreateMap<DatasetTypeModel, DatasetType>().ReverseMap();
 
-                config.CreateMap<CustomDatasetModel, CustomDataset>();
-                config.CreateMap<CustomDataset, CustomDatasetModel>();
+                config.CreateMap<CustomDatasetModel, CustomDataset>().ReverseMap();
 
-                config.CreateMap<CustomDatasetValue, CustomDatasetValueModel>();
-                config.CreateMap<CustomDatasetValueModel, CustomDatasetValue>();
+                config.CreateMap<CustomDatasetValue, CustomDatasetValueModel>().ReverseMap();
 
                 config.CreateMap<ConstraintValueModel, ConstraintValue>()
                     .ForMember(dist => dist.Constraint, opt => opt.MapFrom(src => src.ConstraintType));
                 config.CreateMap<ConstraintValue, ConstraintValueModel>()
                     .ForMember(dist => dist.ConstraintType, opt => opt.MapFrom(src => src.Constraint));
 
-                config.CreateMap<DefinedDataset, DefinedDatasetModel>();
-                config.CreateMap<DefinedDatasetModel, DefinedDataset>();
-                config.CreateMap<DefinedDatasetValue, DefinedDatasetValueModel>();
-                config.CreateMap<DefinedDatasetValueModel, DefinedDatasetValue>();
+                config.CreateMap<DefinedDataset, DefinedDatasetModel>().ReverseMap();
+                config.CreateMap<DefinedDatasetValue, DefinedDatasetValueModel>().ReverseMap();
 
                 config.CreateMap<FieldModel, Field>()
                     .ForMember(dist => dist.ConstraintValues, opt => opt.MapFrom(src => src.Constraints));
@@ -58,8 +47,7 @@ namespace HiQoDataGenerator.Core.Extensions
                         i.ConstraintValues.Select(v => new ConstraintValueModel(v.Id, v.Value, 
                             new ConstraintModel(v.Constraint.Id, v.Constraint.Name, v.Constraint.Description, null, null))).ToList()));
 
-                config.CreateMap<FieldTypeModel, FieldType>();
-                config.CreateMap<FieldType, FieldTypeModel>();
+                config.CreateMap<FieldTypeModel, FieldType>().ReverseMap();
 
             }).CreateMapper();
         }
