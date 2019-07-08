@@ -43,6 +43,18 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         /// <summary>
+        ///     Gets supported types
+        /// </summary>
+        /// <returns>Status code 200 and view model.</returns>
+        [HttpGet]
+        [Route("SupportedTypes")]
+        public IActionResult GetSupportedTypes()
+        {
+            var result = _fieldTypesService.GetSupportedTypes();
+            return Ok(result);
+        }
+
+        /// <summary>
         ///     Adds new field type.
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>

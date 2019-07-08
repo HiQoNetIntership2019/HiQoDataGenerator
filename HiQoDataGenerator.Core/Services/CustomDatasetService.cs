@@ -3,24 +3,31 @@ using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.DataSetModels;
+using HiQoDataGenerator.DAL.Restrictions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Exceptions;
 using HiQoDataGenerator.Core.UnitOfWork;
 using System.Linq;
+using System;
 
 namespace HiQoDataGenerator.Core.Services
 {
     public class CustomDatasetService : ICustomDatasetService
     {
         private readonly ICustomDatasetRepository _customDatasetRepository;
+        private readonly IDatasetRepository _datasetRepository;
+        private readonly IFieldTypeRepository _typesRepository;
         private readonly IUnitOfWork _uow;
         private IMapper _mapper;
 
-        public CustomDatasetService(IUnitOfWork unit, ICustomDatasetRepository customDatasetRepository, IMapperFactory mapperFactory)
+        public CustomDatasetService(IUnitOfWork unit, ICustomDatasetRepository customDatasetRepository, 
+            IDatasetRepository datasetRepository, IFieldTypeRepository typesRepository, IMapperFactory mapperFactory)
         {
             _uow = unit;
             _customDatasetRepository = customDatasetRepository;
+            _datasetRepository = datasetRepository;
+            _typesRepository = typesRepository;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
@@ -76,20 +83,34 @@ namespace HiQoDataGenerator.Core.Services
         public async Task AddAsync(CustomDatasetModel customDatasetModel)
         {
             var customDataset = _mapper.Map<CustomDataset>(customDatasetModel);
+            var dataset = _mapper.Map<Dataset>(customDatasetModel);
             var customDatasetValues = _mapper.Map<IEnumerable<CustomDatasetValue>>(customDatasetModel.Values).Select(item => { item.Dataset = customDataset; return item;}).ToList();
+
+            if (await _datasetRepository.GetByNameAsync(customDatasetModel.Name.ToLower()) != null)
+            {
+                throw new InvalidDataException($"Dataset <{customDatasetModel.Name}> is already exist!");
+            }
+
             await _customDatasetRepository.AddAsync(customDataset);
             await _customDatasetRepository.AddValuesAsync(customDatasetValues);
+            dataset.Type = await _typesRepository.GetByNameAsync(Enum.GetName(typeof(SupportedTypes),SupportedTypes.String).ToLower());
+            await _datasetRepository.AddAsync(dataset);
 
             await _uow.CommitAsync();
         }
 
         public async Task RemoveDatasetAsync(int datasetId)
         {
+            var customDataset = await _customDatasetRepository.GetByIdAsync(datasetId);
             var result = await _customDatasetRepository.RemoveByIdAsync(datasetId);
+
             if (!result)
             {
                 throw new InvalidDataException($"Can't delete Custom Dataset with id {datasetId} !");
             }
+
+            var dataset = await _datasetRepository.GetByNameAsync(customDataset.Name.ToLower());
+            await _datasetRepository.RemoveByIdAsync(dataset.Id);
             await _uow.CommitAsync();
         }
 

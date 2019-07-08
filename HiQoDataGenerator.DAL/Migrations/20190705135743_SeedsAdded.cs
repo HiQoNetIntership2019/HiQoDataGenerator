@@ -36,18 +36,18 @@ namespace HiQoDataGenerator.DAL.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 10, "datetime" },
-                    { 9, "time" },
-                    { 8, "date" },
-                    { 7, "bool" },
-                    { 6, "string" },
-                    { 2, "int" },
-                    { 4, "decimal" },
-                    { 3, "double" },
-                    { 1, "byte" },
-                    { 11, "enum" },
-                    { 5, "complex" },
-                    { 12, "guid" }
+                    { 10, "DateTime" },
+                    { 9, "Time" },
+                    { 8, "Date" },
+                    { 7, "Bool" },
+                    { 6, "String" },
+                    { 2, "Int" },
+                    { 4, "Decimal" },
+                    { 3, "Double" },
+                    { 1, "Byte" },
+                    { 11, "Enum" },
+                    { 5, "Complex" },
+                    { 12, "Guid" }
                 });
 
             migrationBuilder.InsertData(

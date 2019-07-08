@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HiQoDataGenerator.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190704092545_Create_Defined_Datasets")]
-    partial class Create_Defined_Datasets
+    [Migration("20190705114431_Create_Datasets")]
+    partial class Create_Datasets
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,8 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.Property<int?>("ConstraintId");
 
+                    b.Property<int?>("FieldId");
+
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasMaxLength(300);
@@ -52,6 +54,8 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ConstraintId");
+
+                    b.HasIndex("FieldId");
 
                     b.ToTable("ConstraintValues");
                 });
@@ -201,7 +205,41 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.ToTable("CustomDatasetsValues");
                 });
-            
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.Dataset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsDefined");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int>("TypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Datasets");
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.DatasetType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DatasetTypes");
+                });
+
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.DefinedDataset", b =>
                 {
                     b.Property<int>("Id")
@@ -261,6 +299,10 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.HasOne("HiQoDataGenerator.DAL.Models.ConstraintModels.Constraint", "Constraint")
                         .WithMany("Values")
                         .HasForeignKey("ConstraintId");
+
+                    b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.Field", "Field")
+                        .WithMany("ConstraintValues")
+                        .HasForeignKey("FieldId");
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.CustomObjectModels.Field", b =>
@@ -279,6 +321,14 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.CustomDataset", "Dataset")
                         .WithMany()
                         .HasForeignKey("DatasetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.DataSetModels.Dataset", b =>
+                {
+                    b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.FieldType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

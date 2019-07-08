@@ -81,7 +81,7 @@ namespace HiQoDataGenerator.Web.Controllers
         }
 
         /// <summary>
-        ///     Gets all defined values by field type id.
+        ///     Gets all datasets by field type id.
         /// </summary>
         /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
