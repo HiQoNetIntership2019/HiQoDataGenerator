@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using HiQoDataGenerator.GeneratorCore.Interfaces;
+using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Models.Prototypes
 {
-    public class ConfigurablePrototype
+    public class ConfigurablePrototype : IPrototype
     {
         public string Name { get; }
         public IEnumerable<FieldPrototype> Fields { get; }

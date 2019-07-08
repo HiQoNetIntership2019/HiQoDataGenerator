@@ -4,6 +4,6 @@ namespace HiQoDataGenerator.GeneratorCore.Interfaces
 {
     public interface IFieldsGenerator
     {
-        (string, object) Generate(int fieldTypeId, IEnumerable<(int constraintId, object value)> constraints, int? datasetId = null);
+        dynamic Generate(int fieldTypeId, IEnumerable<(int constraintId, dynamic value)> constraints, int? datasetId = null);
     }
 }

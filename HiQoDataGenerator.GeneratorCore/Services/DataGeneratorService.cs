@@ -24,8 +24,8 @@ namespace HiQoDataGenerator.GeneratorCore.Services
             foreach (var fieldPrototype in prototype.Fields)
             {
                 var constraints = fieldPrototype.Constraints.Select(i => (i.TypeId, i.Value));
-                var field = _fieldsGenerator.Generate(fieldPrototype.FieldTypeId, constraints, fieldPrototype.DatsetId);
-                generatedObject.Fields.Add(field);
+                var fieldValue = _fieldsGenerator.Generate(fieldPrototype.FieldTypeId, constraints, fieldPrototype.DatsetId);
+                generatedObject.Fields.Add(new GeneratedField(fieldPrototype.Name, fieldValue));
             }
 
             return generatedObject;
@@ -53,7 +53,7 @@ namespace HiQoDataGenerator.GeneratorCore.Services
 
             var generatedObjectsCollection = new List<GeneratedObject>();
 
-            while(count-- > 0)
+            for (;count > 0; count--)
             {
                 generatedObjectsCollection.Add(Generate(prototype));
             }

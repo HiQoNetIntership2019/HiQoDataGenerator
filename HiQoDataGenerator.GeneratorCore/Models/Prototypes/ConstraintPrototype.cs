@@ -3,9 +3,9 @@
     public class ConstraintPrototype
     {
         public int TypeId { get; }
-        public object Value { get; } 
+        public dynamic Value { get; } 
 
-        public ConstraintPrototype(int typeId, object value)
+        public ConstraintPrototype(int typeId, dynamic value)
         {
             TypeId = typeId;
             Value = value;
