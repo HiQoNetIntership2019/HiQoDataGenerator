@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using System;
+using System.Linq;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
+using HiQoDataGenerator.DAL.Restrictions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Exceptions;
@@ -21,6 +24,11 @@ namespace HiQoDataGenerator.Core.Services
             _uow = unit;
             _fieldTypeRepostory = fieldTypeRepository;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
+        }
+
+        public IEnumerable<string> GetSupportedTypes()
+        {
+            return Enum.GetNames(typeof(SupportedTypes));
         }
 
         public IEnumerable<FieldTypeModel> GetAll()
@@ -42,6 +50,9 @@ namespace HiQoDataGenerator.Core.Services
         public async Task AddAsync(FieldTypeModel fieldTypeModel)
         {
             var type = _mapper.Map<FieldType>(fieldTypeModel);
+            var supportedType = Enum.GetNames(typeof(SupportedTypes)).Where(item => item.ToLower() == type.Name.ToLower()).FirstOrDefault();
+
+            type.Name = supportedType ?? throw new InvalidDataException($"Type <{type.Name}> is not supported!");
             await _fieldTypeRepostory.AddAsync(type);
             await _uow.CommitAsync();
         }

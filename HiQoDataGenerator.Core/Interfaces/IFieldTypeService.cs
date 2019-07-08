@@ -8,6 +8,7 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IFieldTypeService
     {
+        IEnumerable<string> GetSupportedTypes();
         IEnumerable<FieldTypeModel> GetAll();
         Task<FieldTypeModel> GetByIdAsync(int id);
         Task AddAsync(FieldTypeModel fieldTypeModel);

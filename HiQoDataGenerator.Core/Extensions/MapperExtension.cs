@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
@@ -48,6 +48,22 @@ namespace HiQoDataGenerator.Core.Extensions
                             new ConstraintModel(v.Constraint.Id, v.Constraint.Name, v.Constraint.Description, null, null))).ToList()));
 
                 config.CreateMap<FieldTypeModel, FieldType>().ReverseMap();
+
+                config.CreateMap<Dataset, DatasetModel>();
+                config.CreateMap<DatasetModel, DefinedDataset>()
+                     .ForMember(c => c.Id, opt => opt.MapFrom(src => 0));
+                config.CreateMap<CustomDatasetModel, Dataset>()
+                    .ForMember(c => c.IsDefined, opt => opt.MapFrom(src => false))
+                    .ForMember(c => c.Id, opt => opt.MapFrom(src => 0));
+                config.CreateMap<DefinedDatasetModel, Dataset>()
+                    .ForMember(c => c.IsDefined, opt => opt.MapFrom(src => true))
+                    .ForMember(c => c.Id, opt => opt.MapFrom(src => 0));
+                config.CreateMap<CustomDatasetValue, DefinedDatasetValue>()
+                    .ForMember(c => c.DatasetId, opt => opt.MapFrom(src => 0))
+                    .ForMember(c => c.Dataset, opt => opt.Ignore());
+
+                config.CreateMap<CustomDatasetValue, DatasetValueModel>();
+                config.CreateMap<DefinedDatasetValue, DatasetValueModel>();
 
             }).CreateMapper();
         }

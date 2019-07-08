@@ -16,6 +16,11 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             _datasetValues = context.Set<DefinedDatasetValue>();
         }
 
+        public async Task<DefinedDataset> GetByNameAsync(string name)
+        {
+            return await Task.Run(() => _models.Where(model => model.Name.ToLower() == name).FirstOrDefault());
+        }
+
         public IEnumerable<DefinedDatasetValue> GetValues()
         {
             return _datasetValues.ToList();

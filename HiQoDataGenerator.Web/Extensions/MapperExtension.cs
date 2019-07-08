@@ -47,6 +47,9 @@ namespace HiQoDataGenerator.Web.Extensions
 
                 config.CreateMap<FieldModel, FieldViewModel>();
                 config.CreateMap<FieldViewModel, FieldModel>();
+
+                config.CreateMap<DatasetModel, DatasetViewModel>();
+                config.CreateMap<DatasetValueModel, DatasetValueViewModel>();
             }).CreateMapper();
         }
     }

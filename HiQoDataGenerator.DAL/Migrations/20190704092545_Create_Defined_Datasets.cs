@@ -42,20 +42,7 @@ namespace HiQoDataGenerator.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "DatasetType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    TypeName = table.Column<string>(maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DatasetType", x => x.Id);
-                });
-
+            
             migrationBuilder.CreateTable(
                 name: "DefinedDatasets",
                 columns: table => new
@@ -154,10 +141,7 @@ namespace HiQoDataGenerator.DAL.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ConstraintValues");
-
-            migrationBuilder.DropTable(
-                name: "DatasetType");
-
+            
             migrationBuilder.DropTable(
                 name: "DefinedDatasetsValues");
 

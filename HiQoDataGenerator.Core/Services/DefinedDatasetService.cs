@@ -14,22 +14,33 @@ namespace HiQoDataGenerator.Core.Services
     public class DefinedDatasetService : IDefinedDatasetService
     {
         private readonly IDefinedDatasetRepository _definedDatasetRepository;
+        private readonly IDatasetRepository _datasetRepository;
         private readonly IUnitOfWork _uow;
         private IMapper _mapper;
 
-        public DefinedDatasetService(IUnitOfWork unit, IDefinedDatasetRepository definedDatasetRepository, IMapperFactory mapperFactory)
+        public DefinedDatasetService(IUnitOfWork unit, IDefinedDatasetRepository definedDatasetRepository, 
+            IDatasetRepository datasetRepository, IMapperFactory mapperFactory)
         {
             _uow = unit;
             _definedDatasetRepository = definedDatasetRepository;
+            _datasetRepository = datasetRepository;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
         
         public async Task AddAsync(DefinedDatasetModel definedDatasetModel)
         {
             var definedDataset = _mapper.Map<DefinedDataset>(definedDatasetModel);
+            var dataset = _mapper.Map<Dataset>(definedDatasetModel);
             var definedDatasetValues = _mapper.Map<IEnumerable<DefinedDatasetValue>>(definedDatasetModel.Values).Select(item => { item.Dataset = definedDataset; return item; });
+
+            if (await _datasetRepository.GetByNameAsync(definedDatasetModel.Name.ToLower()) != null)
+            {
+                throw new InvalidDataException($"Dataset <{definedDatasetModel.Name}> is already exist!");
+            }
+
             await _definedDatasetRepository.AddAsync(definedDataset);
             await _definedDatasetRepository.AddValuesAsync(definedDatasetValues);
+            await _datasetRepository.AddAsync(dataset);
 
             await _uow.CommitAsync();
         }
@@ -105,11 +116,16 @@ namespace HiQoDataGenerator.Core.Services
         
         public async Task RemoveDatasetAsync(int datasetId)
         {
+            var definedDataset = await _definedDatasetRepository.GetByIdAsync(datasetId);
             var result = await _definedDatasetRepository.RemoveByIdAsync(datasetId);
+
             if (!result)
             {
                 throw new InvalidDataException($"Can't delete Defined Dataset with id {datasetId} !");
             }
+
+            var dataset = await _datasetRepository.GetByNameAsync(definedDataset.Name.ToLower());
+            await _datasetRepository.RemoveByIdAsync(dataset.Id);
             await _uow.CommitAsync();
         }
         

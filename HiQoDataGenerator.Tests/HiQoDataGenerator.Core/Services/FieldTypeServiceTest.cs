@@ -85,15 +85,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         {
             await Assert.ThrowsAsync<InvalidDataException>(() => _fieldTypeService.GetByIdAsync(3));
         }
-
-        [Fact]
-        public void AddAsync_NonExistingElement_NoException()
-        {
-            var ex = Record.ExceptionAsync(() => _fieldTypeService.AddAsync(null));
-
-            Assert.Null(ex.Result);
-        }
-
+        
         [Fact]
         public void RemoveByIdAsync_ExistingId_NoException()
         {

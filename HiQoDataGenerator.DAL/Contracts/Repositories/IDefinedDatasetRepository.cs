@@ -6,6 +6,7 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     public interface IDefinedDatasetRepository : IGenericRepository<DefinedDataset>
     {
+        Task<DefinedDataset> GetByNameAsync(string name);
         IEnumerable<DefinedDatasetValue> GetValues();
         IEnumerable<DefinedDatasetValue> GetValuesByDatasetId(int datasetId);
         IEnumerable<DefinedDatasetValue> GetValuesByDatasetName(string datasetName);

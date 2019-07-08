@@ -19,6 +19,8 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private readonly IMapper _mapper;
         private readonly Mock<IMapperFactory> _mapperFactoryMock;
         private readonly Mock<ICustomDatasetRepository> _repositoryMock;
+        private readonly Mock<IDatasetRepository> _datasetRepositoryMock;
+        private readonly Mock<IFieldTypeRepository> _typesRepositoryMock;
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly List<CustomDataset> _customDatasets;
         private readonly List<CustomDatasetValue> _customDatasetValues;
@@ -28,15 +30,19 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         {
             _mapper = CoreServices.GetMapper();
             _repositoryMock = new Mock<ICustomDatasetRepository>();
+            _datasetRepositoryMock = new Mock<IDatasetRepository>();
+            _typesRepositoryMock = new Mock<IFieldTypeRepository>();
             _mapperFactoryMock = new Mock<IMapperFactory>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _customDatasets = GenerateCustomDatasets();
             _customDatasetValues = GenerateCustomDatasetValues(_customDatasets);
 
             ConfigureRepositoryMock(_repositoryMock);
+            ConfigureDatasetRepositoryMock(_datasetRepositoryMock);
             ConfigureMapperFactoryMock(_mapperFactoryMock);
             ConfigureUOWMock(_unitOfWorkMock);
-            _customDatasetService = new CustomDatasetService(_unitOfWorkMock.Object, _repositoryMock.Object, _mapperFactoryMock.Object);
+            _customDatasetService = new CustomDatasetService(_unitOfWorkMock.Object, _repositoryMock.Object, 
+                _datasetRepositoryMock.Object, _typesRepositoryMock.Object, _mapperFactoryMock.Object);
         }
 
         private List<CustomDataset> GenerateCustomDatasets()
@@ -61,6 +67,12 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private void ConfigureMapperFactoryMock(Mock<IMapperFactory> mapperFactoryMock)
         {
             mapperFactoryMock.Setup(factory => factory.GetMapper(typeof(CoreServices).Name)).Returns(() => _mapper);
+        }
+
+        private void ConfigureDatasetRepositoryMock(Mock<IDatasetRepository> datasetRepositoryMock)
+        {
+            datasetRepositoryMock.Setup(rep => rep.GetByNameAsync(_customDatasets[0].Name.ToLower())).ReturnsAsync(() => new Dataset() { Id = 1 });
+            datasetRepositoryMock.Setup(rep => rep.RemoveByIdAsync(1));
         }
 
         private void ConfigureRepositoryMock(Mock<ICustomDatasetRepository> repositoryMock)
