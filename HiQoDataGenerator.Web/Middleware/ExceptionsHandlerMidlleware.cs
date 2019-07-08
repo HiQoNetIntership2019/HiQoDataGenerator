@@ -3,6 +3,9 @@ using System;
 using System.Threading.Tasks;
 using System.Net;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace HiQoDataGenerator.Web.Middleware
 {
@@ -39,6 +42,7 @@ namespace HiQoDataGenerator.Web.Middleware
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             httpContext.Response.ContentType = _contentType;
 
+            ElmahCore.ElmahExtensions.RiseError(httpContext, ex); 
             return httpContext.Response.WriteAsync(_message);
         }
     }
