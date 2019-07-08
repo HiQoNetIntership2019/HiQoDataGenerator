@@ -1,13 +1,15 @@
-﻿namespace HiQoDataGenerator.GeneratorCore.Models.Prototypes
+﻿using HiQoDataGenerator.GeneratorCore.Extensions;
+
+namespace HiQoDataGenerator.GeneratorCore.Models.Prototypes
 {
     public class ConstraintPrototype
     {
-        public int TypeId { get; }
-        public object Value { get; } 
+        public ConstraintTypes Type { get; }
+        public dynamic Value { get; } 
 
-        public ConstraintPrototype(int typeId, object value)
+        public ConstraintPrototype(ConstraintTypes type, dynamic value)
         {
-            TypeId = typeId;
+            Type = type;
             Value = value;
         }
     }

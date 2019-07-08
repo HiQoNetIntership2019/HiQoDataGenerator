@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Interfaces
 {
-    public interface IFieldsGenerator
+    public interface IFieldValueGenerator
     {
-        dynamic Generate(SupportedTypes type, IEnumerable<(ConstraintTypes type, dynamic value)> constraints, int? datasetId = null);
+        SupportedTypes GetFieldType();
+        dynamic GenerateValue(IEnumerable<(ConstraintTypes, dynamic)> constraints);
     }
 }

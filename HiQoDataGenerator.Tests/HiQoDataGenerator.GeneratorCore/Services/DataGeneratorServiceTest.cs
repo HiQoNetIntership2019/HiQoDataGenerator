@@ -1,4 +1,5 @@
-﻿using HiQoDataGenerator.GeneratorCore.Exceptions;
+﻿using HiQoDataGenerator.DAL.Restrictions;
+using HiQoDataGenerator.GeneratorCore.Exceptions;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
 using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 using HiQoDataGenerator.GeneratorCore.Services;
@@ -14,7 +15,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.GeneratorCore.Services
     {
         private readonly Mock<IFieldsGenerator> _fieldGeneratorMock = new Mock<IFieldsGenerator>();
 
-        private IDataGeneratorService _dataGeneratorService;
+        private readonly IDataGeneratorService _dataGeneratorService;
 
         public DataGeneratorServiceTest()
         {
@@ -66,7 +67,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.GeneratorCore.Services
         {
             var configurablePrototype = GetConfigurablePrototype("test");
 
-            void act() => _dataGeneratorService.GenerateMany(configurablePrototype, -2);
+            Action act = () => _dataGeneratorService.GenerateMany(configurablePrototype, -2);
 
             Assert.Throws<NegativeCountObjectsException>(act);
         }
@@ -88,8 +89,8 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.GeneratorCore.Services
         {
             var fields = new List<FieldPrototype>()
             {
-                new FieldPrototype("field 1", true, 1, null, null),
-                new FieldPrototype("field 2", false, 2, 1, null)
+                new FieldPrototype("field 1", true, SupportedTypes.Int, null, null),
+                new FieldPrototype("field 2", false, SupportedTypes.Double, 1, null)
             };
 
             return new ConfigurablePrototype(name, fields);
