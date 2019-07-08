@@ -14,6 +14,7 @@ using HiQoDataGenerator.Web.Extensions;
 using HiQoDataGenerator.Web.Middleware;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
+using ElmahCore.Mvc;
 
 namespace HiQoDataGenerator.Web
 {
@@ -35,7 +36,7 @@ namespace HiQoDataGenerator.Web
             services.AddScoped<LoggingAttribute>();
 
             services.AddBLServices();
-            services.AddDALServices(Configuration.GetConnectionString("Connection"));
+            services.AddDALServices(Configuration.GetConnectionString("PostgreConnection"));
 
             services.AddMapperFactory();
 
@@ -47,6 +48,7 @@ namespace HiQoDataGenerator.Web
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+            services.AddElmahService(Configuration.GetConnectionString("RedisConnection"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +64,7 @@ namespace HiQoDataGenerator.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseElmah();
             app.UseMiddleware<ExceptionsHandlerMidlleware>();
 
             app.UseHttpsRedirection();
@@ -72,7 +74,7 @@ namespace HiQoDataGenerator.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Data Generator API V1");
             });
-
+            
             app.UseMvc();
         }
     }
