@@ -3,9 +3,6 @@ using System;
 using System.Threading.Tasks;
 using System.Net;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-
-using Microsoft.AspNetCore.Mvc;
 
 namespace HiQoDataGenerator.Web.Middleware
 {

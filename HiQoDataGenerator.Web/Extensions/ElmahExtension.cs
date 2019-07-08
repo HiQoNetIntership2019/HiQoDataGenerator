@@ -1,4 +1,5 @@
 ﻿using ElmahCore.Mvc;
+using HiQoDataGenerator.Web.LoggingInfrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HiQoDataGenerator.Web.Extensions
@@ -7,7 +8,7 @@ namespace HiQoDataGenerator.Web.Extensions
     {        
         public static void AddElmahService(this IServiceCollection services, string connectionString)
         {
-            services.AddElmah(options => options.ConnectionString = connectionString);
+            services.AddElmah<RedisErrorLog>(options => options.ConnectionString = connectionString);
         }
     }
 }
