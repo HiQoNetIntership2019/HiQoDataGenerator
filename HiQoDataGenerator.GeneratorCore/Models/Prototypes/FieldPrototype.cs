@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HiQoDataGenerator.DAL.Restrictions;
+using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Models.Prototypes
 {
@@ -6,16 +7,16 @@ namespace HiQoDataGenerator.GeneratorCore.Models.Prototypes
     {
         public string Name { get; }
         public bool IsRequired { get; }
-        public int FieldTypeId { get; }
+        public SupportedTypes Type { get; }
         public int? DatsetId { get; }
         public IEnumerable<ConstraintPrototype> Constraints { get; }
 
-        public FieldPrototype(string name, bool isRequired, int fieldTypeId, int? datasetId, 
+        public FieldPrototype(string name, bool isRequired, SupportedTypes type, int? datasetId, 
             IEnumerable<ConstraintPrototype> constraints = null)
         {
             Name = name;
             IsRequired = isRequired;
-            FieldTypeId = fieldTypeId;
+            Type = type;
             DatsetId = datasetId;
             Constraints = constraints ?? new List<ConstraintPrototype>(); 
         }

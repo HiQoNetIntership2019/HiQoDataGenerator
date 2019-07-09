@@ -9,7 +9,6 @@ namespace HiQoDataGenerator.Web.ModelsValidation
         public ConstraintValueValidator()
         {
             RuleFor(x => x.Value)
-                .MaxLengthWithMessage(300)
                 .CanNotBeNullWithMessage()
                 .CanNotBeEmptyWithMessage();
 

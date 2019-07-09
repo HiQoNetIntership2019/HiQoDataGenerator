@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bogus" Version="28.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HiQoDataGenerator.Core\HiQoDataGenerator.Core.csproj" />
   </ItemGroup>
 

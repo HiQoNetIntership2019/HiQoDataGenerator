@@ -8,14 +8,14 @@ namespace HiQoDataGenerator.GeneratorCore.Models.Objects
     {
         public string Name { get; }
         public DateTime DateCreated { get; }
-        public ICollection<(string Name, object Value)> Fields { get; }
+        public ICollection<GeneratedField> Fields { get; }
 
 
-        public GeneratedObject(string name, ICollection<(string, object)> fields = null)
+        public GeneratedObject(string name, ICollection<GeneratedField> fields = null)
         {
             Name = name;
             DateCreated = DateTime.Now;
-            Fields = fields ?? new List<(string, object)>();
+            Fields = fields ?? new List<GeneratedField>();
         }
 
         public override string ToString()

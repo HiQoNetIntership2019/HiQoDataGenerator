@@ -2,6 +2,12 @@
 using HiQoDataGenerator.Web.ViewModels;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels.Helpers;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
+using System.Linq;
+using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.DAL.Restrictions;
+using HiQoDataGenerator.GeneratorCore.Models.Objects;
+using HiQoDataGenerator.Web.ModelsValidation;
 
 namespace HiQoDataGenerator.Web.Extensions
 {
@@ -50,8 +56,17 @@ namespace HiQoDataGenerator.Web.Extensions
 
                 config.CreateMap<DatasetModel, DatasetViewModel>();
                 config.CreateMap<DatasetValueModel, DatasetValueViewModel>();
+
+                config.CreateMap<ConfigurableObjectViewModel, ConfigurablePrototype>()
+                    .ConstructUsing(o => new ConfigurablePrototype(o.Name, o.Fields.Select(f => 
+                        new FieldPrototype(f.Name, f.IsRequired, (SupportedTypes)f.FieldType.Id, null, f.Constraints.Select(c => 
+                            new ConstraintPrototype((ConstraintTypes) c.ConstraintType.Id, (object)c.Value))))));
+
+                config.CreateMap<GeneratedField, GeneratedFieldViewModel>();
+
+                config.CreateMap<GeneratedObject, GeneratedObjectViewModel>();
+                    
             }).CreateMapper();
         }
     }
-
 }

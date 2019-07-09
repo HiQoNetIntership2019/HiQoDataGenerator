@@ -16,20 +16,21 @@ using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 using ElmahCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using HiQoDataGenerator.GeneratorCore;
 
 namespace HiQoDataGenerator.Web
 {
     public class Startup
     {
         private readonly string _filenameForLog = "Web.log";
-        public Startup(IConfiguration configuration) => Configuration = configuration;        
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-        
+
             services.AddMvc(options => options.Filters.Add(new ModelStateFilter()))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>());
@@ -37,6 +38,7 @@ namespace HiQoDataGenerator.Web
             services.AddScoped<LoggingAttribute>();
 
             services.AddBLServices();
+            services.AddGeneratorCoreSerives();
             services.AddDALServices(Configuration.GetConnectionString("PostgreConnection"));
 
             services.AddMapperFactory();
@@ -75,7 +77,7 @@ namespace HiQoDataGenerator.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Data Generator API V1");
             });
-            
+
             app.UseMvc();
 
             InitializeMigrations(app);
