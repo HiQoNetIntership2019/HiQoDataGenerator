@@ -18,7 +18,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators
         {
             foreach (var valueGenerator in valueGenerators)
             {
-                _fieldsGenerators[valueGenerator.GetFieldType()] = valueGenerator;
+                _fieldsGenerators[valueGenerator.FieldType] = valueGenerator;
             }
         }
 

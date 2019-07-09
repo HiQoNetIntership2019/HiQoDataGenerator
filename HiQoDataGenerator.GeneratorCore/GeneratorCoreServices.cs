@@ -16,7 +16,10 @@ namespace HiQoDataGenerator.GeneratorCore
                 new DoubleGenerator(),
                 new DecimalGenerator(),
                 new ComplexGenerator(),
-                new BoolGenerator()
+                new BoolGenerator(),
+                new StringGenerator(),
+                new DateTimeGenerator(),
+                new DateGenerator()
                 );
 
             services.AddSingleton<IFieldsGenerator>(fieldsGenerator);

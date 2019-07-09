@@ -7,14 +7,11 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
     public class BoolGenerator : GeneratorBase, IFieldValueGenerator
     {
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes, dynamic)> constraints)
+        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
         {
             return _randomizer.Bool();
         }
 
-        public SupportedTypes GetFieldType()
-        {
-            return SupportedTypes.Bool;
-        }
+        public SupportedTypes FieldType { get => SupportedTypes.Bool; }
     }
 }
