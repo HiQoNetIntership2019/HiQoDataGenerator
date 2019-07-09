@@ -110,6 +110,13 @@ namespace HiQoDataGenerator.DAL.Extensions
                     new FieldTypeConstraint() { Id = 31, FieldTypeId = 11, ConstraintId = 11 }
                     #endregion
                 );
+
+            modelBuilder.Entity<EncodingType>()
+                .HasData(
+                    new EncodingType() { Id = 1, Name = "UTF-8" },
+                    new EncodingType() { Id = 2, Name = "UTF-16" },
+                    new EncodingType() { Id = 3, Name = "UTF-32" }
+                );
         }
     }
 }
