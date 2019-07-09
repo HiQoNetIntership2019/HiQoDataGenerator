@@ -15,6 +15,7 @@ using HiQoDataGenerator.Web.Middleware;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 using ElmahCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HiQoDataGenerator.Web
 {
@@ -76,6 +77,17 @@ namespace HiQoDataGenerator.Web
             });
             
             app.UseMvc();
+
+            InitializeMigrations(app);
+        }
+
+        private static void InitializeMigrations(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
+                dbContext.Database.Migrate();
+            }
         }
     }
 }
