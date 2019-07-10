@@ -6,6 +6,8 @@ using System.Linq;
 using HiQoDataGenerator.Scheduler.Services;
 using HiQoDataGenerator.Scheduler.Extensions;
 using System.Threading.Tasks;
+using Serilog;
+using System.IO;
 
 namespace HiQoDataGenerator.Scheduler
 {
@@ -21,6 +23,8 @@ namespace HiQoDataGenerator.Scheduler
                     services.AddHostedService<SchedulerHostedService>();
                 });
 
+            ConfigureLogger();
+
             if (isService)
             {
                 await builder.RunAsServiceAsync();
@@ -29,6 +33,16 @@ namespace HiQoDataGenerator.Scheduler
             {
                 await builder.RunConsoleAsync();
             }
+        }
+
+        private static void ConfigureLogger()
+        {
+            var fileName = $"Scheduler_{DateTime.Now.ToString("ddMMyyyy")}.log";
+            var filePath = Path.Combine(AppContext.BaseDirectory,"Logs",fileName);
+
+            Log.Logger = new LoggerConfiguration()
+               .WriteTo.File(filePath)
+               .CreateLogger();
         }
     }
 }
