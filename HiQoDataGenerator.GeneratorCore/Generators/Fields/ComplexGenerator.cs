@@ -9,7 +9,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
     public class ComplexGenerator : GeneratorBase, IFieldValueGenerator
     {
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes, dynamic)> constraints)
+        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
         {
             double minA = double.MinValue, maxA = double.MaxValue, minB = double.MinValue, maxB = double.MaxValue;
 
@@ -37,9 +37,6 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
             return new Complex(_randomizer.Double(minA, maxA), _randomizer.Double(minB, maxB));
         }
 
-        public SupportedTypes GetFieldType()
-        {
-            return SupportedTypes.Complex;
-        }
+        public SupportedTypes FieldType { get => SupportedTypes.Complex; }
     }
 }

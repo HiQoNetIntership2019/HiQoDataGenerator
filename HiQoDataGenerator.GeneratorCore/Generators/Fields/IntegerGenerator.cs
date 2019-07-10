@@ -8,7 +8,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
     public class IntegerGenerator : GeneratorBase, IFieldValueGenerator
     {
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes, dynamic)> constraints)
+        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
         {
             int minValue = int.MinValue, maxValue = int.MaxValue;
             foreach (var (type, value) in constraints)
@@ -28,9 +28,6 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
             return _randomizer.Int(minValue, maxValue);
         }
 
-        public SupportedTypes GetFieldType()
-        {
-            return SupportedTypes.Int;
-        }
+        public SupportedTypes FieldType { get => SupportedTypes.Int; }
     }
 }

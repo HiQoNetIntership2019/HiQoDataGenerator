@@ -8,7 +8,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
     public class DoubleGenerator : GeneratorBase, IFieldValueGenerator
     {
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes, dynamic)> constraints)
+        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
         {
             double minValue = double.MinValue, maxValue = double.MaxValue;
             foreach (var (type, value) in constraints)
@@ -28,9 +28,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
             return _randomizer.Double(minValue, maxValue);
         }
 
-        public SupportedTypes GetFieldType()
-        {
-            return SupportedTypes.Double;
-        }
+        public SupportedTypes FieldType { get => SupportedTypes.Double; }
+        
     }
 }

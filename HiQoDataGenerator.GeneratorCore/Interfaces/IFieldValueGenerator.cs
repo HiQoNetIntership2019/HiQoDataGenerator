@@ -6,7 +6,7 @@ namespace HiQoDataGenerator.GeneratorCore.Interfaces
 {
     public interface IFieldValueGenerator
     {
-        SupportedTypes GetFieldType();
-        dynamic GenerateValue(IEnumerable<(ConstraintTypes, dynamic)> constraints);
+        SupportedTypes FieldType { get; }
+        dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints);
     }
 }

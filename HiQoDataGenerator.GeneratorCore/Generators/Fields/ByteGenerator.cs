@@ -6,28 +6,30 @@ using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class DecimalGenerator : GeneratorBase, IFieldValueGenerator
+    public class ByteGenerator : GeneratorBase, IFieldValueGenerator
     {
+        public SupportedTypes FieldType { get => SupportedTypes.Byte; }
+
         public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
         {
-            int maxDigits = NumberConstants.MaxDigitsInDecimal, decimalPlace = 0;
+            byte min = byte.MinValue, max = byte.MaxValue;
+
             foreach (var (type, value) in constraints)
             {
                 switch (type)
                 {
-                    case ConstraintTypes.MaxDigits:
-                        maxDigits = (int)value;
+                    case ConstraintTypes.Min:
+                        min = (byte)value;
                         break;
-                    case ConstraintTypes.DecimalPlace:
-                        decimalPlace = (int)value;
+                    case ConstraintTypes.Max:
+                        max = (byte)value;
                         break;
                     default:
-                        throw new ConstraintNotSupportedException() { ConstraintId = (int)type };
+                        throw new ConstraintNotSupportedException();
                 }
             }
-            return _randomizer.CustomDecimal(maxDigits, decimalPlace);
-        }
 
-        public SupportedTypes FieldType { get => SupportedTypes.Decimal; }
+            return _randomizer.Byte(min, max);
+        }
     }
 }

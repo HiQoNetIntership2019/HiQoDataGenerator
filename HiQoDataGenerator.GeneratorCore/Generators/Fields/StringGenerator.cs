@@ -1,4 +1,6 @@
-﻿using HiQoDataGenerator.DAL.Restrictions;
+﻿using Bogus;
+using Fare;
+using HiQoDataGenerator.DAL.Restrictions;
 using HiQoDataGenerator.GeneratorCore.Exceptions;
 using HiQoDataGenerator.GeneratorCore.Extensions;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
@@ -6,28 +8,32 @@ using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class DecimalGenerator : GeneratorBase, IFieldValueGenerator
+    public class StringGenerator : GeneratorBase, IFieldValueGenerator
     {
         public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
         {
-            int maxDigits = NumberConstants.MaxDigitsInDecimal, decimalPlace = 0;
+            int minLen = 0, maxLen = 127;
+            string pattern = null;
             foreach (var (type, value) in constraints)
             {
                 switch (type)
                 {
-                    case ConstraintTypes.MaxDigits:
-                        maxDigits = (int)value;
+                    case ConstraintTypes.MinLength:
+                        minLen = (int)value;
                         break;
-                    case ConstraintTypes.DecimalPlace:
-                        decimalPlace = (int)value;
+                    case ConstraintTypes.MaxLength:
+                        maxLen = (int)value;
+                        break;
+                    case ConstraintTypes.Regex:
+                        pattern = value;
                         break;
                     default:
                         throw new ConstraintNotSupportedException() { ConstraintId = (int)type };
                 }
             }
-            return _randomizer.CustomDecimal(maxDigits, decimalPlace);
+            return pattern != null ? new Xeger(pattern).Generate() : _randomizer.String(minLen, maxLen);
         }
 
-        public SupportedTypes FieldType { get => SupportedTypes.Decimal; }
+        public SupportedTypes FieldType { get => SupportedTypes.String; }
     }
 }
