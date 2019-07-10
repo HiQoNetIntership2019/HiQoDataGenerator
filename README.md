@@ -1,7 +1,7 @@
 # HiQoDataGenerator
 
-1. Scheduler configuration guide:
-  1) build HiQoDataGenerator project;
+Scheduler configuration guide:
+  1) build HiQoDataGenerator.Scheduler project;
   2) open Command prompt as Administrator;
   3) open "HiQoDataGenerator.Scheduler" folder in Command promt;
   4) input "dotnet publish --configuration Release" to generate .EXE file;
