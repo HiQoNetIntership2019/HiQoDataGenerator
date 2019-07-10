@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
@@ -6,39 +7,85 @@ namespace HiQoDataGenerator.Web.LoggingInfrastructure
 {
     public class ElmahRedisClient
     {
-        private readonly IDatabase _database;
-        private readonly IConnectionMultiplexer _connectionMultiplexer;
+        private IDatabase _database;
+        private IConnectionMultiplexer _connectionMultiplexer;
         private readonly string _connectionString;
+
+        public bool IsConnected { get { return _connectionMultiplexer == null ? false : _connectionMultiplexer.IsConnected; } }
 
         public ElmahRedisClient(string connectionString)
         {
             _connectionString = connectionString;
-            _connectionMultiplexer = ConnectionMultiplexer.Connect(_connectionString);
-            _database = _connectionMultiplexer.GetDatabase();
+            TryToConnect();
         }
 
-        public void SetData(string key, ErrorData errorData)
+        private void TryToConnect()
         {
-            var value = JsonConvert.SerializeObject(errorData);
-            _database.StringSet(key, value);
+            try
+            {
+                _connectionMultiplexer = ConnectionMultiplexer.Connect(_connectionString);
+                _database = _connectionMultiplexer.GetDatabase();
+            }
+            catch (RedisConnectionException)
+            {
+                _connectionMultiplexer = null;
+                _database = null;
+            }
+        }
+
+        private async Task TryToConnectAsync()
+        {         
+            try
+            {
+                _connectionMultiplexer = await ConnectionMultiplexer.ConnectAsync(_connectionString);
+                _database = _connectionMultiplexer.GetDatabase();
+            }
+            catch (RedisConnectionException)
+            {
+                _connectionMultiplexer = null;
+                _database = null;
+            }
+        }
+
+        public async void SetDataAsync(string key, ErrorData errorData)
+        {
+            if (!IsConnected)
+                await TryToConnectAsync();
+            if (IsConnected)
+            {
+                var value = JsonConvert.SerializeObject(errorData);
+                await _database.StringSetAsync(key, value);
+            }
         }
 
         public ErrorData GetData(string key)
         {
-            var value = _database.StringGet(key);
-            return JsonConvert.DeserializeObject<ErrorData>(value);
+            ErrorData result = null;
+            if (!IsConnected)
+                TryToConnect();
+            if (IsConnected)
+            {
+                var value = _database.StringGet(key);
+                result = JsonConvert.DeserializeObject<ErrorData>(value);
+            }
+            return result;
         }
 
         public IEnumerable<ErrorData> GetValues(string pattern)
         {
-            var server = _connectionMultiplexer.GetServer(_connectionString);
-            var keys = server.Keys(pattern: pattern);
             List<ErrorData> values = new List<ErrorData>();
-            foreach (var key in keys)
+            if (!IsConnected)
+                TryToConnect();
+            if (IsConnected)
             {
-                values.Add(GetData(key));
-            }
+                var server = _connectionMultiplexer.GetServer(_connectionString);
+                var keys = server.Keys(pattern: pattern);
 
+                foreach (var key in keys)
+                {
+                    values.Add(GetData(key));
+                }
+            }
             return values;
         }
     }

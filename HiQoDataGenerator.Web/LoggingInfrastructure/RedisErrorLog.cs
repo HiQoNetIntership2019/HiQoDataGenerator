@@ -32,7 +32,7 @@ namespace HiQoDataGenerator.Web.LoggingInfrastructure
                 Info = errorXml
             };
 
-            _redisClient.SetData(redisKey, errorLog);
+            _redisClient.SetDataAsync(redisKey, errorLog);
 
             return id.ToString();
         }
@@ -60,7 +60,7 @@ namespace HiQoDataGenerator.Web.LoggingInfrastructure
 
             var loggedError = _redisClient.GetData(redisKey);
 
-            var errorInfo = loggedError.Info;
+            var errorInfo = loggedError?.Info;
 
             if (errorInfo == null)
                 return null;
