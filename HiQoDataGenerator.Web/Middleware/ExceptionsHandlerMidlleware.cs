@@ -34,13 +34,13 @@ namespace HiQoDataGenerator.Web.Middleware
             }
         }
 
-        private Task HandleExceptionsAsync(HttpContext httpContext, Exception ex)
+        private async Task HandleExceptionsAsync(HttpContext httpContext, Exception ex)
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             httpContext.Response.ContentType = _contentType;
 
             ElmahCore.ElmahExtensions.RiseError(httpContext, ex); 
-            return httpContext.Response.WriteAsync(_message);
+            await httpContext.Response.WriteAsync(_message);
         }
     }
 }

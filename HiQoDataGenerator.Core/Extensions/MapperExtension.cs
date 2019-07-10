@@ -3,6 +3,9 @@ using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using HiQoDataGenerator.DAL.Models.DataSetModels;
+using HiQoDataGenerator.DAL.Models.GeneratedObjects;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using System.Linq;
 
 namespace HiQoDataGenerator.Core.Extensions
@@ -64,6 +67,9 @@ namespace HiQoDataGenerator.Core.Extensions
 
                 config.CreateMap<CustomDatasetValue, DatasetValueModel>();
                 config.CreateMap<DefinedDatasetValue, DatasetValueModel>();
+
+                config.CreateMap<string, CustomGeneratedObject>()
+                    .ConstructUsing(item => BsonSerializer.Deserialize<CustomGeneratedObject>(item, null));
 
             }).CreateMapper();
         }

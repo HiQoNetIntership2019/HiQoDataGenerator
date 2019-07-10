@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Scrutor;
+using HiQoDataGenerator.DAL.Repositories.MongoDriver;
 
 namespace HiQoDataGenerator.DAL
 {
@@ -20,6 +21,8 @@ namespace HiQoDataGenerator.DAL
                     .AddClasses(classes => classes.AssignableTo(typeof(IGenericRepository<>)), publicOnly: true)
                     .AsImplementedInterfaces()
                     .WithScopedLifetime());
+
+            services.AddScoped<IGeneratedObjectsRepository, GeneratedObjectsRepository>();
         }
     }
 }

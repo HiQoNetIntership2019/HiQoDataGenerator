@@ -10,10 +10,16 @@ namespace HiQoDataGenerator.Web.Controllers
     public class TimezoneController : RootController
     {
         private readonly ITimezonesService _timezonesService;
+        private readonly IServiceSavingGeneratedObjects _serviceSavingGeneratedObjects;
 
 
-        public TimezoneController(ITimezonesService timezonesService, IMapperFactory mapperFactory) : 
-            base(mapperFactory) => _timezonesService = timezonesService;
+        public TimezoneController(ITimezonesService timezonesService, IMapperFactory mapperFactory, 
+            IServiceSavingGeneratedObjects serviceSavingGeneratedObjects) :
+            base(mapperFactory)
+        {
+            _timezonesService = timezonesService;
+            _serviceSavingGeneratedObjects = serviceSavingGeneratedObjects;
+        }
 
         /// <summary>
         ///     Gets all timezones.
@@ -33,6 +39,13 @@ namespace HiQoDataGenerator.Web.Controllers
         {
             var timezone = await _timezonesService.GetByIdAsync(id);
             return Ok(_mapper.Map<TimezoneViewModel>(timezone));
+        }
+
+        [HttpGet("test")]
+        public async Task<IActionResult> Test()
+        {
+            _serviceSavingGeneratedObjects.MoveToStorage();
+            return Ok();
         }
 
         /// <summary>
