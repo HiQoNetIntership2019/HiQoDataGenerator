@@ -21,7 +21,7 @@ namespace HiQoDataGenerator.Scheduler.Services
             return Task.CompletedTask;
         }
 
-        private void PublishEvent(object state)
+        private void PublishEvent(object busEvent)
         {
             Log.Information("Service published event in bus");
         }
