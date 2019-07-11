@@ -1,18 +1,17 @@
-﻿using Microsoft.Extensions.Hosting;
-using Serilog;
+﻿using Serilog;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Scheduler.Services
 {
-    internal class SchedulerHostedService : IHostedService, IDisposable
+    public class SchedulerHostedService : IDisposable
     {
         private Timer _timer;
 
         public SchedulerHostedService() { }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public Task StartAsync()
         {
             Log.Information("Service started");
 
@@ -27,7 +26,7 @@ namespace HiQoDataGenerator.Scheduler.Services
             Log.Information("Service published event in bus");
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public Task StopAsync()
         {
             Log.Information("Service stopped");
 

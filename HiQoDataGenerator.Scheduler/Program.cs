@@ -1,38 +1,32 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System;
 using HiQoDataGenerator.Scheduler.Services;
-using HiQoDataGenerator.Scheduler.Extensions;
-using System.Threading.Tasks;
 using Serilog;
 using System.IO;
+using Topshelf;
 
 namespace HiQoDataGenerator.Scheduler
 {
     internal class Program
     {
-        private static async Task Main(string[] args)
+        private static void Main(string[] args)
         {
-            var isService = !(Debugger.IsAttached || args.Contains("--console"));
-                       
-            var builder = new HostBuilder()
-                .ConfigureServices((hostContext, services) =>
+            ConfigureLogger();
+            HostFactory.Run(config =>
+            {
+                config.Service<SchedulerHostedService>(s =>
                 {
-                    services.AddHostedService<SchedulerHostedService>();
+                    s.ConstructUsing(service => new SchedulerHostedService());
+                    s.WhenStarted(service => service.StartAsync());
+                    s.WhenStopped(service => service.StopAsync());
                 });
 
-            ConfigureLogger();
+                config.RunAsLocalSystem();
+                config.StartAutomatically();
 
-            if (isService)
-            {
-                await builder.RunAsServiceAsync();
-            }
-            else
-            {
-                await builder.RunConsoleAsync();
-            }
+                config.SetDescription("Scheduler (Topshelf Service)");
+                config.SetDisplayName("HiQoScheduler");
+                config.SetServiceName("HiQoScheduler");
+            });
         }
 
         private static void ConfigureLogger()
