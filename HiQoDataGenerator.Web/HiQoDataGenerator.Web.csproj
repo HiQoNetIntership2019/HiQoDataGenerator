@@ -32,4 +32,8 @@
     <ProjectReference Include="..\HiQoDataGenerator.Infrastructure\HiQoDataGenerator.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
 </Project>
