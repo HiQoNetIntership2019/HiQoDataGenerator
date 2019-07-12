@@ -1,6 +1,7 @@
 ﻿using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using HiQoDataGenerator.DAL.Models.IntermediateModels;
+using HiQoDataGenerator.DAL.Models.FileMetadataModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace HiQoDataGenerator.DAL.Extensions
@@ -116,6 +117,13 @@ namespace HiQoDataGenerator.DAL.Extensions
                     new EncodingType() { Id = 1, Name = "UTF-8" },
                     new EncodingType() { Id = 2, Name = "UTF-16" },
                     new EncodingType() { Id = 3, Name = "UTF-32" }
+                );
+
+            modelBuilder.Entity<FileStatus>()
+                .HasData(
+                    new FileStatus() { Id = 1, Status = "NewFile" },
+                    new FileStatus() { Id = 2, Status = "InProcessing" },
+                    new FileStatus() { Id = 3, Status = "ProcessingFail" }
                 );
         }
     }
