@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System.Threading.Tasks;
 
-namespace HiQoDataGenerator.DAL.Repositories.MongoDirver
+namespace HiQoDataGenerator.DAL.Repositories.MongoDriver
 {
     public class GeneratedObjectsRepository : MongoBaseRepository<CustomGeneratedObject>, IGeneratedObjectsRepository
     {

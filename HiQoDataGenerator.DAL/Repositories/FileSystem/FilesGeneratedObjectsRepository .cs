@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace HiQoDataGenerator.DAL.Repositories.MongoDirver
+namespace HiQoDataGenerator.DAL.Repositories.FileSystem
 {
     public class FilesGeneratedObjectsRepository : IFilesGeneratedObjectsRepository
     {
