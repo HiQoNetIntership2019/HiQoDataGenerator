@@ -5,19 +5,19 @@ using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace HiQoDataGenerator.DAL.Repositories.MongoDirver
+namespace HiQoDataGenerator.DAL.Repositories.MongoDriver
 {
     public abstract class MongoBaseRepository<T>
 
     {
-        private readonly string _configSectonForConnectionString = "MongoConnection";
+        private readonly string _configSectionForConnectionString = "MongoConnection";
         private readonly string _databaseName = "DataGenerator";
 
         protected readonly IMongoCollection<T> _collection;
 
         public MongoBaseRepository(IConfiguration configuration, string collectionName)
         {
-            _collection = new MongoClient(configuration.GetConnectionString(_configSectonForConnectionString))
+            _collection = new MongoClient(configuration.GetConnectionString(_configSectionForConnectionString))
                 .GetDatabase(_databaseName)
                 .GetCollection<T>(collectionName);
         }

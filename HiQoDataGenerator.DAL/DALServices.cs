@@ -1,12 +1,8 @@
 ﻿using HiQoDataGenerator.DAL.Contracts.Repositories;
-using HiQoDataGenerator.DAL.Repositories.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Scrutor;
 using HiQoDataGenerator.DAL.Repositories.MongoDirver;
+using HiQoDataGenerator.DAL.Repositories.MongoDriver;
 
 namespace HiQoDataGenerator.DAL
 {
