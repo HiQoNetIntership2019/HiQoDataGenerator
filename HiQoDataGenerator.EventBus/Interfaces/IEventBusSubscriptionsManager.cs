@@ -10,7 +10,7 @@ namespace HiQoDataGenerator.EventBus.Interfaces
         bool IsEmpty { get; }
         event EventHandler<string> OnEventRemoved;
 
-        void AddSubscription<T, TH>()
+        void AddSubscription<T, TH>(TH handler)
             where T : BusEvent
             where TH : IBusEventHandler<T>;
 

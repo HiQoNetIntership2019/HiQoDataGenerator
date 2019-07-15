@@ -53,7 +53,7 @@ namespace HiQoDataGenerator.EventBus.EventBuses.RabbitMqEventBus
             return true;
         }
 
-        public bool Subscribe<T, TH>()
+        public bool Subscribe<T, TH>(TH handler)
             where T : BusEvent
             where TH : IBusEventHandler<T>
         {
@@ -62,7 +62,7 @@ namespace HiQoDataGenerator.EventBus.EventBuses.RabbitMqEventBus
             if (!DoInternalSubscription(eventName))
                 return false;
 
-            _subsManager.AddSubscription<T, TH>();
+            _subsManager.AddSubscription<T, TH>(handler);
             return true;
         }
 

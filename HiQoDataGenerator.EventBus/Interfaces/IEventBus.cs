@@ -7,7 +7,7 @@ namespace HiQoDataGenerator.EventBus.Interfaces
     {
         bool Publish(BusEvent @event);
 
-        bool Subscribe<T, TH>()
+        bool Subscribe<T, TH>(TH handler)
             where T : BusEvent
             where TH : IBusEventHandler<T>;
 
