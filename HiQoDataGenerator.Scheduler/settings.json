@@ -1,0 +1,6 @@
+{
+  "RabbitMqQueueName": "PublishEvent",
+  "PublishEventJob": {
+    "cronExpression": "0 0/10 * 1/1 * ? *"
+  }
+}

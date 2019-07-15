@@ -1,8 +1,12 @@
 ﻿using System;
 using HiQoDataGenerator.Scheduler.Services;
+using HiQoDataGenerator.Scheduler.Extensions;
 using Serilog;
 using System.IO;
 using Topshelf;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
+using Microsoft.Extensions.Configuration;
 
 namespace HiQoDataGenerator.Scheduler
 {
@@ -10,14 +14,23 @@ namespace HiQoDataGenerator.Scheduler
     {
         private static void Main(string[] args)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("settings.json", optional: true, reloadOnChange: true);
+            var configuration = builder.Build();
+
+            var services = new ServiceCollection()                
+                .AddSchedulerServices(configuration)
+                .BuildServiceProvider();
+
             ConfigureLogger();
             HostFactory.Run(config =>
             {
                 config.Service<SchedulerHostedService>(s =>
                 {
-                    s.ConstructUsing(service => new SchedulerHostedService());
-                    s.WhenStarted(service => service.StartAsync());
-                    s.WhenStopped(service => service.StopAsync());
+                    s.ConstructUsing(service => services.GetService<SchedulerHostedService>());
+                    s.WhenStarted(async service => await service.StartAsync(CancellationToken.None));
+                    s.WhenStopped(async service => await service.StopAsync(CancellationToken.None));
                 });
 
                 config.RunAsLocalSystem();
