@@ -27,13 +27,13 @@ namespace HiQoDataGenerator.EventBus.EventBuses
         public void Clear() => _handlerTypes.Clear();
 
 
-        public void AddSubscription<T, TH>()
+        public void AddSubscription<T, TH>(TH handler)
             where T : BusEvent
             where TH : IBusEventHandler<T>
         {
             var eventName = GetEventKey<T>();
 
-            AddHandlerTypeForEvent(typeof(TH), eventName);
+            AddHandlerTypeForEvent<TH>(typeof(TH), eventName, handler);
 
             if (!_eventTypes.Contains(typeof(T)))
             {
@@ -41,7 +41,7 @@ namespace HiQoDataGenerator.EventBus.EventBuses
             }
         }
 
-        private void AddHandlerTypeForEvent(Type handlerType, string eventName)
+        private void AddHandlerTypeForEvent<T>(Type handlerType, string eventName, T handler)
         {
             if (!HasHandlerTypesForEvent(eventName))
             {
@@ -55,7 +55,7 @@ namespace HiQoDataGenerator.EventBus.EventBuses
                     $"Handler Type {handlerType.Name} already registered for '{eventName}'", nameof(handlerType));
             }
             _handlerTypes[eventName].Add(handlerType);
-            _handlers[eventName].Add(Activator.CreateInstance(handlerType));
+            _handlers[eventName].Add(handler);
         }
 
 

@@ -19,7 +19,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiQoDataGenerator.GeneratorCore", "HiQoDataGenerator.GeneratorCore\HiQoDataGenerator.GeneratorCore.csproj", "{DDFBA311-0555-4CE0-8991-DA077E436A7C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiQoDataGenerator.EventBus", "HiQoDataGenerator.EventBus\HiQoDataGenerator.EventBus.csproj", "{B8E84DA4-38B2-48EC-9083-84BA18DA8090}"
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiQoDataGenerator.Scheduler", "HiQoDataGenerator.Scheduler\HiQoDataGenerator.Scheduler.csproj", "{653B0458-1DD1-4F53-B49E-AA91B8B96D1A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiQoDataGenerator.Scheduler", "HiQoDataGenerator.Scheduler\HiQoDataGenerator.Scheduler.csproj", "{653B0458-1DD1-4F53-B49E-AA91B8B96D1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
