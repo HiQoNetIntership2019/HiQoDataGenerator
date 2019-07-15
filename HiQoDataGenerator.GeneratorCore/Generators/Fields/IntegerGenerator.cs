@@ -1,33 +1,22 @@
 ﻿using HiQoDataGenerator.DAL.Restrictions;
-using HiQoDataGenerator.GeneratorCore.Exceptions;
 using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class IntegerGenerator : GeneratorBase, IFieldValueGenerator
+    public class IntegerGenerator : MinMaxGenerator<int, int>, IFieldValueGenerator
     {
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
-        {
-            int minValue = int.MinValue, maxValue = int.MaxValue;
-            foreach (var (type, value) in constraints)
-            {
-                switch (type)
-                {
-                    case ConstraintTypes.Min:
-                        minValue = (int)value;
-                        break;
-                    case ConstraintTypes.Max:
-                        maxValue = (int)value;
-                        break;
-                    default:
-                        throw new ConstraintNotSupportedException() { ConstraintId = (int)type };
-                }
-            }
-            return _randomizer.Int(minValue, maxValue);
-        }
+        public IntegerGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator) { }
 
-        public SupportedTypes FieldType { get => SupportedTypes.Int; }
+        public override SupportedTypes FieldType => SupportedTypes.Int;
+
+        public override int Generate(IEnumerable<ConstraintPrototype> constraints)
+        {
+            LoadConstraints(constraints);
+            return _randomValueGenerator.GenerateInt(_constraints[ConstraintTypes.Min], _constraints[ConstraintTypes.Max]);
+        }
     }
 }

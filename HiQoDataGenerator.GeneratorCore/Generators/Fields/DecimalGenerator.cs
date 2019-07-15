@@ -1,33 +1,26 @@
 ﻿using HiQoDataGenerator.DAL.Restrictions;
-using HiQoDataGenerator.GeneratorCore.Exceptions;
 using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class DecimalGenerator : GeneratorBase, IFieldValueGenerator
+    public class DecimalGenerator : GeneratorBase<decimal, int>
     {
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
+        public override SupportedTypes FieldType => SupportedTypes.Decimal;
+        
+        public DecimalGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator)
         {
-            int maxDigits = NumberConstants.MaxDigitsInDecimal, decimalPlace = 0;
-            foreach (var (type, value) in constraints)
-            {
-                switch (type)
-                {
-                    case ConstraintTypes.MaxDigits:
-                        maxDigits = (int)value;
-                        break;
-                    case ConstraintTypes.DecimalPlace:
-                        decimalPlace = (int)value;
-                        break;
-                    default:
-                        throw new ConstraintNotSupportedException() { ConstraintId = (int)type };
-                }
-            }
-            return _randomizer.CustomDecimal(maxDigits, decimalPlace);
+            _constraints[ConstraintTypes.MaxDigits] = NumberConstants.MaxDigitsInDecimal;
+            _constraints[ConstraintTypes.DecimalPlace] = 0;
         }
 
-        public SupportedTypes FieldType { get => SupportedTypes.Decimal; }
+        public override decimal Generate(IEnumerable<ConstraintPrototype> constraints)
+        {
+            LoadConstraints(constraints);
+            return _randomValueGenerator.GenerateDecimal(_constraints[ConstraintTypes.MaxDigits], _constraints[ConstraintTypes.DecimalPlace]);
+        }
     }
 }

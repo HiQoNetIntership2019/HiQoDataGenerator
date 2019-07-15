@@ -1,32 +1,16 @@
 ﻿using HiQoDataGenerator.DAL.Restrictions;
-using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
-using System;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class DateTimeGenerator : GeneratorBase, IFieldValueGenerator
+    public class DateTimeGenerator : BaseDateGenerator
     {
-        public virtual SupportedTypes FieldType { get => SupportedTypes.DateTime; }
+        public DateTimeGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator) { }
 
-        public virtual dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
-        {
-            DateTime begin = DateTime.MinValue, end = DateTime.MaxValue;
-            foreach(var (type, value) in constraints)
-            {
-                switch (type)
-                {
-                    case ConstraintTypes.StartDate:
-                        begin = DateTime.Parse(value);
-                        break;
-                    case ConstraintTypes.EndDate:
-                        end = DateTime.Parse(value);
-                        break;
+        public override SupportedTypes FieldType => SupportedTypes.DateTime;
 
-                }
-            }
-            return _faker.Date.Between(begin, end);
-        }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.GeneratorCore.Generators;
 using HiQoDataGenerator.GeneratorCore.Generators.Fields;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
+using Moq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,19 +13,29 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.GeneratorCore.Generators.Fie
 {
     public class IntegerGeneratorTest
     {
-        private readonly IFieldValueGenerator _intGenerator = new IntegerGenerator();
+        private readonly Mock<IRandomValuesGenerator> _randomValuesGeneratorMock = new Mock<IRandomValuesGenerator>();
+        private readonly IFieldValueGenerator _intGenerator;
+       
+        public IntegerGeneratorTest()
+        {
+            _intGenerator = new IntegerGenerator(_randomValuesGeneratorMock.Object);
+        }
 
         [Theory]
         [ClassData(typeof(InputDataGenerator))]
         public void Generate_MinAndMaxValue_InInterval(int min, int max)
         {
-            var constraints = new List<(ConstraintTypes, dynamic)>()
+            var random = new Random();
+            var constraints = new List<ConstraintPrototype>()
             {
-                (ConstraintTypes.Min, min),
-                (ConstraintTypes.Max, max)
+                new ConstraintPrototype(ConstraintTypes.Min, min),
+                new ConstraintPrototype(ConstraintTypes.Max, max)
             };
+            var generatedValue = random.Next(min, max);
 
-            int result = _intGenerator.GenerateValue(constraints);
+            _randomValuesGeneratorMock.Setup(m => m.GenerateInt(min, max)).Returns(generatedValue);
+
+            int result = _intGenerator.Generate(constraints);
 
             Assert.InRange(result, min, max);
         }

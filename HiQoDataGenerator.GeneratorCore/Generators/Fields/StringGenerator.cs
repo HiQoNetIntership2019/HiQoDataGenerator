@@ -1,39 +1,31 @@
-﻿using Bogus;
-using Fare;
-using HiQoDataGenerator.DAL.Restrictions;
-using HiQoDataGenerator.GeneratorCore.Exceptions;
+﻿using HiQoDataGenerator.DAL.Restrictions;
 using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
+using System;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class StringGenerator : GeneratorBase, IFieldValueGenerator
+    public class StringGenerator : GeneratorBase<string, dynamic>, IFieldValueGenerator
     {
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
+        public override SupportedTypes FieldType => SupportedTypes.String;
+
+        public StringGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator)
         {
-            int minLen = 0, maxLen = 127;
-            string pattern = null;
-            foreach (var (type, value) in constraints)
-            {
-                switch (type)
-                {
-                    case ConstraintTypes.MinLength:
-                        minLen = (int)value;
-                        break;
-                    case ConstraintTypes.MaxLength:
-                        maxLen = (int)value;
-                        break;
-                    case ConstraintTypes.Regex:
-                        pattern = value;
-                        break;
-                    default:
-                        throw new ConstraintNotSupportedException() { ConstraintId = (int)type };
-                }
-            }
-            return pattern != null ? new Xeger(pattern).Generate() : _randomizer.String(minLen, maxLen);
+            _constraints[ConstraintTypes.MinLength] = 0;
+            _constraints[ConstraintTypes.MaxLength] = NumberConstants.MaxStringLength;
+            _constraints[ConstraintTypes.Regex] = null;
+
         }
 
-        public SupportedTypes FieldType { get => SupportedTypes.String; }
+        public override string Generate(IEnumerable<ConstraintPrototype> constraints)
+        {
+            LoadConstraints(constraints);
+            return _constraints[ConstraintTypes.Regex] != null ?
+                _randomValueGenerator.GenerateString(_constraints[ConstraintTypes.Regex]) :
+                _randomValueGenerator.GenerateString(_constraints[ConstraintTypes.MinLength], _constraints[ConstraintTypes.MaxLength]);
+        }
     }
 }

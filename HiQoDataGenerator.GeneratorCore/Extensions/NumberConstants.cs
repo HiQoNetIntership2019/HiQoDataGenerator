@@ -6,6 +6,7 @@ namespace HiQoDataGenerator.GeneratorCore.Extensions
 {
     public static class NumberConstants
     {
-        public static int MaxDigitsInDecimal { get; } = 28;
+        public static int MaxDigitsInDecimal => 28;
+        public static int MaxStringLength => 255; 
     }
 }
