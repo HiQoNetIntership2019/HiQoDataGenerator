@@ -4,6 +4,7 @@ using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using HiQoDataGenerator.DAL.Models.DataSetModels;
 using HiQoDataGenerator.DAL.Models.FileMetadataModels;
+using HiQoDataGenerator.DAL.Models.GeneratedObjects;
 using System.Linq;
 
 namespace HiQoDataGenerator.Core.Extensions
@@ -68,6 +69,10 @@ namespace HiQoDataGenerator.Core.Extensions
 
                 config.CreateMap<FileMetadata, FileMetadataModel>().ReverseMap();
                 config.CreateMap<FileStatus, FileStatusModel>().ReverseMap();
+
+                config.CreateMap<GeneratedFieldModel, CustomGeneratedField>().ReverseMap();
+                config.CreateMap<GeneratedObjectModel, CustomGeneratedObject>().ReverseMap();
+
 
             }).CreateMapper();
         }
