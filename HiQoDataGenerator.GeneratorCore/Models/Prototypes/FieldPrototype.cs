@@ -8,7 +8,7 @@ namespace HiQoDataGenerator.GeneratorCore.Models.Prototypes
         public string Name { get; }
         public bool IsRequired { get; }
         public SupportedTypes Type { get; }
-        public int? DatsetId { get; }
+        public int? DatasetId { get; }
         public IEnumerable<ConstraintPrototype> Constraints { get; }
 
         public FieldPrototype(string name, bool isRequired, SupportedTypes type, int? datasetId, 
@@ -17,7 +17,7 @@ namespace HiQoDataGenerator.GeneratorCore.Models.Prototypes
             Name = name;
             IsRequired = isRequired;
             Type = type;
-            DatsetId = datasetId;
+            DatasetId = datasetId;
             Constraints = constraints ?? new List<ConstraintPrototype>(); 
         }
     }

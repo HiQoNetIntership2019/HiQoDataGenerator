@@ -7,7 +7,6 @@ using System.Linq;
 using HiQoDataGenerator.GeneratorCore.Extensions;
 using HiQoDataGenerator.DAL.Restrictions;
 using HiQoDataGenerator.GeneratorCore.Models.Objects;
-using HiQoDataGenerator.Web.ModelsValidation;
 
 namespace HiQoDataGenerator.Web.Extensions
 {
@@ -61,6 +60,9 @@ namespace HiQoDataGenerator.Web.Extensions
                     .ConstructUsing(o => new ConfigurablePrototype(o.Name, o.Fields.Select(f => 
                         new FieldPrototype(f.Name, f.IsRequired, (SupportedTypes)f.FieldType.Id, null, f.Constraints.Select(c => 
                             new ConstraintPrototype((ConstraintTypes) c.ConstraintType.Id, (object)c.Value))))));
+
+                config.CreateMap<DefinedDatasetModel, DatasetPrototype>()
+                    .ConstructUsing(d => new DatasetPrototype(d.Id, d.Values.Select(v => v.Value).ToList<dynamic>()));
 
                 config.CreateMap<GeneratedField, GeneratedFieldViewModel>();
 

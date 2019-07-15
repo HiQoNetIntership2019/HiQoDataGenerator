@@ -13,6 +13,7 @@ namespace HiQoDataGenerator.GeneratorCore
             IRandomValuesGenerator randomValuesGenerator = new RandomValuesGenerator();
             
             IFieldsGenerator fieldsGenerator = new FieldsGenerator(
+                new DatasetValueGenerator(),
                 new IntegerGenerator(randomValuesGenerator),
                 new DoubleGenerator(randomValuesGenerator),
                 new DecimalGenerator(randomValuesGenerator),

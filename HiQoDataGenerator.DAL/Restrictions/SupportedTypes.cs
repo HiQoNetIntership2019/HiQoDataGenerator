@@ -2,7 +2,7 @@
 {
     public enum SupportedTypes
     {
-        Byte,
+        Byte = 1,
         Int,
         Double,
         Decimal,
