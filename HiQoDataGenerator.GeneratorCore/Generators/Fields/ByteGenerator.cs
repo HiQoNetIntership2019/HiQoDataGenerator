@@ -1,35 +1,22 @@
 ﻿using HiQoDataGenerator.DAL.Restrictions;
-using HiQoDataGenerator.GeneratorCore.Exceptions;
 using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class ByteGenerator : GeneratorBase, IFieldValueGenerator
+    public class ByteGenerator : GeneratorBase<byte, byte>
     {
-        public SupportedTypes FieldType { get => SupportedTypes.Byte; }
+        public ByteGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator) { }
 
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
+        public override SupportedTypes FieldType => SupportedTypes.Byte;
+
+        public override byte Generate(IEnumerable<ConstraintPrototype> constraints)
         {
-            byte min = byte.MinValue, max = byte.MaxValue;
-
-            foreach (var (type, value) in constraints)
-            {
-                switch (type)
-                {
-                    case ConstraintTypes.Min:
-                        min = (byte)value;
-                        break;
-                    case ConstraintTypes.Max:
-                        max = (byte)value;
-                        break;
-                    default:
-                        throw new ConstraintNotSupportedException();
-                }
-            }
-
-            return _randomizer.Byte(min, max);
+            LoadConstraints(constraints);
+            return _randomValueGenerator.GenerateByte(_constraints[ConstraintTypes.Min], _constraints[ConstraintTypes.Max]);
         }
     }
 }

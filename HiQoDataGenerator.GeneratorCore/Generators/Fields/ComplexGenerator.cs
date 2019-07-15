@@ -1,42 +1,30 @@
 ﻿using HiQoDataGenerator.DAL.Restrictions;
-using HiQoDataGenerator.GeneratorCore.Exceptions;
 using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class ComplexGenerator : GeneratorBase, IFieldValueGenerator
+    public class ComplexGenerator : GeneratorBase<Complex, double>
     {
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
+        public override SupportedTypes FieldType => SupportedTypes.Complex;
+
+        public ComplexGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator)
         {
-            double minA = double.MinValue, maxA = double.MaxValue, minB = double.MinValue, maxB = double.MaxValue;
-
-            foreach (var (type, value) in constraints)
-            {
-                switch (type)
-                {
-                    case ConstraintTypes.MaxA:
-                        maxA = (double)value;
-                        break;
-                    case ConstraintTypes.MinA:
-                        minA = (double)value;
-                        break;
-                    case ConstraintTypes.MaxB:
-                        maxB = (double)value;
-                        break;
-                    case ConstraintTypes.MinB:
-                        minB = (double)value;
-                        break;
-                    default:
-                        throw new ConstraintNotSupportedException() { ConstraintId = (int)type };
-                }
-            }
-
-            return new Complex(_randomizer.Double(minA, maxA), _randomizer.Double(minB, maxB));
+            _constraints[ConstraintTypes.MinA] = double.MinValue;
+            _constraints[ConstraintTypes.MinB] = double.MinValue;
+            _constraints[ConstraintTypes.MaxA] = double.MaxValue;
+            _constraints[ConstraintTypes.MaxB] = double.MaxValue;
         }
 
-        public SupportedTypes FieldType { get => SupportedTypes.Complex; }
+        public override Complex Generate(IEnumerable<ConstraintPrototype> constraints)
+        {
+            LoadConstraints(constraints);
+            return _randomValueGenerator.GenerateComplex(_constraints[ConstraintTypes.MinA], _constraints[ConstraintTypes.MaxA],
+                _constraints[ConstraintTypes.MinB], _constraints[ConstraintTypes.MaxB]);
+        }
     }
 }

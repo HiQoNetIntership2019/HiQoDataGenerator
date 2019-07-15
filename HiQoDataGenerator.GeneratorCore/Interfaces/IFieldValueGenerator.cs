@@ -1,5 +1,5 @@
 ﻿using HiQoDataGenerator.DAL.Restrictions;
-using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Interfaces
@@ -7,6 +7,6 @@ namespace HiQoDataGenerator.GeneratorCore.Interfaces
     public interface IFieldValueGenerator
     {
         SupportedTypes FieldType { get; }
-        dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints);
+        dynamic Generate(IEnumerable<ConstraintPrototype> constraints);
     }
 }

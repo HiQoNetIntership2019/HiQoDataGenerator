@@ -1,34 +1,22 @@
 ﻿using HiQoDataGenerator.DAL.Restrictions;
-using HiQoDataGenerator.GeneratorCore.Exceptions;
 using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class DoubleGenerator : GeneratorBase, IFieldValueGenerator
+    public class DoubleGenerator : MinMaxGenerator<double, double>
     {
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
-        {
-            double minValue = double.MinValue, maxValue = double.MaxValue;
-            foreach (var (type, value) in constraints)
-            {
-                switch (type)
-                {
-                    case ConstraintTypes.Min:
-                        minValue = value;
-                        break;
-                    case ConstraintTypes.Max:
-                        maxValue = value;
-                        break;
-                    default:
-                        throw new ConstraintNotSupportedException() { ConstraintId = (int)type };
-                }
-            }
-            return _randomizer.Double(minValue, maxValue);
-        }
+        public DoubleGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator) { }
 
-        public SupportedTypes FieldType { get => SupportedTypes.Double; }
-        
+        public override SupportedTypes FieldType => SupportedTypes.Double;
+
+        public override double Generate(IEnumerable<ConstraintPrototype> constraints)
+        {
+            LoadConstraints(constraints);
+            return _randomValueGenerator.GenerateDouble(_constraints[ConstraintTypes.Min], _constraints[ConstraintTypes.Max]);
+        }
     }
 }

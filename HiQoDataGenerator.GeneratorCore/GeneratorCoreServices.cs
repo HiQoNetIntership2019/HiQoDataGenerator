@@ -10,19 +10,20 @@ namespace HiQoDataGenerator.GeneratorCore
     {
         public static void AddGeneratorCoreSerives(this IServiceCollection services)
         {
+            IRandomValuesGenerator randomValuesGenerator = new RandomValuesGenerator();
             
-            var fieldsGenerator = new FieldsGenerator(
-                new IntegerGenerator(),
-                new DoubleGenerator(),
-                new DecimalGenerator(),
-                new ComplexGenerator(),
-                new BoolGenerator(),
-                new StringGenerator(),
-                new DateTimeGenerator(),
-                new DateGenerator()
+            IFieldsGenerator fieldsGenerator = new FieldsGenerator(
+                new IntegerGenerator(randomValuesGenerator),
+                new DoubleGenerator(randomValuesGenerator),
+                new DecimalGenerator(randomValuesGenerator),
+                new ComplexGenerator(randomValuesGenerator),
+                new BoolGenerator(randomValuesGenerator),
+                new StringGenerator(randomValuesGenerator),
+                new DateTimeGenerator(randomValuesGenerator),
+                new DateGenerator(randomValuesGenerator)
                 );
 
-            services.AddSingleton<IFieldsGenerator>(fieldsGenerator);
+            services.AddSingleton(fieldsGenerator);
             services.AddSingleton<IDataGeneratorService, DataGeneratorService>();
         }
     }

@@ -1,17 +1,19 @@
 ﻿using HiQoDataGenerator.DAL.Restrictions;
-using HiQoDataGenerator.GeneratorCore.Extensions;
+using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class BoolGenerator : GeneratorBase, IFieldValueGenerator
+    public class BoolGenerator : GeneratorBase<bool, bool>
     {
-        public dynamic GenerateValue(IEnumerable<(ConstraintTypes type, dynamic value)> constraints)
-        {
-            return _randomizer.Bool();
-        }
+        public BoolGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator) { }
 
-        public SupportedTypes FieldType { get => SupportedTypes.Bool; }
+        public override SupportedTypes FieldType => SupportedTypes.Bool;
+        public override bool Generate(IEnumerable<ConstraintPrototype> constraints)
+        {
+            return _randomValueGenerator.GenerateBool();
+        }
     }
 }

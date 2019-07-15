@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HiQoDataGenerator.DAL.Restrictions;
 using HiQoDataGenerator.GeneratorCore.Extensions;
 using HiQoDataGenerator.GeneratorCore.Exceptions;
+using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators
 {
@@ -23,7 +24,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators
         }
 
 
-        public dynamic Generate(SupportedTypes type, IEnumerable<(ConstraintTypes type, dynamic value)> constraints, int? datasetId = null)
+        public dynamic Generate(SupportedTypes type, IEnumerable<ConstraintPrototype> constraints, int? datasetId = null)
         { 
             if (datasetId != null)
             {
@@ -31,7 +32,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators
             }
             try
             {
-                return _fieldsGenerators[type].GenerateValue(constraints);
+                return _fieldsGenerators[type].Generate(constraints);
             }
             catch (ConstraintNotSupportedException ex)
             {
