@@ -11,5 +11,7 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
         Task CreateAndWriteInFile(string value, string directoryName, string fileName);
         Task DeleteFile(string directoryName, string fileName);
         Task<string> ReadFromFile(string directoryName, string fileName);
+        Task DeleteFile(string fullPath);
+        Task<string> ReadFromFile(string fullPath);
     }
 }
