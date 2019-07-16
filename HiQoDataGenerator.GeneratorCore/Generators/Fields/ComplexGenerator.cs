@@ -2,8 +2,6 @@
 using HiQoDataGenerator.GeneratorCore.Extensions;
 using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
-using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
-using System.Collections.Generic;
 using System.Numerics;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
@@ -14,17 +12,16 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 
         public ComplexGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator)
         {
-            _constraints[ConstraintTypes.MinA] = double.MinValue;
-            _constraints[ConstraintTypes.MinB] = double.MinValue;
-            _constraints[ConstraintTypes.MaxA] = double.MaxValue;
-            _constraints[ConstraintTypes.MaxB] = double.MaxValue;
+            Constraints[ConstraintTypes.MinA] = double.MinValue;
+            Constraints[ConstraintTypes.MinB] = double.MinValue;
+            Constraints[ConstraintTypes.MaxA] = double.MaxValue;
+            Constraints[ConstraintTypes.MaxB] = double.MaxValue;
         }
 
-        public override Complex Generate(IEnumerable<ConstraintPrototype> constraints)
+        protected override Complex GenerateValue()
         {
-            LoadConstraints(constraints);
-            return _randomValueGenerator.GenerateComplex(_constraints[ConstraintTypes.MinA], _constraints[ConstraintTypes.MaxA],
-                _constraints[ConstraintTypes.MinB], _constraints[ConstraintTypes.MaxB]);
+            return RandomValueGenerator.GenerateComplex(Constraints[ConstraintTypes.MinA], Constraints[ConstraintTypes.MaxA],
+                Constraints[ConstraintTypes.MinB], Constraints[ConstraintTypes.MaxB]);
         }
     }
 }

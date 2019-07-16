@@ -62,7 +62,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators
 
         public string GenerateString(int minLength, int maxLength)
         {
-            return _faker.Random.String(minLength, maxLength);
+            return _faker.Random.String2(minLength, maxLength);
         }
 
 

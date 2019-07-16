@@ -1,31 +1,39 @@
-﻿using HiQoDataGenerator.DAL.Restrictions;
+﻿using System.Collections.Generic;
+using System.Text;
+using HiQoDataGenerator.DAL.Restrictions;
 using HiQoDataGenerator.GeneratorCore.Extensions;
 using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
-using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
-using System;
-using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class StringGenerator : GeneratorBase<string, dynamic>, IFieldValueGenerator
+    public class StringGenerator : GeneratorBase<string, dynamic>
     {
+        private readonly Dictionary<string, Encoding> _encodingConverter = new Dictionary<string, Encoding>();
         public override SupportedTypes FieldType => SupportedTypes.String;
 
         public StringGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator)
         {
-            _constraints[ConstraintTypes.MinLength] = 0;
-            _constraints[ConstraintTypes.MaxLength] = NumberConstants.MaxStringLength;
-            _constraints[ConstraintTypes.Regex] = null;
-
+            Constraints[ConstraintTypes.MinLength] = 0;
+            Constraints[ConstraintTypes.MaxLength] = NumberConstants.MaxStringLength;
+            Constraints[ConstraintTypes.Regex] = null;
+            Constraints[ConstraintTypes.Encoding] = null;
+            
+            _encodingConverter[StringConstants.UTF8Key] = Encoding.UTF8;
+            _encodingConverter[StringConstants.UTF16Key] = Encoding.Unicode;
+            _encodingConverter[StringConstants.UTF32Key] = Encoding.UTF32;
         }
 
-        public override string Generate(IEnumerable<ConstraintPrototype> constraints)
+        protected override string GenerateValue()
         {
-            LoadConstraints(constraints);
-            return _constraints[ConstraintTypes.Regex] != null ?
-                _randomValueGenerator.GenerateString(_constraints[ConstraintTypes.Regex]) :
-                _randomValueGenerator.GenerateString(_constraints[ConstraintTypes.MinLength], _constraints[ConstraintTypes.MaxLength]);
+            var result = Constraints[ConstraintTypes.Regex] != null
+                ? RandomValueGenerator.GenerateString(Constraints[ConstraintTypes.Regex])
+                : RandomValueGenerator.GenerateString((int) Constraints[ConstraintTypes.MinLength],
+                    (int) Constraints[ConstraintTypes.MaxLength]);
+
+            var encoding = _encodingConverter[Constraints[ConstraintTypes.Encoding]];
+
+            return encoding?.GetString(Encoding.Default.GetBytes(result)) ?? result;
         }
     }
 }

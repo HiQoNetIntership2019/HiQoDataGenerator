@@ -9,29 +9,35 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Base
 {
     public abstract class GeneratorBase<T, TC> : IFieldValueGenerator
     {
-        protected readonly IRandomValuesGenerator _randomValueGenerator;
-        protected readonly Dictionary<ConstraintTypes, TC> _constraints = new Dictionary<ConstraintTypes, TC>();
+        protected readonly IRandomValuesGenerator RandomValueGenerator;
+        protected readonly Dictionary<ConstraintTypes, TC> Constraints = new Dictionary<ConstraintTypes, TC>();
 
         public abstract SupportedTypes FieldType { get; }
 
-        public GeneratorBase(IRandomValuesGenerator randomValuesGenerator)
+        protected GeneratorBase(IRandomValuesGenerator randomValuesGenerator)
         {
-            _randomValueGenerator = randomValuesGenerator;
+            RandomValueGenerator = randomValuesGenerator;
         }
 
         protected void LoadConstraints(IEnumerable<ConstraintPrototype> constraints)
         {
             foreach (var constraint in constraints)
             {
-                if (!_constraints.ContainsKey(constraint.Type))
+                if (!Constraints.ContainsKey(constraint.Type))
                 {
                     throw new ConstraintNotSupportedException() { ConstraintId = (int)constraint.Type };
                 }
-                _constraints[constraint.Type] = (TC) constraint.Value;
+                Constraints[constraint.Type] = (TC) constraint.Value;
             }
         }
 
-        public abstract T Generate(IEnumerable<ConstraintPrototype> constraints);
+        protected abstract T GenerateValue();
+
+        public T Generate(IEnumerable<ConstraintPrototype> constraints)
+        {
+            LoadConstraints(constraints);
+            return GenerateValue();
+        }
 
         dynamic IFieldValueGenerator.Generate(IEnumerable<ConstraintPrototype> constraints)
         {
