@@ -58,10 +58,13 @@ namespace HiQoDataGenerator.Web.Extensions
 
                 config.CreateMap<ConfigurableObjectViewModel, ConfigurablePrototype>()
                     .ConstructUsing(o => new ConfigurablePrototype(o.Name, o.Fields.Select(f => 
-                        new FieldPrototype(f.Name, f.IsRequired, (SupportedTypes)f.FieldType.Id, null, f.Constraints.Select(c => 
+                        new FieldPrototype(f.Name, f.IsRequired, (SupportedTypes)f.FieldType.Id, f.Dataset.Id, f.Constraints.Select(c => 
                             new ConstraintPrototype((ConstraintTypes) c.ConstraintType.Id, (object)c.Value))))));
 
                 config.CreateMap<DefinedDatasetModel, DatasetPrototype>()
+                    .ConstructUsing(d => new DatasetPrototype(d.Id, d.Values.Select(v => v.Value).ToList<dynamic>()));
+
+                config.CreateMap<CustomDatasetModel, DatasetPrototype>()
                     .ConstructUsing(d => new DatasetPrototype(d.Id, d.Values.Select(v => v.Value).ToList<dynamic>()));
 
                 config.CreateMap<GeneratedField, GeneratedFieldViewModel>();

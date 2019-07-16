@@ -11,6 +11,7 @@ namespace HiQoDataGenerator.Core.Interfaces
         IEnumerable<CustomDatasetValueModel> GetValues();
         IEnumerable<CustomDatasetValueModel> GetValuesByDatasetId(int id);
         IEnumerable<CustomDatasetValueModel> GetValuesByDatasetName(string name);
+        Task<CustomDatasetModel> GetDatasetWithValuesById(int id);
 
         Task AddValuesAsync(IEnumerable<CustomDatasetValueModel> customDatasetValueModels);
         Task AddAsync(CustomDatasetModel customDatasetModel);
