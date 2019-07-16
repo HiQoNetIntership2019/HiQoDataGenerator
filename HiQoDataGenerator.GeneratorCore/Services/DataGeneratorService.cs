@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using HiQoDataGenerator.GeneratorCore.Exceptions;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
 using HiQoDataGenerator.GeneratorCore.Models.Objects;
@@ -16,13 +17,14 @@ namespace HiQoDataGenerator.GeneratorCore.Services
         }
 
 
-        public GeneratedObject Generate(ConfigurablePrototype prototype)
+        public GeneratedObject Generate(ConfigurablePrototype prototype, ICollection<DatasetPrototype> datasetPrototypes = null)
         {
             var generatedObject = new GeneratedObject(prototype.Name);
 
             foreach (var fieldPrototype in prototype.Fields)
             {
-                var fieldValue = _fieldsGenerator.Generate(fieldPrototype.Type, fieldPrototype.Constraints, fieldPrototype.DatsetId);
+                var datasetPrototype = datasetPrototypes?.FirstOrDefault(d => d.Id == fieldPrototype.DatasetId);
+                var fieldValue = _fieldsGenerator.Generate(fieldPrototype.Type, fieldPrototype.Constraints, datasetPrototype);
                 generatedObject.Fields.Add(new GeneratedField(fieldPrototype.Name, fieldValue));
             }
 
@@ -30,19 +32,19 @@ namespace HiQoDataGenerator.GeneratorCore.Services
         }
 
 
-        public GeneratedObjectsCollection GenerateFromManyPrototypes(IEnumerable<ConfigurablePrototype> prototypes, Dictionary<string, int> count)
+        public GeneratedObjectsCollection GenerateFromManyPrototypes(IEnumerable<ConfigurablePrototype> prototypes, Dictionary<string, int> count, ICollection<DatasetPrototype> datasetPrototypes)
         {
             var generatedObjectsCollection = new GeneratedObjectsCollection();
 
             foreach (var prototype in prototypes)
             {
-                generatedObjectsCollection.AddRange(GenerateMany(prototype, count[prototype.Name]));
+                generatedObjectsCollection.AddRange(GenerateMany(prototype, count[prototype.Name], datasetPrototypes));
             }
 
             return generatedObjectsCollection;
         }
 
-        public IEnumerable<GeneratedObject> GenerateMany(ConfigurablePrototype prototype, int count)
+        public IEnumerable<GeneratedObject> GenerateMany(ConfigurablePrototype prototype, int count, ICollection<DatasetPrototype> datasetPrototypes)
         {
             if (count < 0)
             {
@@ -53,7 +55,7 @@ namespace HiQoDataGenerator.GeneratorCore.Services
 
             for (int i = 0; i < count; i++)
             {
-                generatedObjectsCollection.Add(Generate(prototype));
+                generatedObjectsCollection.Add(Generate(prototype, datasetPrototypes));
             }
 
             return generatedObjectsCollection;

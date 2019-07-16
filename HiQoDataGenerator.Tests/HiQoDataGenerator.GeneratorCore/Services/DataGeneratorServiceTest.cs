@@ -25,7 +25,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.GeneratorCore.Services
         [Fact]
         public void Generate_TrueNameOfResult()
         {
-            string name = "test";
+            var name = "test";
             var configurableObjectPrototype = GetConfigurablePrototype(name);
 
             var result = _dataGeneratorService.Generate(configurableObjectPrototype);
@@ -39,7 +39,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.GeneratorCore.Services
         [InlineData(2, 2)]
         [InlineData(3, 3)]
         [InlineData(10, 10)]
-        public void GenerateMany_CountReslutsTheory(int objectsCount, int resultCount)
+        public void GenerateMany_CorrectResultsCount(int objectsCount, int resultCount)
         {
             var configurableObjectPrototype = GetConfigurablePrototype("test");
 
@@ -52,18 +52,18 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.GeneratorCore.Services
         [InlineData(3, 3, 9)]
         [InlineData(8, 1, 8)]
         [InlineData(1, 1, 1)]
-        public void GenerateFromMany_TotalCountTheory(int countPrototype, int countInstanceEachObjects, int countGeneratedObjects)
+        public void GenerateFromMany_CorrectTotalCount(int countPrototype, int countInstanceEachObjects, int countGeneratedObjects)
         {
             var (prototypes, count) = GetPrototypes(countPrototype, countInstanceEachObjects);
 
             var result = _dataGeneratorService.GenerateFromManyPrototypes(prototypes, count);
-            int countObjects = result.Sum(i => i.Count);
+            var countObjects = result.Sum(i => i.Count);
 
             Assert.Equal(countGeneratedObjects, countObjects);
         }
 
         [Fact]
-        public void GenerateMany_NegativCount_ThrowException()
+        public void GenerateMany_NegativeCount_ThrowException()
         {
             var configurablePrototype = GetConfigurablePrototype("test");
 
@@ -72,9 +72,22 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.GeneratorCore.Services
             Assert.Throws<NegativeCountObjectsException>(act);
         }
 
+        [Fact]
+        public void Generate_WithDatasets_CorrectValues()
+        {
+            var datasetPrototypes = GetDatasetPrototypes();
+            var concretePrototype = datasetPrototypes.First((d => d.Id == 1));
+            var configurablePrototype = GetConfigurablePrototype("testWithDatasets");
+            ConfigureFieldGeneratorMock(concretePrototype, SupportedTypes.Double);
+
+            var result = _dataGeneratorService.Generate(configurablePrototype, datasetPrototypes);
+
+            Assert.Contains(result.Fields.First(f => f.Name == "field 2").Value, concretePrototype.Values);
+        }
+
         private (IEnumerable<ConfigurablePrototype> prototypes, Dictionary<string, int> count) GetPrototypes(int countPrototypes, int countInstance)
         {
-            var names = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+            var names = new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
             var count = new Dictionary<string, int>();
 
             for (int i = 0; i < countPrototypes; i++)
@@ -89,11 +102,37 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.GeneratorCore.Services
         {
             var fields = new List<FieldPrototype>()
             {
-                new FieldPrototype("field 1", true, SupportedTypes.Int, null, null),
-                new FieldPrototype("field 2", false, SupportedTypes.Double, 1, null)
+                new FieldPrototype("field 1", true, SupportedTypes.Int, null),
+                new FieldPrototype("field 2", false, SupportedTypes.Double, 1)
             };
 
             return new ConfigurablePrototype(name, fields);
+        }
+
+        private ICollection<DatasetPrototype> GetDatasetPrototypes()
+        {
+            var datasetPrototypes = new List<DatasetPrototype>()
+            {
+                new DatasetPrototype(1, new List<dynamic>(){ "value1", "value2", "value3" }),
+                new DatasetPrototype(2, new List<dynamic>(){ "value4", "value5", "value6" }),
+                new DatasetPrototype(3, new List<dynamic>(){ 1, 2, 5, 4 }),
+                new DatasetPrototype(4, new List<dynamic>(){ 6, 7, 8 })
+            };
+
+            return datasetPrototypes;
+        }
+
+        private void ConfigureFieldGeneratorMock(DatasetPrototype datasetPrototype, SupportedTypes supportedType)
+        {
+            _fieldGeneratorMock.Setup(generator =>
+                generator.Generate(supportedType, new List<ConstraintPrototype>(), datasetPrototype)).Returns(GetRandomValue(datasetPrototype));
+        }
+
+        private dynamic GetRandomValue(DatasetPrototype datasetPrototype)
+        {
+            var random = new Random();
+            var index = random.Next(0, datasetPrototype.Values.Count - 1);
+            return datasetPrototype.Values.ElementAt(index);
         }
     }
 }

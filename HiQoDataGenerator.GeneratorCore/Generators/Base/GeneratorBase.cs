@@ -1,5 +1,4 @@
-﻿using Bogus;
-using HiQoDataGenerator.DAL.Restrictions;
+﻿using HiQoDataGenerator.DAL.Restrictions;
 using HiQoDataGenerator.GeneratorCore.Exceptions;
 using HiQoDataGenerator.GeneratorCore.Extensions;
 using HiQoDataGenerator.GeneratorCore.Interfaces;

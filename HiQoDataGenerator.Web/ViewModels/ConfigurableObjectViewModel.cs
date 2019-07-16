@@ -10,5 +10,6 @@ namespace HiQoDataGenerator.Web.ViewModels
         public DateTime? DateCreation { get; set; }
         public DateTime? DateChange { get; set; }
         public IEnumerable<FieldViewModel> Fields { get; set; }
+        public ICollection<DefinedDatasetViewModel> Datasets { get; set; }
     }
 }

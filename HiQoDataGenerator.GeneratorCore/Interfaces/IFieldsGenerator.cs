@@ -7,6 +7,6 @@ namespace HiQoDataGenerator.GeneratorCore.Interfaces
 {
     public interface IFieldsGenerator
     {
-        dynamic Generate(SupportedTypes type, IEnumerable<ConstraintPrototype> constraints, int? datasetId = null);
+        dynamic Generate(SupportedTypes type, IEnumerable<ConstraintPrototype> constraints, DatasetPrototype datasetPrototype = null);
     }
 }
