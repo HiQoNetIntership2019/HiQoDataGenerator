@@ -1,0 +1,10 @@
+{
+  "ConnectionStrings": {
+    "PostgreConnection": "Host=localhost;Port=5432;Database=DataGeneratorDatabase;Username=postgres;Password=denis123",
+    "MongoConnection": "mongodb://localhost:27017"
+  },
+  "FileSystem": {
+    "Root": "Storage",
+    "GeneratedObjectsDirectory": "generated-objects"
+  }
+}

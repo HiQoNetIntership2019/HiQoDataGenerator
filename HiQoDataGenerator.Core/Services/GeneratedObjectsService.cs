@@ -12,7 +12,7 @@ namespace HiQoDataGenerator.Core.Services
     {
         private readonly IMapper _mapper;
         private readonly IGeneratedObjectsRepository _generatedObjectsRepository;
-
+        
         public GeneratedObjectsService(IMapperFactory factory, IGeneratedObjectsRepository generatedObjectsRepository)
         {
             _mapper = factory.GetMapper(typeof(CoreServices).Name);
