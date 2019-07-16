@@ -12,6 +12,7 @@ namespace HiQoDataGenerator.Core.Interfaces
         Task<IEnumerable<FileMetadataModel>> GetByStatusName(string name);
 
         Task UpdateAsync(FileMetadataModel fileMetadataModel);
+        Task UpdateRangeAsync(IEnumerable<FileMetadataModel> fileMetadataModels);
         Task AddAsync(FileMetadataModel fileMetadataModel);
         Task RemoveAsync(int fileMetadataId);
     }

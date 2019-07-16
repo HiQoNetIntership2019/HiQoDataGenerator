@@ -30,8 +30,8 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<GeneratedObjectModel> ReadFromFile(string fullPath)
         {
-            var jsonObjects = await _filesGeneratedObjectsRepository.ReadFromFile(fullPath);
-            return JsonConvert.DeserializeObject<GeneratedObjectModel>(jsonObjects);
+            var jsonObject = await _filesGeneratedObjectsRepository.ReadFromFile(fullPath);
+            return JsonConvert.DeserializeObject<GeneratedObjectModel>(jsonObject);
             
         }
 

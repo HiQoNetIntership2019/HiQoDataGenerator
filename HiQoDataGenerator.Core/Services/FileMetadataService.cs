@@ -83,5 +83,12 @@ namespace HiQoDataGenerator.Core.Services
             await _fileMetadataRepository.UpdateAsync(metadata);
             await _uow.CommitAsync();
         }
+
+        public async Task UpdateRangeAsync(IEnumerable<FileMetadataModel> fileMetadataModels)
+        {
+            var metadata = _mapper.Map<IEnumerable<FileMetadata>>(fileMetadataModels);
+            await _fileMetadataRepository.UpdateRangeAsync(metadata);
+            await _uow.CommitAsync();
+        }
     }
 }

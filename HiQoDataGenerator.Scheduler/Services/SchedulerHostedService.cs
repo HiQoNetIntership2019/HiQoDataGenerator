@@ -1,13 +1,8 @@
 ﻿using Serilog;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Quartz;
-using HiQoDataGenerator.Scheduler.Extensions;
-using Quartz.Impl;
 using HiQoDataGenerator.Scheduler.Jobs;
-using HiQoDataGenerator.EventBus.EventBuses.RabbitMqEventBus;
-using HiQoDataGenerator.EventBus.Events;
 using Quartz.Spi;
 using System.Collections.Generic;
 
