@@ -41,12 +41,12 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private List<FileMetadata> GenerateMetadata()
         {
-            return new List<FileMetadata>() { new FileMetadata() { Id = 1, Path="path1", StatusId = 1}, new FileMetadata() { Id = 2, Path = "path2", StatusId = 2 } };
+            return new List<FileMetadata>() { new FileMetadata() { Id = 1, Path = "path1", StatusId = 1 }, new FileMetadata() { Id = 2, Path = "path2", StatusId = 2 } };
         }
 
         private List<FileStatus> GenerateStatuses()
         {
-            return new List<FileStatus>() { new FileStatus() { Id = 1, Status = "NewFile" }, new FileStatus() { Id = 2, Status = "InProcessing"} };
+            return new List<FileStatus>() { new FileStatus() { Id = 1, Status = "NewFile" }, new FileStatus() { Id = 2, Status = "InProcessing" } };
         }
 
         private void ConfigureUOWMock(Mock<IUnitOfWork> uowMock)
@@ -64,7 +64,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             repositoryMock.Setup(rep => rep.GetAll()).Returns(_metadata.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _metadata[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
-            repositoryMock.Setup(rep => rep.GetByStatusId(1)).ReturnsAsync(() => _metadata.Where(item => item.StatusId==1));
+            repositoryMock.Setup(rep => rep.GetByStatusId(1)).ReturnsAsync(() => _metadata.Where(item => item.StatusId == 1));
             repositoryMock.Setup(rep => rep.GetByStatusId(3)).ReturnsAsync(() => null);
 
             repositoryMock.Setup(rep => rep.AddAsync(null));
