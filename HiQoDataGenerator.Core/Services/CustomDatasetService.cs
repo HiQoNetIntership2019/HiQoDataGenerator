@@ -73,6 +73,25 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
         }
 
+        public async Task<CustomDatasetModel> GetDatasetWithValuesById(int id)
+        {
+            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetId(id);
+            if (customDatasetValues == null)
+            {
+                throw new InvalidDataException($"Can't get values of Custom Dataset with id {id} !");
+            }
+            var customDatasetValueModels = _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
+
+            var customDataset = await _customDatasetRepository.GetByIdAsync(id);
+            if (customDataset == null)
+            {
+                throw new InvalidDataException($"Can't get Custom Dataset with id {id} !");
+            }
+            var customDatasetModel = _mapper.Map<CustomDatasetModel>(customDataset);
+            customDatasetModel.Values = customDatasetValueModels;
+            return customDatasetModel;
+        }
+
         public async Task AddValuesAsync(IEnumerable<CustomDatasetValueModel> customDatasetValueModels)
         {
             var customDatasetValues = _mapper.Map<IEnumerable<CustomDatasetValue>>(customDatasetValueModels);

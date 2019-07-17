@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace HiQoDataGenerator.Web.ViewModels
 {
@@ -12,5 +9,6 @@ namespace HiQoDataGenerator.Web.ViewModels
         public bool IsRequired { get; set; }
         public FieldTypeViewModel FieldType { get; set; }
         public ICollection<ConstraintValueViewModel> Constraints { get; set; }
+        public DatasetViewModel Dataset { get; set; }
     }
 }

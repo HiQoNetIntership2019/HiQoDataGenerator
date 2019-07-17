@@ -1,5 +1,6 @@
 ﻿using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using System.Collections.Generic;
+using HiQoDataGenerator.DAL.Models.DataSetModels;
 
 namespace HiQoDataGenerator.DAL.Models.CustomObjectModels
 {
@@ -10,5 +11,6 @@ namespace HiQoDataGenerator.DAL.Models.CustomObjectModels
         public virtual FieldType FieldType { get; set; }
         public virtual ConfigurableObject ConfigurableObject { get; set; }
         public ICollection<ConstraintValue> ConstraintValues { get; set; }
+        public virtual Dataset Dataset { get; set; }
     }
 }
