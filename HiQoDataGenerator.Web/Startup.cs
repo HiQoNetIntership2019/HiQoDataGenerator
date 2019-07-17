@@ -42,6 +42,7 @@ namespace HiQoDataGenerator.Web
             services.AddDALServices(Configuration.GetConnectionString("PostgreConnection"));
 
             services.AddMapperFactory();
+            services.AddBackgroundTasksQueue();
 
             services.AddSwaggerGen(c =>
             {

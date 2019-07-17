@@ -64,7 +64,10 @@ namespace HiQoDataGenerator.Web.Extensions
                 config.CreateMap<GeneratedField, GeneratedFieldViewModel>();
 
                 config.CreateMap<GeneratedObject, GeneratedObjectViewModel>();
-                    
+                config.CreateMap<GeneratedObjectViewModel, GeneratedObjectModel>()
+                    .ConstructUsing(o => new GeneratedObjectModel(0, o.Name, o.DateCreated,
+                        o.Fields.Select(f => new GeneratedFieldModel(0, f.Name, (object)f.Value))));
+
             }).CreateMapper();
         }
     }

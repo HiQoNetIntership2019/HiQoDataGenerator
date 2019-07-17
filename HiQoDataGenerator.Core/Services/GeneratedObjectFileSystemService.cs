@@ -4,6 +4,7 @@ using HiQoDataGenerator.DAL.Contracts.Repositories;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Core.Services
@@ -21,11 +22,14 @@ namespace HiQoDataGenerator.Core.Services
             _directoryName = configuration["FileSystem:GeneratedObjectsDirectory"];
         }
 
-        public async Task CreateFile(GeneratedObjectModel generatedObject)
+        public async Task<string> CreateFile(GeneratedObjectModel generatedObject)
         {
             string json = JsonConvert.SerializeObject(generatedObject);
-            string fileName = $"{generatedObject.DateCreation}:{generatedObject.Name}";
+            string fileName = $"{generatedObject.DateCreation:s}_{generatedObject.Name}.json"
+                .Replace(":", "")
+                .Replace("-", "");
             await _filesGeneratedObjectsRepository.CreateAndWriteInFile(json, _directoryName, fileName);
+            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), fileName));
         }
 
         public async Task<GeneratedObjectModel> ReadFromFile(string fullPath)
