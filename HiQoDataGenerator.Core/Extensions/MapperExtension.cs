@@ -48,7 +48,7 @@ namespace HiQoDataGenerator.Core.Extensions
                         new FieldTypeModel(i.FieldType.Id, i.FieldType.Name),
                         i.ConstraintValues.Select(v => new ConstraintValueModel(v.Id, v.Value, 
                             new ConstraintModel(v.Constraint.Id, v.Constraint.Name, v.Constraint.Description, null, null))).ToList(),
-                        new DatasetModel(i.Dataset.Id, i.Dataset.Name, i.Dataset.TypeId, i.Dataset.IsDefined)));
+                        i.DatasetId));
 
                 config.CreateMap<FieldTypeModel, FieldType>().ReverseMap();
 

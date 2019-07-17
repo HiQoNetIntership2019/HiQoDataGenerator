@@ -9,6 +9,6 @@ namespace HiQoDataGenerator.Web.ViewModels
         public bool IsRequired { get; set; }
         public FieldTypeViewModel FieldType { get; set; }
         public ICollection<ConstraintValueViewModel> Constraints { get; set; }
-        public DatasetViewModel Dataset { get; set; }
+        public int? DatasetId { get; set; }
     }
 }

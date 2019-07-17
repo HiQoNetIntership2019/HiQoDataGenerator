@@ -739,7 +739,7 @@ namespace HiQoDataGenerator.DAL.Migrations
                         .WithMany("Fields")
                         .HasForeignKey("ConfigurableObjectId");
 
-                    b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.Dataset", "Dataset")
+                    b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.Dataset")
                         .WithMany()
                         .HasForeignKey("DatasetId");
 
