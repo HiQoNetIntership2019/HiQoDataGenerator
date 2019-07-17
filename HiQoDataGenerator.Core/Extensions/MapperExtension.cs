@@ -71,10 +71,9 @@ namespace HiQoDataGenerator.Core.Extensions
                 config.CreateMap<FileMetadata, FileMetadataModel>().ReverseMap();
                 config.CreateMap<FileStatus, FileStatusModel>().ReverseMap();
 
-                config.CreateMap<GeneratedFieldModel, CustomGeneratedField>().ReverseMap();
-                config.CreateMap<GeneratedObjectModel, CustomGeneratedObject>().ReverseMap();
-
-
+                config.CreateMap<GeneratedFieldModel, CustomGeneratedField>();
+                config.CreateMap<GeneratedObjectModel, CustomGeneratedObject>()
+                    .ForMember(c => c.Id, opt => opt.Ignore());
             }).CreateMapper();
         }
     }

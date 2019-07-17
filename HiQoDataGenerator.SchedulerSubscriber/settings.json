@@ -6,5 +6,6 @@
   "FileSystem": {
     "Root": "Storage",
     "GeneratedObjectsDirectory": "generated-objects"
-  }
+  },
+  "FilesReadingLimit": 10
 }

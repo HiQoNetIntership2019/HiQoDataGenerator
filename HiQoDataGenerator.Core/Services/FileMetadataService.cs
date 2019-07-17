@@ -57,9 +57,29 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<FileMetadataModel>>(metadata);
         }
 
+        public async Task<IEnumerable<FileMetadataModel>> GetByStatusId(int id, int count)
+        {
+            var metadata = await _fileMetadataRepository.GetByStatusId(id, count);
+            if (metadata == null)
+            {
+                throw new InvalidDataException($"Can't get File Metadata with Status id {id} !");
+            }
+            return _mapper.Map<IEnumerable<FileMetadataModel>>(metadata);
+        }
+
         public async Task<IEnumerable<FileMetadataModel>> GetByStatusName(string name)
         {
             var metadata = await _fileMetadataRepository.GetByStatusName(name.ToLower());
+            if (metadata == null)
+            {
+                throw new InvalidDataException($"Can't get File Metadata with Status <{name}> !");
+            }
+            return _mapper.Map<IEnumerable<FileMetadataModel>>(metadata);
+        }
+
+        public async Task<IEnumerable<FileMetadataModel>> GetByStatusName(string name, int count)
+        {
+            var metadata = await _fileMetadataRepository.GetByStatusName(name.ToLower(),count);
             if (metadata == null)
             {
                 throw new InvalidDataException($"Can't get File Metadata with Status <{name}> !");
@@ -82,6 +102,7 @@ namespace HiQoDataGenerator.Core.Services
             var metadata = _mapper.Map<FileMetadata>(fileMetadataModel);
             await _fileMetadataRepository.UpdateAsync(metadata);
             await _uow.CommitAsync();
+            _uow.DetachAllEntities();
         }
 
         public async Task UpdateRangeAsync(IEnumerable<FileMetadataModel> fileMetadataModels)
@@ -89,6 +110,7 @@ namespace HiQoDataGenerator.Core.Services
             var metadata = _mapper.Map<IEnumerable<FileMetadata>>(fileMetadataModels);
             await _fileMetadataRepository.UpdateRangeAsync(metadata);
             await _uow.CommitAsync();
+            _uow.DetachAllEntities();
         }
     }
 }

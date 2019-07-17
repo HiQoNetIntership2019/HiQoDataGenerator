@@ -1,7 +1,7 @@
 ﻿using HiQoDataGenerator.EventBus.EventBuses.RabbitMqEventBus;
 using HiQoDataGenerator.EventBus.Events;
+using HiQoDataGenerator.Infrastructure.LoggerExtensions;
 using Quartz;
-using Serilog;
 using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Scheduler.Jobs
@@ -22,9 +22,9 @@ namespace HiQoDataGenerator.Scheduler.Jobs
             var result = _bus.Publish(_event);
 
             if (result)
-                Log.Information("Service published an event in bus");
+                LoggerExtensions.LogInfo("Service published an event in bus");
             else
-                Log.Information("Can't publish an event in bus!");
+                LoggerExtensions.LogError("Can't publish an event in bus!");
 
             return Task.CompletedTask;
         }

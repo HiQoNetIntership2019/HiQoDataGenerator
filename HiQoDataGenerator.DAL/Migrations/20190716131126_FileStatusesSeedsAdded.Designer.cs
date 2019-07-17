@@ -3,15 +3,17 @@ using System;
 using HiQoDataGenerator.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HiQoDataGenerator.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190716131126_FileStatusesSeedsAdded")]
+    partial class FileStatusesSeedsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,8 +270,6 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.Property<int?>("ConfigurableObjectId");
 
-                    b.Property<int?>("DatasetId");
-
                     b.Property<int?>("FieldTypeId");
 
                     b.Property<bool>("IsRequired");
@@ -281,8 +281,6 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ConfigurableObjectId");
-
-                    b.HasIndex("DatasetId");
 
                     b.HasIndex("FieldTypeId");
 
@@ -738,10 +736,6 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.ConfigurableObject", "ConfigurableObject")
                         .WithMany("Fields")
                         .HasForeignKey("ConfigurableObjectId");
-
-                    b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.Dataset")
-                        .WithMany()
-                        .HasForeignKey("DatasetId");
 
                     b.HasOne("HiQoDataGenerator.DAL.Models.CustomObjectModels.FieldType", "FieldType")
                         .WithMany()
