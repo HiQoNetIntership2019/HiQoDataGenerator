@@ -1,4 +1,4 @@
-﻿using Serilog;
+﻿using HiQoDataGenerator.Infrastructure.LoggerExtensions;
 using System.Threading;
 using System.Threading.Tasks;
 using Quartz;
@@ -36,12 +36,12 @@ namespace HiQoDataGenerator.Scheduler.Services
             }
 
             await _scheduler.Start(cancellationToken);
-            Log.Information("Service started");
+            LoggerExtensions.LogInfo("Service started");
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            Log.Information("Service stopped");
+            LoggerExtensions.LogInfo("Service stopped");
             await _scheduler?.Shutdown(cancellationToken);
         }
 

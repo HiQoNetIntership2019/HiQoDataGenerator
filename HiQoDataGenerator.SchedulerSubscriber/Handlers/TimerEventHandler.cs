@@ -2,13 +2,12 @@
 using HiQoDataGenerator.EventBus.Handlers;
 using HiQoDataGenerator.EventBus.Events;
 using System.Threading.Tasks;
-using HiQoDataGenerator.DAL.Models.GeneratedObjects;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Exceptions;
 using HiQoDataGenerator.Core.Entities;
-using Newtonsoft.Json;
-using Serilog;
+using HiQoDataGenerator.Infrastructure.LoggerExtensions;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace HiQoDataGenerator.SchedulerSubscriber.Handlers
 {
@@ -18,17 +17,20 @@ namespace HiQoDataGenerator.SchedulerSubscriber.Handlers
         private IGeneratedObjectsService _mongoService;
         private IFileMetadataService _fileMetadataService;
         private IFileStatusService _fileStatusService;
+        private readonly int _filesReadingLimit;
 
         public TimerEventHandler(
             IGeneratedObjectFileSystemService filesService, 
             IGeneratedObjectsService mongoService,
             IFileMetadataService fileMetadataService,
-            IFileStatusService fileStatusService)
+            IFileStatusService fileStatusService,
+            IConfiguration configuration)
         {
             _fileMetadataService = fileMetadataService;
             _filesService = filesService;
             _mongoService = mongoService;
             _fileStatusService = fileStatusService;
+            _filesReadingLimit = GetFilesReadingLimit(configuration, 10);
         }
 
         public async Task Handle(TimerEvent @event)
@@ -38,7 +40,7 @@ namespace HiQoDataGenerator.SchedulerSubscriber.Handlers
                 var newFileStatus = await _fileStatusService.GetByName("NewFile");
                 var inProcessingStatus = await _fileStatusService.GetByName("InProcessing");
                 var processingFailStatus = await _fileStatusService.GetByName("ProcessingFail");
-                var metadata = await _fileMetadataService.GetByStatusId(newFileStatus.Id);
+                var metadata = await _fileMetadataService.GetByStatusId(newFileStatus.Id, _filesReadingLimit);
 
                 await SetStatuses(metadata,inProcessingStatus.Id);
                 foreach (var item in metadata)
@@ -48,12 +50,12 @@ namespace HiQoDataGenerator.SchedulerSubscriber.Handlers
                         var model = await _filesService.ReadFromFile(item.Path);
                         await _mongoService.Add(model);
 
-                        DeleteFile(item);
-                        Log.Information("File was successfully moved to MongoDB");
+                        await DeleteFile(item);
+                        LoggerExtensions.LogInfo($"File <{item.Path}> was successfully moved to MongoDB");
                     }
                     catch (Exception ex)
                     {
-                        Log.Error("Exception: {0} | Message: {1} | StackTrace: {2}", ex.GetType().Name, ex.Message, ex.StackTrace);
+                        LoggerExtensions.LogError($"Exception: {ex.GetType().Name} | Message: {ex.Message} | File: {item.Path} | StackTrace: {ex.StackTrace}");
                         item.StatusId = processingFailStatus.Id;
                         await _fileMetadataService.UpdateAsync(item);
                     }
@@ -61,15 +63,37 @@ namespace HiQoDataGenerator.SchedulerSubscriber.Handlers
             }
             catch (InvalidDataException ex)
             {
-                Log.Error("Exception: {0} | Message: {1}", ex.GetType().Name, ex.Message);
-            }            
+                LoggerExtensions.LogError($"Exception: {ex.GetType().Name} | Message: {ex.Message} | StackTrace: {ex.StackTrace}");
+            }
+            catch (Exception ex)
+            {
+                LoggerExtensions.LogError($"Exception: {ex.GetType().Name} | Message: {ex.Message} | StackTrace: {ex.StackTrace}");
+            }
         }
 
-        private async void DeleteFile(FileMetadataModel metadata)
+        private int GetFilesReadingLimit(IConfiguration configuration, int defaultLimit)
+        {
+            var result = defaultLimit;
+            try
+            {
+                var limit = configuration.GetSection("FilesReadingLimit")?.Value;
+                if (limit != null)
+                {
+                    result = int.Parse(limit);
+                }
+            }
+            catch (FormatException)
+            {
+                LoggerExtensions.LogError($"Wrong FilesReadingLimit value. Default value {defaultLimit} was applied!");
+            }
+            return result;
+        }
+
+        private async Task DeleteFile(FileMetadataModel metadata)
         {
             await _fileMetadataService.RemoveAsync(metadata.Id);
             await _filesService.DeleteFile(metadata.Path);
-            Log.Information($"File <{metadata.Path}> was removed");
+            LoggerExtensions.LogInfo($"File <{metadata.Path}> was removed");
         }
 
         private async Task SetStatuses(IEnumerable<FileMetadataModel> metadata, int statusId)

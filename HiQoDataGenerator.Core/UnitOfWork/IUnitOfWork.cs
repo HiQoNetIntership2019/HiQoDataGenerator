@@ -7,5 +7,6 @@ namespace HiQoDataGenerator.Core.UnitOfWork
    public interface IUnitOfWork: IDisposable
     {
         Task<int> CommitAsync();
+        void DetachAllEntities();
     }
 }

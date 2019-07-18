@@ -1,8 +1,7 @@
-﻿using System;
-using HiQoDataGenerator.Scheduler.Services;
+﻿using HiQoDataGenerator.Scheduler.Services;
 using HiQoDataGenerator.Scheduler.Extensions;
-using Serilog;
-using System.IO;
+using HiQoDataGenerator.Infrastructure.DirectoryExtensions;
+using HiQoDataGenerator.Infrastructure.LoggerExtensions;
 using Topshelf;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
@@ -15,7 +14,7 @@ namespace HiQoDataGenerator.Scheduler
         private static void Main(string[] args)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(DirectoryExtensions.GetCurrentDirectory())
                 .AddJsonFile("settings.json", optional: true, reloadOnChange: true);
             var configuration = builder.Build();
 
@@ -23,7 +22,7 @@ namespace HiQoDataGenerator.Scheduler
                 .AddSchedulerServices(configuration)
                 .BuildServiceProvider();
 
-            ConfigureLogger();
+            LoggerExtensions.CreateLogger("Scheduler");
             HostFactory.Run(config =>
             {
                 config.Service<SchedulerHostedService>(s =>
@@ -40,16 +39,6 @@ namespace HiQoDataGenerator.Scheduler
                 config.SetDisplayName("HiQoScheduler");
                 config.SetServiceName("HiQoScheduler");
             });
-        }
-
-        private static void ConfigureLogger()
-        {
-            var fileName = $"Scheduler_{DateTime.Now.ToString("ddMMyyyy")}.log";
-            var filePath = Path.Combine(AppContext.BaseDirectory,"Logs",fileName);
-
-            Log.Logger = new LoggerConfiguration()
-               .WriteTo.File(filePath)
-               .CreateLogger();
         }
     }
 }

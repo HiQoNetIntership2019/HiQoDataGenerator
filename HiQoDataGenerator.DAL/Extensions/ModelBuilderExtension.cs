@@ -12,18 +12,18 @@ namespace HiQoDataGenerator.DAL.Extensions
         {
             modelBuilder.Entity<FieldType>()
                 .HasData(
-                    new FieldType() { Id = 1, Name = "byte" },
-                    new FieldType() { Id = 2, Name = "int" },
-                    new FieldType() { Id = 3, Name = "double" },
-                    new FieldType() { Id = 4, Name = "decimal" },
-                    new FieldType() { Id = 5, Name = "complex" },
-                    new FieldType() { Id = 6, Name = "string" },
-                    new FieldType() { Id = 7, Name = "bool" },
-                    new FieldType() { Id = 8, Name = "date" },
-                    new FieldType() { Id = 9, Name = "time" },
-                    new FieldType() { Id = 10, Name = "datetime" },
-                    new FieldType() { Id = 11, Name = "enum" },
-                    new FieldType() { Id = 12, Name = "guid" }
+                    new FieldType() { Id = 1, Name = "Byte" },
+                    new FieldType() { Id = 2, Name = "Int" },
+                    new FieldType() { Id = 3, Name = "Double" },
+                    new FieldType() { Id = 4, Name = "Decimal" },
+                    new FieldType() { Id = 5, Name = "Complex" },
+                    new FieldType() { Id = 6, Name = "String" },
+                    new FieldType() { Id = 7, Name = "Bool" },
+                    new FieldType() { Id = 8, Name = "Date" },
+                    new FieldType() { Id = 9, Name = "Time" },
+                    new FieldType() { Id = 10, Name = "DateTime" },
+                    new FieldType() { Id = 11, Name = "Enum" },
+                    new FieldType() { Id = 12, Name = "Guid" }
                 );
 
             modelBuilder.Entity<Constraint>()
