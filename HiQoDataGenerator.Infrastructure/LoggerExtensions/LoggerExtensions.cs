@@ -8,7 +8,7 @@ namespace HiQoDataGenerator.Infrastructure.LoggerExtensions
     {
         public static void CreateLogger(string fileName)
         {
-            var name = $"{fileName}_{DateTime.Now.ToString("ddMMyyyy")}.log";
+            var name = $"{fileName}_{DateTime.Now:ddMMyyyy}.log";
             var filePath = Path.Combine(AppContext.BaseDirectory, "Logs", name);
 
             Log.Logger = new LoggerConfiguration()
