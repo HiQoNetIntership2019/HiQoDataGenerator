@@ -40,6 +40,7 @@ namespace HiQoDataGenerator.DAL.Extensions
                     new Constraint() { Id = 10, Name = "separator", Description = "Comma or dot separator for a numeric field." },
                     new Constraint() { Id = 11, Name = "regex", Description = "Custom or defined regexp applied to a field." },
                     new Constraint() { Id = 12, Name = "encoding", Description = "Encoding type for a string field." },
+
                     new Constraint() { Id = 13, Name = "start date", Description = "The left boundary for date [time] field." },
                     new Constraint() { Id = 14, Name = "end date", Description = "The right boundary for date [time] field." },
                     new Constraint() { Id = 15, Name = "timezone", Description = "Timezone applied to date [time] field." },
@@ -125,6 +126,50 @@ namespace HiQoDataGenerator.DAL.Extensions
                     new FileStatus() { Id = 2, Status = "InProcessing" },
                     new FileStatus() { Id = 3, Status = "ProcessingFail" }
                 );
+
+            #region Sequences
+            modelBuilder.HasSequence<int>("FileStatuses_Seq", schema: "public")
+            .StartsAt(4)
+            .IncrementsBy(1);
+
+            modelBuilder.HasSequence<int>("EncodingTypes_Seq", schema: "public")
+            .StartsAt(4)
+            .IncrementsBy(1);
+
+            modelBuilder.HasSequence<int>("FieldTypes_Seq", schema: "public")
+            .StartsAt(13)
+            .IncrementsBy(1);
+
+            modelBuilder.HasSequence<int>("Constraints_Seq", schema: "public")
+            .StartsAt(19)
+            .IncrementsBy(1);
+
+            modelBuilder.HasSequence<int>("FieldTypeConstraints_Seq", schema: "public")
+            .StartsAt(32)
+            .IncrementsBy(1);
+            #endregion
+
+            #region ApplySequences
+            modelBuilder.Entity<FileStatus>()
+            .Property(p => p.Id)
+            .HasDefaultValueSql("nextval('\"FileStatuses_Seq\"')");
+
+            modelBuilder.Entity<EncodingType>()
+            .Property(p => p.Id)
+            .HasDefaultValueSql("nextval('\"EncodingTypes_Seq\"')");
+       
+            modelBuilder.Entity<FieldType>()
+            .Property(p => p.Id)
+            .HasDefaultValueSql("nextval('\"FieldTypes_Seq\"')");
+
+            modelBuilder.Entity<Constraint>()
+            .Property(p => p.Id)
+            .HasDefaultValueSql("nextval('\"Constraints_Seq\"')");
+
+            modelBuilder.Entity<FieldTypeConstraint>()
+            .Property(p => p.Id)
+            .HasDefaultValueSql("nextval('\"FieldTypeConstraints_Seq\"')");
+            #endregion
         }
     }
 }

@@ -10,17 +10,7 @@ namespace HiQoDataGenerator.DAL.Migrations
                 name: "DatasetId",
                 table: "Fields",
                 nullable: true);
-
-            migrationBuilder.InsertData(
-                table: "FileStatuses",
-                columns: new[] { "Id", "Status" },
-                values: new object[,]
-                {
-                    { 1, "NewFile" },
-                    { 2, "InProcessing" },
-                    { 3, "ProcessingFail" }
-                });
-
+            
             migrationBuilder.CreateIndex(
                 name: "IX_Fields_DatasetId",
                 table: "Fields",
@@ -44,22 +34,7 @@ namespace HiQoDataGenerator.DAL.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_Fields_DatasetId",
                 table: "Fields");
-
-            migrationBuilder.DeleteData(
-                table: "FileStatuses",
-                keyColumn: "Id",
-                keyValue: 1);
-
-            migrationBuilder.DeleteData(
-                table: "FileStatuses",
-                keyColumn: "Id",
-                keyValue: 2);
-
-            migrationBuilder.DeleteData(
-                table: "FileStatuses",
-                keyColumn: "Id",
-                keyValue: 3);
-
+            
             migrationBuilder.DropColumn(
                 name: "DatasetId",
                 table: "Fields");
