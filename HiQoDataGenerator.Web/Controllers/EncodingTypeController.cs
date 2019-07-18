@@ -51,7 +51,7 @@ namespace HiQoDataGenerator.Web.Controllers
             var encodingTypeModel = _mapper.Map<EncodingTypeModel>(encodingTypeViewModel);
 
             await _encodingTypesService.AddAsync(encodingTypeModel);
-            return Ok(encodingTypeModel);
+            return Ok();
         }
 
         /// <summary>

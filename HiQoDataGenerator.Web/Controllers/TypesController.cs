@@ -64,7 +64,7 @@ namespace HiQoDataGenerator.Web.Controllers
             var typeModel = _mapper.Map<FieldTypeModel>(typeViewModel);
 
             await _fieldTypesService.AddAsync(typeModel);
-            return Ok(typeModel);
+            return Ok();
         }
 
         /// <summary>

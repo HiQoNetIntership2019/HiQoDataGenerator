@@ -61,7 +61,7 @@ namespace HiQoDataGenerator.Web.Controllers
             var regexModel = _mapper.Map<RegexModel>(regexViewModel);
 
             await _regexService.AddAsync(regexModel);            
-            return Ok(regexModel);
+            return Ok();
         }
 
         /// <summary>
