@@ -8,21 +8,18 @@ using HiQoDataGenerator.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Threading.Tasks;
-using HiQoDataGenerator.Core.Entities;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
     public class DataGeneratorController : RootController
     {
         private readonly IDataGeneratorService _dataGenerator;
-        private readonly IDefinedDatasetService _definedDatasetService;
-        private readonly ICustomDatasetService _customDatasetService;
+        private readonly IDatasetService _datasetService;
 
-        public DataGeneratorController(IMapperFactory mapperFactory, IDataGeneratorService dataGenerator, IDefinedDatasetService definedDatasetService, ICustomDatasetService customDatasetService) : base(mapperFactory)
+        public DataGeneratorController(IMapperFactory mapperFactory, IDataGeneratorService dataGenerator, IDatasetService datasetService) : base(mapperFactory)
         {
             _dataGenerator = dataGenerator;
-            _definedDatasetService = definedDatasetService;
-            _customDatasetService = customDatasetService;
+            _datasetService = datasetService;
         }
 
         /// <summary>
@@ -32,22 +29,19 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ConfigurableObjectViewModel configurableObject)
         {
-            var datasetPrototypes = new List<DatasetPrototype>();
-            var datasetViewModels = configurableObject.Fields.Select(f => f.Dataset).Distinct();
-            foreach (var datasetViewModel in datasetViewModels)
+            var datasetIds = configurableObject.Fields
+                .Select(f => f.DatasetId.GetValueOrDefault())
+                .Distinct()
+                .ToArray();
+
+            var datasetPrototypes = datasetIds.Any() ? new List<DatasetPrototype>() : null;
+
+            foreach (var datasetId in datasetIds)
             {
-                if (datasetViewModel.IsDefined)
-                {
-                    var definedDatasetModel = await _definedDatasetService.GetDatasetWithValuesById(datasetViewModel.Id);
-                    var prototype = _mapper.Map<DatasetPrototype>(definedDatasetModel);
-                    datasetPrototypes.Add(prototype);
-                }
-                else
-                {
-                    var customDatasetModel = await _customDatasetService.GetDatasetWithValuesById(datasetViewModel.Id);
-                    var prototype = _mapper.Map<DatasetPrototype>(customDatasetModel);
-                    datasetPrototypes.Add(prototype);
-                }
+                var datasetValues = await _datasetService.GetValuesByDatasetIdAsync(datasetId);
+                var prototypeValues = datasetValues.Select(v => v.Value).ToList<dynamic>();
+                var prototype = new DatasetPrototype(datasetId, prototypeValues);
+                datasetPrototypes?.Add(prototype);
             }
             
             var modelForGenerate = _mapper.Map<ConfigurablePrototype>(configurableObject);

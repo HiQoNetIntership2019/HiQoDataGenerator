@@ -144,6 +144,15 @@ namespace HiQoDataGenerator.DAL
 
             #endregion
 
+            #region One-To-Many
+
+            builder.Entity<Field>()
+                .HasOne<Dataset>()
+                .WithMany()
+                .HasForeignKey(f => f.DatasetId);
+
+            #endregion
+
             builder.Seed();
         }
     }

@@ -2,7 +2,7 @@
 
 namespace HiQoDataGenerator.DAL.Migrations
 {
-    public partial class AddDatasetRef : Migration
+    public partial class Add_DatasetFk : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

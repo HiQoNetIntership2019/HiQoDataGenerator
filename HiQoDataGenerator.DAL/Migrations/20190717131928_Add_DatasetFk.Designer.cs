@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HiQoDataGenerator.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190716144138_AddDatasetRef")]
-    partial class AddDatasetRef
+    [Migration("20190717131928_Add_DatasetFk")]
+    partial class Add_DatasetFk
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -741,7 +741,7 @@ namespace HiQoDataGenerator.DAL.Migrations
                         .WithMany("Fields")
                         .HasForeignKey("ConfigurableObjectId");
 
-                    b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.Dataset", "Dataset")
+                    b.HasOne("HiQoDataGenerator.DAL.Models.DataSetModels.Dataset")
                         .WithMany()
                         .HasForeignKey("DatasetId");
 
