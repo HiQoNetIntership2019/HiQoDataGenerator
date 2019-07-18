@@ -18,7 +18,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
             Constraints[ConstraintTypes.MaxLength] = NumberConstants.MaxStringLength;
             Constraints[ConstraintTypes.Regex] = null;
             Constraints[ConstraintTypes.Encoding] = null;
-            
+
             _encodingConverter[StringConstants.UTF8Key] = Encoding.UTF8;
             _encodingConverter[StringConstants.UTF16Key] = Encoding.Unicode;
             _encodingConverter[StringConstants.UTF32Key] = Encoding.UTF32;
