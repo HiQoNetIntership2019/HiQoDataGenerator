@@ -8,19 +8,18 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Base
 {
     public abstract class BaseDateGenerator : GeneratorBase<DateTime, dynamic>
     {
-        public BaseDateGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator)
+        protected BaseDateGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator)
         { 
-            _constraints[ConstraintTypes.StartDate] = DateTime.MinValue;
-            _constraints[ConstraintTypes.EndDate] = DateTime.MaxValue;
-            _constraints[ConstraintTypes.TimeZone] = null;
+            Constraints[ConstraintTypes.StartDate] = DateTime.MinValue;
+            Constraints[ConstraintTypes.EndDate] = DateTime.MaxValue;
+            Constraints[ConstraintTypes.TimeZone] = null;
         }
 
-        public override DateTime Generate(IEnumerable<ConstraintPrototype> constraints)
+        protected override DateTime GenerateValue()
         {
-            LoadConstraints(constraints);
-            var dateBegin = DateTime.Parse(_constraints[ConstraintTypes.StartDate]);
-            var dateEnd = DateTime.Parse(_constraints[ConstraintTypes.EndDate]);
-            return _randomValueGenerator.GenerateDateTime(dateBegin, dateEnd);
+            var dateBegin = DateTime.Parse(Constraints[ConstraintTypes.StartDate]);
+            var dateEnd = DateTime.Parse(Constraints[ConstraintTypes.EndDate]);
+            return RandomValueGenerator.GenerateDateTime(dateBegin, dateEnd);
         }
     }
 }

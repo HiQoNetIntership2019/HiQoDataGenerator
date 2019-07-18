@@ -2,8 +2,6 @@
 using HiQoDataGenerator.GeneratorCore.Extensions;
 using HiQoDataGenerator.GeneratorCore.Generators.Base;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
-using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
-using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
@@ -13,14 +11,14 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
         
         public DecimalGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator)
         {
-            _constraints[ConstraintTypes.MaxDigits] = NumberConstants.MaxDigitsInDecimal;
-            _constraints[ConstraintTypes.DecimalPlace] = 0;
+            Constraints[ConstraintTypes.MaxDigits] = NumberConstants.MaxDigitsInDecimal;
+            Constraints[ConstraintTypes.DecimalPlace] = 0;
         }
 
-        public override decimal Generate(IEnumerable<ConstraintPrototype> constraints)
+        protected override decimal GenerateValue()
         {
-            LoadConstraints(constraints);
-            return _randomValueGenerator.GenerateDecimal(_constraints[ConstraintTypes.MaxDigits], _constraints[ConstraintTypes.DecimalPlace]);
+            return RandomValueGenerator.GenerateDecimal(Constraints[ConstraintTypes.MaxDigits], 
+                Constraints[ConstraintTypes.DecimalPlace]);
         }
     }
 }

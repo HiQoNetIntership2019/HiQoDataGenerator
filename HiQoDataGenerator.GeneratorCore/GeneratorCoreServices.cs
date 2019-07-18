@@ -11,9 +11,10 @@ namespace HiQoDataGenerator.GeneratorCore
         public static void AddGeneratorCoreSerives(this IServiceCollection services)
         {
             IRandomValuesGenerator randomValuesGenerator = new RandomValuesGenerator();
-            
+
             IFieldsGenerator fieldsGenerator = new FieldsGenerator(
                 new DatasetValueGenerator(),
+                new ByteGenerator(randomValuesGenerator),
                 new IntegerGenerator(randomValuesGenerator),
                 new DoubleGenerator(randomValuesGenerator),
                 new DecimalGenerator(randomValuesGenerator),

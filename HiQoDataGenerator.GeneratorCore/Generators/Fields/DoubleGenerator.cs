@@ -13,10 +13,9 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 
         public override SupportedTypes FieldType => SupportedTypes.Double;
 
-        public override double Generate(IEnumerable<ConstraintPrototype> constraints)
+        protected override double GenerateValue()
         {
-            LoadConstraints(constraints);
-            return _randomValueGenerator.GenerateDouble(_constraints[ConstraintTypes.Min], _constraints[ConstraintTypes.Max]);
+            return RandomValueGenerator.GenerateDouble(Constraints[ConstraintTypes.Min], Constraints[ConstraintTypes.Max]);
         }
     }
 }
