@@ -45,9 +45,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="id">Field type id.</param>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("fieldtype/{id}")]
-        public IActionResult GetByFieldTypeId(int id)
+        public async Task<IActionResult> GetByFieldTypeId(int id)
         {
-            var constraintModels = _constraintsService.GetByFieldTypeId(id);
+            var constraintModels = await _constraintsService.GetByFieldTypeId(id);
             return Ok(_mapper.Map<IEnumerable<ConstraintViewModel>>(constraintModels));
         }
 

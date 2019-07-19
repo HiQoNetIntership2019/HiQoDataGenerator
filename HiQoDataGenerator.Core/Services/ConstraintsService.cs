@@ -75,10 +75,10 @@ namespace HiQoDataGenerator.Core.Services
             await _uow.CommitAsync();
         }
 
-        public IEnumerable<ConstraintModel> GetByFieldTypeId(int id)
+        public async Task<IEnumerable<ConstraintModel>> GetByFieldTypeId(int id)
         {
-            var constarints = _constraintsRepository.GetByFieldTypeId(id);
-            return _mapper.Map<IEnumerable<ConstraintModel>>(constarints);
+            var constraints = await _constraintsRepository.GetByFieldTypeId(id);
+            return _mapper.Map<IEnumerable<ConstraintModel>>(constraints);
         }
 
         public async Task AddFieldTypesForConstraint(ConstraintModel constraint, IEnumerable<FieldTypeModel> fieldTypes)
