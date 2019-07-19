@@ -2,6 +2,9 @@
 using HiQoDataGenerator.Core;
 using HiQoDataGenerator.Core.Extensions;
 using HiQoDataGenerator.Core.Interfaces;
+using HiQoDataGenerator.Web.Extensions;
+using HiQoDataGenerator.Web.Interfaces;
+using HiQoDataGenerator.Web.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HiQoDataGenerator.Web
@@ -16,6 +19,12 @@ namespace HiQoDataGenerator.Web
             factory.Mappers.Add(typeof(WebServices).Name, WebServices.GetMapper());
 
             services.AddSingleton<IMapperFactory>(factory);
+        }
+
+        public static void AddBackgroundTasksQueue(this IServiceCollection services)
+        {
+            services.AddHostedService<QueuedDataSavingService>();
+            services.AddSingleton<IBackgroundDataSavingTasksQueue, BackgroundDataSavingTasksQueue>();
         }
 
         public static IMapper GetMapper() => Extensions.MapperExtension.GetMapper();

@@ -16,8 +16,14 @@ namespace HiQoDataGenerator.DAL.Repositories.FileSystem
 
         public async Task CreateAndWriteInFile(string value, string directoryName, string fileName)
         {
-            var fullPath = Path.Combine(_rootDirectory, directoryName, fileName);
-            File.Create(fullPath);
+            var directoryPath = Path.Combine(_rootDirectory, directoryName);
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            var fullPath = Path.Combine(directoryPath, fileName);
 
             using (var writer = new StreamWriter(fullPath))
             {
@@ -37,7 +43,13 @@ namespace HiQoDataGenerator.DAL.Repositories.FileSystem
 
         public async Task<string> ReadFromFile(string directoryName, string fileName)
         {
-            using (var reader = new StreamReader(Path.Combine(_rootDirectory, directoryName, fileName)))
+            var directoryPath = Path.Combine(_rootDirectory, directoryName);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            using (var reader = new StreamReader(Path.Combine(directoryPath, fileName)))
             {
                 return await reader.ReadToEndAsync();
             }
