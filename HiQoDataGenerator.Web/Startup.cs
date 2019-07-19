@@ -30,6 +30,7 @@ namespace HiQoDataGenerator.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
 
             services.AddMvc(options => options.Filters.Add(new ModelStateFilter()))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -78,6 +79,8 @@ namespace HiQoDataGenerator.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Data Generator API V1");
             });
+
+            app.UseCors(builder => builder.AllowAnyOrigin());
 
             app.UseMvc();
 
