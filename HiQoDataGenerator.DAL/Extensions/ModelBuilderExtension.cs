@@ -109,7 +109,7 @@ namespace HiQoDataGenerator.DAL.Extensions
                      #endregion
 
                     #region Constraints for guid
-                    new FieldTypeConstraint() { Id = 31, FieldTypeId = 11, ConstraintId = 11 }
+                    new FieldTypeConstraint() { Id = 31, FieldTypeId = 12, ConstraintId = 11 }
                     #endregion
                 );
 
