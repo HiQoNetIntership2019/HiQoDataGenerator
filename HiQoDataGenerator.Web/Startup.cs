@@ -80,7 +80,11 @@ namespace HiQoDataGenerator.Web
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Data Generator API V1");
             });
 
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials());
 
             app.UseMvc();
 
