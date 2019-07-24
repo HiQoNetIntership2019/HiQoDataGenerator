@@ -11,10 +11,13 @@ namespace HiQoDataGenerator.Web.Controllers
     public class CustomDatasetsController : RootController
     {
         private readonly ICustomDatasetService _customDatasetService;
- 
-        public CustomDatasetsController(ICustomDatasetService customDatasetService, IMapperFactory mapperFactory) :
-            base(mapperFactory) => _customDatasetService = customDatasetService;
+        private readonly IDatasetService _datasetService;
 
+        public CustomDatasetsController(ICustomDatasetService customDatasetService, IDatasetService datasetService, IMapperFactory mapperFactory) : base(mapperFactory)
+        {
+            _customDatasetService = customDatasetService;
+            _datasetService = datasetService;
+        }
 
         /// <summary>
         ///     Gets all custom datasets.
@@ -87,12 +90,29 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </remarks>
         /// <returns>Status code 200.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post(AddCustomDatasetWithValues customDatasetWithValuesViewModel)
+        public async Task<IActionResult> AddDataset(AddCustomDatasetWithValues customDatasetWithValuesViewModel)
         {
             var customDatasetModel = _mapper.Map<CustomDatasetModel>(customDatasetWithValuesViewModel);
 
             await _customDatasetService.AddAsync(customDatasetModel);
             return Ok();
+        }
+
+        /// <summary>
+        ///     Saves custom dataset with values and return id from datasets. 
+        /// </summary>
+        /// <remarks>
+        ///     Param is a Complex view model.
+        /// </remarks>
+        /// <returns>Status code 200 and id.</returns>
+        [HttpPost("withId")]
+        public async Task<IActionResult> AddDatasetAndReturnId(AddCustomDatasetWithValues customDatasetWithValuesViewModel)
+        {
+            var customDatasetModel = _mapper.Map<CustomDatasetModel>(customDatasetWithValuesViewModel);
+
+            await _customDatasetService.AddAsync(customDatasetModel);
+            var dataset = await _datasetService.GetByNameAsync(customDatasetModel.Name);
+            return Ok(dataset.Id);
         }
 
         /// <summary>

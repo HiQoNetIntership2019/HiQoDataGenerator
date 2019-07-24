@@ -104,12 +104,7 @@ namespace HiQoDataGenerator.Core.Services
             var customDataset = _mapper.Map<CustomDataset>(customDatasetModel);
             var dataset = _mapper.Map<Dataset>(customDatasetModel);
             var customDatasetValues = _mapper.Map<IEnumerable<CustomDatasetValue>>(customDatasetModel.Values).Select(item => { item.Dataset = customDataset; return item;}).ToList();
-
-            if (await _datasetRepository.GetByNameAsync(customDatasetModel.Name.ToLower()) != null)
-            {
-                throw new InvalidDataException($"Dataset <{customDatasetModel.Name}> is already exist!");
-            }
-
+            
             await _customDatasetRepository.AddAsync(customDataset);
             await _customDatasetRepository.AddValuesAsync(customDatasetValues);
             dataset.Type = await _typesRepository.GetByNameAsync(Enum.GetName(typeof(SupportedTypes),SupportedTypes.String).ToLower());
