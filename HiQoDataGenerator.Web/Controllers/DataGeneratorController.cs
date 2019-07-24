@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
@@ -75,7 +76,7 @@ namespace HiQoDataGenerator.Web.Controllers
             }
 
             var fileContents = _converters[resultType]?.Invoke(result) ?? throw new ArgumentException();
-            return File(fileContents, $"application/{resultType}",
+            return File( Encoding.ASCII.GetBytes(fileContents), $"application/{resultType}",
                 $"{result.Name}_{result.DateCreated:s}.{resultType}".Replace(":","").Replace("-",""));
 
         }
