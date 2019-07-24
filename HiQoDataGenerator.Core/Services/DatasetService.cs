@@ -44,7 +44,17 @@ namespace HiQoDataGenerator.Core.Services
             }
             return _mapper.Map<DatasetModel>(dataset);
         }
-        
+
+        public async Task<DatasetModel> GetByNameAsync(string name)
+        {
+            var dataset = await _datasetRepository.GetByNameAsync(name.ToLower());
+            if (dataset == null)
+            {
+                throw new InvalidDataException($"Can't get Dataset with name {name}!");
+            }
+            return _mapper.Map<DatasetModel>(dataset);
+        }
+
         public async Task<IEnumerable<DatasetModel>> GetDatasetsByTypeIdAsync(int id)
         {
             var datasets = await _datasetRepository.GetDatasetsByTypeIdAsync(id);

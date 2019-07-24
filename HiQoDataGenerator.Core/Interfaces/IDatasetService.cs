@@ -8,6 +8,7 @@ namespace HiQoDataGenerator.Core.Interfaces
     {
         IEnumerable<DatasetModel> GetAll();
         Task<DatasetModel> GetByIdAsync(int id);
+        Task<DatasetModel> GetByNameAsync(string name);
         Task<IEnumerable<DatasetValueModel>> GetValuesByDatasetIdAsync(int id);
         Task<IEnumerable<DatasetValueModel>> GetValuesByDatasetNameAsync(string name);
         Task<IEnumerable<DatasetModel>> GetDatasetsByTypeIdAsync(int id);

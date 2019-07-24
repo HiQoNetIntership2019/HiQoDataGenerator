@@ -32,12 +32,7 @@ namespace HiQoDataGenerator.Core.Services
             var definedDataset = _mapper.Map<DefinedDataset>(definedDatasetModel);
             var dataset = _mapper.Map<Dataset>(definedDatasetModel);
             var definedDatasetValues = _mapper.Map<IEnumerable<DefinedDatasetValue>>(definedDatasetModel.Values).Select(item => { item.Dataset = definedDataset; return item; });
-
-            if (await _datasetRepository.GetByNameAsync(definedDatasetModel.Name.ToLower()) != null)
-            {
-                throw new InvalidDataException($"Dataset <{definedDatasetModel.Name}> is already exist!");
-            }
-
+            
             await _definedDatasetRepository.AddAsync(definedDataset);
             await _definedDatasetRepository.AddValuesAsync(definedDatasetValues);
             await _datasetRepository.AddAsync(dataset);
