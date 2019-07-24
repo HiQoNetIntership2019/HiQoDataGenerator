@@ -9,7 +9,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
     {
         public FileStatusRepository(DataContext context) : base(context) { }
 
-        public async Task<FileStatus> GetByName(string name)
+        public async Task<FileStatus> GetByNameAsync(string name)
         {
             return await Task.Run(() => _models.Where(model => model.Status.ToLower() == name).FirstOrDefault());
         }

@@ -21,7 +21,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<GeneratedObjectModel> GetAll()
         {
-            return _mapper.Map<IEnumerable<GeneratedObjectModel>>(_generatedObjectsRepository.GetAll());
+            return _mapper.Map<IEnumerable<GeneratedObjectModel>>(_generatedObjectsRepository.GetAllAsync());
         }
 
         public async Task Add(GeneratedObjectModel generatedObject)

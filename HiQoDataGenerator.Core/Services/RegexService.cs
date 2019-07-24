@@ -25,10 +25,10 @@ namespace HiQoDataGenerator.Core.Services
         }
         public IEnumerable<RegexModel> GetAll()
         {
-           return _mapper.Map<IEnumerable<RegexModel>>(_regexRepository.GetAll());
+           return _mapper.Map<IEnumerable<RegexModel>>(_regexRepository.GetAllAsync());
         }
 
-        public IQueryable<string> GetAllNames() =>  _regexRepository.GetAllNames();
+        public IQueryable<string> GetAllNames() =>  _regexRepository.GetAllNamesAsync();
 
 
         public async Task RemoveByIdAsync(int id)

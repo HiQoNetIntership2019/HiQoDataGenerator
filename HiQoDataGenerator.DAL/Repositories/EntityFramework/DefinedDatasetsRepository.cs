@@ -21,33 +21,33 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             return await Task.Run(() => _models.Where(model => model.Name.ToLower() == name).FirstOrDefault());
         }
 
-        public IEnumerable<DefinedDatasetValue> GetValues()
+        public async Task<IEnumerable<DefinedDatasetValue>> GetValuesAsync()
         {
-            return _datasetValues.ToList();
+            return await _datasetValues.ToListAsync();
         }
 
-        public IEnumerable<DefinedDatasetValue> GetValuesByDatasetId(int datasetId)
+        public async Task<IEnumerable<DefinedDatasetValue>> GetValuesByDatasetIdAsync(int datasetId)
         {
-            var result = _datasetValues.Where(value => value.DatasetId == datasetId).ToList();
-            return result.Count() == 0 ? null : result;
+            var result = await _datasetValues.Where(value => value.DatasetId == datasetId).ToListAsync();
+            return !result.Any() ? null : result;
         }
 
-        public IEnumerable<DefinedDatasetValue> GetValuesByDatasetName(string datasetName)
+        public async Task<IEnumerable<DefinedDatasetValue>> GetValuesByDatasetNameAsync(string datasetName)
         {
-            var result = _datasetValues.Include(v => v.Dataset).Where(value => value.Dataset.Name.ToLower() == datasetName).ToList();
-            return result.Count() == 0 ? null : result;
+            var result = await _datasetValues.Include(v => v.Dataset).Where(value => value.Dataset.Name.ToLower() == datasetName).ToListAsync();
+            return !result.Any() ? null : result;
         }
 
-        public IEnumerable<DefinedDataset> GetDatasetsByTypeId(int typeId)
+        public async Task<IEnumerable<DefinedDataset>> GetDatasetsByTypeIdAsync(int typeId)
         {
-            var result = _models.Where(model => model.TypeId == typeId).ToList();
-            return result.Count() == 0 ? null : result;
+            var result = await _models.Where(model => model.TypeId == typeId).ToListAsync();
+            return !result.Any() ? null : result;
         }
 
-        public IEnumerable<DefinedDataset> GetDatasetsByTypeName(string typeName)
+        public async Task<IEnumerable<DefinedDataset>> GetDatasetsByTypeNameAsync(string typeName)
         {
-            var result = _models.Include(model => model.Type).Where(model => model.Type.Name == typeName).ToList();
-            return result.Count() == 0 ? null : result;
+            var result = await _models.Include(model => model.Type).Where(model => model.Type.Name == typeName).ToListAsync();
+            return !result.Any() ? null : result;
         }
 
         public async Task AddValuesAsync(IEnumerable<DefinedDatasetValue> values)

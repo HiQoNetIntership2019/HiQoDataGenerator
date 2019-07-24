@@ -54,7 +54,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureRepositoryMock(Mock<IFieldTypeRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAll()).Returns(_fieldTypes.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).Returns(_fieldTypes.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _fieldTypes[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
 

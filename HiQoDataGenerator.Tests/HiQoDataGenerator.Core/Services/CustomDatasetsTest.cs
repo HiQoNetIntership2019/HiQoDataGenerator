@@ -77,12 +77,12 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureRepositoryMock(Mock<ICustomDatasetRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAll()).Returns(_customDatasets.AsQueryable());
-            repositoryMock.Setup(rep => rep.GetValues()).Returns(_customDatasetValues.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).Returns(_customDatasets.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetValuesAsync()).Returns(_customDatasetValues.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _customDatasets[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
-            repositoryMock.Setup(rep => rep.GetValuesByDatasetId(1)).Returns(_customDatasetValues.Where(item => item.Dataset.Id == 1).AsQueryable());
-            repositoryMock.Setup(rep => rep.GetValuesByDatasetId(3)).Returns(() => null);
+            repositoryMock.Setup(rep => rep.GetValuesByDatasetIdAsync(1)).Returns(_customDatasetValues.Where(item => item.Dataset.Id == 1).AsQueryable());
+            repositoryMock.Setup(rep => rep.GetValuesByDatasetIdAsync(3)).Returns(() => null);
 
             repositoryMock.Setup(rep => rep.AddAsync(null));
             repositoryMock.Setup(rep => rep.AddValuesAsync(null));

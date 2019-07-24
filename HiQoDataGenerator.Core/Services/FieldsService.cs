@@ -23,7 +23,7 @@ namespace HiQoDataGenerator.Core.Services
         }
 
         public IEnumerable<FieldModel> GetAll() =>
-            _mapper.Map<IEnumerable<FieldModel>>(_fieldRepository.GetAllWithTypes());
+            _mapper.Map<IEnumerable<FieldModel>>(_fieldRepository.GetAllWithTypesAsync());
 
         public async Task AddAsync(FieldModel model)
         {

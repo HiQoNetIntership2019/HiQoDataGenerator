@@ -54,7 +54,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureRepositoryMock(Mock<IEncodingTypeRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAll()).Returns(_encodingTypes.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).Returns(_encodingTypes.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _encodingTypes[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
             

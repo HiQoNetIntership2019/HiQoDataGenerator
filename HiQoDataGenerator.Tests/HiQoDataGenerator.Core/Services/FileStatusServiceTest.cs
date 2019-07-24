@@ -54,11 +54,11 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureRepositoryMock(Mock<IFileStatusRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAll()).Returns(_statuses.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).Returns(_statuses.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _statuses[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
-            repositoryMock.Setup(rep => rep.GetByName(_statuses[0].Status.ToLower())).ReturnsAsync(() => _statuses[0]);
-            repositoryMock.Setup(rep => rep.GetByName("status")).ReturnsAsync(() => null);
+            repositoryMock.Setup(rep => rep.GetByNameAsync(_statuses[0].Status.ToLower())).ReturnsAsync(() => _statuses[0]);
+            repositoryMock.Setup(rep => rep.GetByNameAsync("status")).ReturnsAsync(() => null);
         }
 
         [Fact]

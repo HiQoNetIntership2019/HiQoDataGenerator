@@ -47,12 +47,12 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<ConfigurableObjectModel> GetAll()
         {
-            var allObjects = _configurableObjectsRepository.GetAllWithFields();
+            var allObjects = _configurableObjectsRepository.GetAllWithFieldsAsync();
             return _mapper.Map<IEnumerable<ConfigurableObjectModel>>(allObjects);
         }
 
         public IEnumerable<ConfigurableObjectModel> GetByDateCreated(Predicate<DateTime> datePredicate) =>
-            _mapper.Map<IEnumerable<ConfigurableObjectModel>>(_configurableObjectsRepository.GetByDateCreation(datePredicate));
+            _mapper.Map<IEnumerable<ConfigurableObjectModel>>(_configurableObjectsRepository.GetByDateCreationAsync(datePredicate));
 
         public async Task RemoveById(int id)
         {

@@ -38,7 +38,7 @@ namespace HiQoDataGenerator.Core.Services
             await _uow.CommitAsync();
         }
 
-        public IEnumerable<TimezoneModel> GetAll() => _mapper.Map<IEnumerable<TimezoneModel>>(_timezoneRepostory.GetAll());
+        public IEnumerable<TimezoneModel> GetAll() => _mapper.Map<IEnumerable<TimezoneModel>>(_timezoneRepostory.GetAllAsync());
 
         public async Task<TimezoneModel> GetByIdAsync(int id) {
             var timezone = await _timezoneRepostory.GetByIdAsync(id);

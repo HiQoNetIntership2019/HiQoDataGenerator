@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace HiQoDataGenerator.DAL.Repositories.MongoDriver
 {
     public abstract class MongoBaseRepository<T>
-
     {
         private readonly string _configSectionForConnectionString = "MongoConnection";
         private readonly string _databaseName = "DataGenerator";
@@ -22,10 +21,10 @@ namespace HiQoDataGenerator.DAL.Repositories.MongoDriver
                 .GetCollection<T>(collectionName);
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            var collection = _collection.Find(model => true).ToList();
-            return BsonSerializer.Deserialize<List<T>>(collection.ToJson());
+            var collection = await _collection.FindAsync(model => true);
+            return BsonSerializer.Deserialize<List<T>>(collection.ToList().ToJson());
         }
 
         public async Task AddAsync(T item)

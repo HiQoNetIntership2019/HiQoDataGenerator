@@ -34,7 +34,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<ConstraintModel> GetAll()
         {
-            var constraints = _constraintsRepository.GetAll();
+            var constraints = _constraintsRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<Constraint>, IEnumerable<ConstraintModel>>(constraints);
         }
 
@@ -77,7 +77,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<IEnumerable<ConstraintModel>> GetByFieldTypeId(int id)
         {
-            var constraints = await _constraintsRepository.GetByFieldTypeId(id);
+            var constraints = await _constraintsRepository.GetByFieldTypeIdAsync(id);
             return _mapper.Map<IEnumerable<ConstraintModel>>(constraints);
         }
 

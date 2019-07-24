@@ -28,20 +28,20 @@ namespace HiQoDataGenerator.Core.Services
             string fileName = $"{generatedObject.DateCreation:s}_{generatedObject.Name}.json"
                 .Replace(":", "")
                 .Replace("-", "");
-            await _filesGeneratedObjectsRepository.CreateAndWriteInFile(json, _directoryName, fileName);
+            await _filesGeneratedObjectsRepository.CreateAndWriteInFileAsync(json, _directoryName, fileName);
             return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), fileName));
         }
 
         public async Task<GeneratedObjectModel> ReadFromFile(string fullPath)
         {
-            var jsonObject = await _filesGeneratedObjectsRepository.ReadFromFile(fullPath);
+            var jsonObject = await _filesGeneratedObjectsRepository.ReadFromFileAsync(fullPath);
             return JsonConvert.DeserializeObject<GeneratedObjectModel>(jsonObject);
             
         }
 
         public async Task DeleteFile(string fullPath)
         {
-            await _filesGeneratedObjectsRepository.DeleteFile(fullPath);
+            await _filesGeneratedObjectsRepository.DeleteFileAsync(fullPath);
         }
 
     }

@@ -33,7 +33,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<FileMetadataModel> GetAll()
         {
-            var metadata = _fileMetadataRepository.GetAll().ToList();
+            var metadata = _fileMetadataRepository.GetAllAsync().ToList();
             return _mapper.Map<IEnumerable<FileMetadataModel>>(metadata);
         }
 
@@ -49,7 +49,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<IEnumerable<FileMetadataModel>> GetByStatusId(int id)
         {
-            var metadata = await _fileMetadataRepository.GetByStatusId(id);
+            var metadata = await _fileMetadataRepository.GetByStatusIdAsync(id);
             if (metadata == null)
             {
                 throw new InvalidDataException($"Can't get File Metadata with Status id {id} !");
@@ -59,7 +59,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<IEnumerable<FileMetadataModel>> GetByStatusId(int id, int count)
         {
-            var metadata = await _fileMetadataRepository.GetByStatusId(id, count);
+            var metadata = await _fileMetadataRepository.GetByStatusIdAsync(id, count);
             if (metadata == null)
             {
                 throw new InvalidDataException($"Can't get File Metadata with Status id {id} !");
@@ -69,7 +69,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<IEnumerable<FileMetadataModel>> GetByStatusName(string name)
         {
-            var metadata = await _fileMetadataRepository.GetByStatusName(name.ToLower());
+            var metadata = await _fileMetadataRepository.GetByStatusNameAsync(name.ToLower());
             if (metadata == null)
             {
                 throw new InvalidDataException($"Can't get File Metadata with Status <{name}> !");
@@ -79,7 +79,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<IEnumerable<FileMetadataModel>> GetByStatusName(string name, int count)
         {
-            var metadata = await _fileMetadataRepository.GetByStatusName(name.ToLower(),count);
+            var metadata = await _fileMetadataRepository.GetByStatusNameAsync(name.ToLower(),count);
             if (metadata == null)
             {
                 throw new InvalidDataException($"Can't get File Metadata with Status <{name}> !");

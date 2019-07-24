@@ -33,13 +33,13 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<CustomDatasetModel> GetAll()
         {
-            var customDatasets = _customDatasetRepository.GetAll().ToList();
+            var customDatasets = _customDatasetRepository.GetAllAsync().ToList();
             return _mapper.Map<IEnumerable<CustomDatasetModel>>(customDatasets);
         }
 
         public IEnumerable<CustomDatasetValueModel> GetValues()
         {
-            var customDatasetValues = _customDatasetRepository.GetValues().ToList();
+            var customDatasetValues = _customDatasetRepository.GetValuesAsync().ToList();
             return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
         }
 
@@ -55,7 +55,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<CustomDatasetValueModel> GetValuesByDatasetId(int id)
         {
-            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetId(id)?.ToList();
+            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetIdAsync(id)?.ToList();
             if (customDatasetValues == null)
             {
                 throw new InvalidDataException($"Can't get values of Custom Dataset with id {id} !");
@@ -65,7 +65,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<CustomDatasetValueModel> GetValuesByDatasetName(string name)
         {
-            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetName(name.ToLower())?.ToList();
+            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetNameAsync(name.ToLower())?.ToList();
             if (customDatasetValues == null)
             {
                 throw new InvalidDataException($"Can't get values of Custom Dataset <{name}> !");
@@ -75,7 +75,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<CustomDatasetModel> GetDatasetWithValuesById(int id)
         {
-            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetId(id);
+            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetIdAsync(id);
             if (customDatasetValues == null)
             {
                 throw new InvalidDataException($"Can't get values of Custom Dataset with id {id} !");

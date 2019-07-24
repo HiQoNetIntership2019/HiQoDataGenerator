@@ -25,7 +25,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<EncodingTypeModel> GetAll()
         {
-            var encodingTypes = _repo.GetAll();
+            var encodingTypes = _repo.GetAllAsync();
             return _mapper.Map<IEnumerable<EncodingType>, IEnumerable<EncodingTypeModel>>(encodingTypes);
         }
 

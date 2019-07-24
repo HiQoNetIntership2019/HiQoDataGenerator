@@ -25,7 +25,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<DateTimeFormatModel> GetAll()
         {
-            var dateTimeFormats = _dateTimeFormatRepository.GetAll();
+            var dateTimeFormats = _dateTimeFormatRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<DateTimeFormatModel>>(dateTimeFormats);
         }
 

@@ -6,6 +6,6 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     public interface IRegexRepository : IGenericRepository<Regex>
     {
-        IQueryable<string> GetAllNames();
+        Task<IQueryable<string>> GetAllNamesAsync();
     }
 }

@@ -27,7 +27,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<ConstraintValueModel> GetAll()
         {
-            var constraintValues = _constraintValuesRepository.GetAll();
+            var constraintValues = _constraintValuesRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<ConstraintValueModel>>(constraintValues);
         }
 

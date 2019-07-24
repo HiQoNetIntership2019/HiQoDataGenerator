@@ -25,7 +25,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<FileStatusModel> GetAll()
         {
-            var statuses = _fileStatusRepository.GetAll().ToList();
+            var statuses = _fileStatusRepository.GetAllAsync().ToList();
             return _mapper.Map<IEnumerable<FileStatusModel>>(statuses);
         }
 
@@ -41,7 +41,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<FileStatusModel> GetByName(string name)
         {
-            var status = await _fileStatusRepository.GetByName(name.ToLower());
+            var status = await _fileStatusRepository.GetByNameAsync(name.ToLower());
             if (status == null)
             {
                 throw new InvalidDataException($"Can't get File Status with name <{name}>!");

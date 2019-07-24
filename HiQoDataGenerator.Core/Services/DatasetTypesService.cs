@@ -32,7 +32,7 @@ namespace HiQoDataGenerator.Core.Services
 
 
         public IEnumerable<DatasetTypeModel> GetAllTypes() =>
-            _mapper.Map<IEnumerable<DatasetTypeModel>>(_datasetTypesRepository.GetAll());
+            _mapper.Map<IEnumerable<DatasetTypeModel>>(_datasetTypesRepository.GetAllAsync());
 
         public async Task<DatasetTypeModel> GetByIdAsync(int id) =>
             _mapper.Map<DatasetTypeModel>(await _datasetTypesRepository.GetByIdAsync(id));

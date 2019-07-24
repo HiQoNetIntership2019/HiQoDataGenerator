@@ -16,7 +16,6 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             _models = dataContext.Set<T>();
         }
 
-
         public async Task AddAsync(T item)
         {
             await _models.AddAsync(item);
@@ -27,7 +26,10 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             await _models.AddRangeAsync(items);
         }
 
-        public IQueryable<T> GetAll() => _models;
+        public async Task<IQueryable<T>> GetAllAsync()
+        {
+            return await Task.Run(()=>_models);
+        }
 
         public async Task<T> GetByIdAsync(int id) => await _models.FindAsync(id);
 

@@ -33,7 +33,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<FieldTypeModel> GetAll()
         {
-            var types = _fieldTypeRepostory.GetAll();
+            var types = _fieldTypeRepostory.GetAllAsync();
             return _mapper.Map<IEnumerable<FieldType>, IEnumerable<FieldTypeModel>>(types);
         }
 

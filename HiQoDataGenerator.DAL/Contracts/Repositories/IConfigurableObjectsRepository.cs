@@ -7,8 +7,8 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     public interface IConfigurableObjectsRepository : IGenericRepository<ConfigurableObject>
     {
-        Task<ConfigurableObject> GetByName(string name);
-        IQueryable<ConfigurableObject> GetByDateCreation(Predicate<DateTime> datePredicate);
-        IQueryable<ConfigurableObject> GetAllWithFields();
+        Task<ConfigurableObject> GetByNameAsync(string name);
+        Task<IQueryable<ConfigurableObject>> GetByDateCreationAsync(Predicate<DateTime> datePredicate);
+        Task<IQueryable<ConfigurableObject>> GetAllWithFieldsAsync();
     }
 }

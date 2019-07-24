@@ -49,7 +49,7 @@ namespace HiQoDataGenerator.Core.Services
         
         public IEnumerable<DefinedDatasetModel> GetAll()
         {
-            var definedDatasets = _definedDatasetRepository.GetAll().ToList();
+            var definedDatasets = _definedDatasetRepository.GetAllAsync().ToList();
             return _mapper.Map<IEnumerable<DefinedDatasetModel>>(definedDatasets);
         }
         
@@ -65,7 +65,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<DefinedDatasetModel> GetDatasetsByTypeId(int id)
         {
-            var definedDatasets = _definedDatasetRepository.GetDatasetsByTypeId(id);
+            var definedDatasets = _definedDatasetRepository.GetDatasetsByTypeIdAsync(id);
             if (definedDatasets == null)
             {
                 throw new InvalidDataException($"Can't get Defined Datasets with Type id {id} !");
@@ -75,7 +75,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<DefinedDatasetModel> GetDatasetsByTypeName(string name)
         {
-            var definedDatasets = _definedDatasetRepository.GetDatasetsByTypeName(name.ToLower());
+            var definedDatasets = _definedDatasetRepository.GetDatasetsByTypeNameAsync(name.ToLower());
             if (definedDatasets == null)
             {
                 throw new InvalidDataException($"Can't get Defined Datasets with Type <{name}> !");
@@ -85,13 +85,13 @@ namespace HiQoDataGenerator.Core.Services
         
         public IEnumerable<DefinedDatasetValueModel> GetValues()
         {
-            var definedDatasetValues = _definedDatasetRepository.GetValues();
+            var definedDatasetValues = _definedDatasetRepository.GetValuesAsync();
             return _mapper.Map<IEnumerable<DefinedDatasetValueModel>>(definedDatasetValues);
         }
         
         public IEnumerable<DefinedDatasetValueModel> GetValuesByDatasetId(int id)
         {
-            var definedDatasetValues = _definedDatasetRepository.GetValuesByDatasetId(id);
+            var definedDatasetValues = _definedDatasetRepository.GetValuesByDatasetIdAsync(id);
             if (definedDatasetValues == null)
             {
                 throw new InvalidDataException($"Can't get values of Defined Dataset with id {id} !");
@@ -101,7 +101,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public IEnumerable<DefinedDatasetValueModel> GetValuesByDatasetName(string name)
         {
-            var definedDatasetValues = _definedDatasetRepository.GetValuesByDatasetName(name.ToLower());
+            var definedDatasetValues = _definedDatasetRepository.GetValuesByDatasetNameAsync(name.ToLower());
             if (definedDatasetValues == null)
             {
                 throw new InvalidDataException($"Can't get values of Defined Dataset <{name}> !");
@@ -111,7 +111,7 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<DefinedDatasetModel> GetDatasetWithValuesById(int id)
         {
-            var definedDatasetValues = _definedDatasetRepository.GetValuesByDatasetId(id);
+            var definedDatasetValues = _definedDatasetRepository.GetValuesByDatasetIdAsync(id);
             if (definedDatasetValues == null)
             {
                 throw new InvalidDataException($"Can't get values of Defined Dataset with id {id} !");

@@ -54,7 +54,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         
         private void ConfigureRepositoryMock(Mock<IDateTimeFormatRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAll()).Returns(_dateTimeFormats.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).Returns(_dateTimeFormats.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _dateTimeFormats[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
 

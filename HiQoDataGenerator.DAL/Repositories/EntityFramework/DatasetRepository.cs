@@ -19,13 +19,13 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         public async Task<IEnumerable<Dataset>> GetDatasetsByTypeIdAsync(int id)
         {
             var result = await Task.Run(() => _models.Where(model => model.TypeId == id).ToList());
-            return result.Count() == 0 ? null : result;
+            return !result.Any() ? null : result;
         }
 
         public async Task<IEnumerable<Dataset>> GetDatasetsByTypeNameAsync(string name)
         {
             var result = await Task.Run(() => _models.Include(model => model.Type).Where(model => model.Type.Name == name).ToList());
-            return result.Count() == 0 ? null : result;
+            return !result.Any() ? null : result;
         }
 
         public async Task ToDefinedDatasetAsync(int datasetId)
