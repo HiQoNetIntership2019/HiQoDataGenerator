@@ -7,8 +7,8 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IRegexService
     {
-        IEnumerable<RegexModel> GetAll();
-        IQueryable<string> GetAllNames();
+        Task<IEnumerable<RegexModel>> GetAllAsync();
+        Task<IQueryable<string>> GetAllNamesAsync();
         Task<RegexModel> GetByIdAsync(int id);
         Task AddAsync(RegexModel item);
         Task RemoveByIdAsync(int id);

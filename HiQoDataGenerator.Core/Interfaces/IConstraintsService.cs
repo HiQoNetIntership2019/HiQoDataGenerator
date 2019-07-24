@@ -6,12 +6,12 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IConstraintsService
     {
-        IEnumerable<ConstraintModel> GetAll();
+        Task<IEnumerable<ConstraintModel>> GetAllAsync();
         Task<ConstraintModel> GetByIdAsync(int id);
         Task<ConstraintModel> GetByNameAsync(string name);
-        Task<IEnumerable<ConstraintModel>> GetByFieldTypeId(int id);
+        Task<IEnumerable<ConstraintModel>> GetByFieldTypeIdAsync(int id);
         Task AddAsync(ConstraintModel constraintModel);
         Task RemoveByIdAsync(int id);
-        Task AddFieldTypesForConstraint(ConstraintModel constraint, IEnumerable<FieldTypeModel> fieldTypes);
+        Task AddFieldTypesForConstraintAsync(ConstraintModel constraint, IEnumerable<FieldTypeModel> fieldTypes);
     }
 }

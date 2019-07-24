@@ -8,9 +8,9 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
     public interface ICustomDatasetRepository :IGenericRepository<CustomDataset>
     {
         Task<CustomDataset> GetDatasetByNameAsync(string name);
-        IQueryable<CustomDatasetValue> GetValues();
-        IQueryable<CustomDatasetValue> GetValuesByDatasetId(int datasetId);
-        IQueryable<CustomDatasetValue> GetValuesByDatasetName(string datasetName);
+        Task<IQueryable<CustomDatasetValue>> GetValuesAsync();
+        Task<IQueryable<CustomDatasetValue>> GetValuesByDatasetIdAsync(int datasetId);
+        Task<IQueryable<CustomDatasetValue>> GetValuesByDatasetNameAsync(string datasetName);
 
         Task AddValuesAsync(IEnumerable<CustomDatasetValue> values);
 

@@ -6,9 +6,9 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     public interface IFileMetadataRepository : IGenericRepository<FileMetadata>
     {
-        Task<IEnumerable<FileMetadata>> GetByStatusId(int id);
-        Task<IEnumerable<FileMetadata>> GetByStatusId(int id, int count);
-        Task<IEnumerable<FileMetadata>> GetByStatusName(string name);
-        Task<IEnumerable<FileMetadata>> GetByStatusName(string name, int count);
+        Task<IEnumerable<FileMetadata>> GetByStatusIdAsync(int id);
+        Task<IEnumerable<FileMetadata>> GetByStatusIdAsync(int id, int count);
+        Task<IEnumerable<FileMetadata>> GetByStatusNameAsync(string name);
+        Task<IEnumerable<FileMetadata>> GetByStatusNameAsync(string name, int count);
     }
 }

@@ -7,8 +7,8 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IConfigurableObjectsService
     {
-        IEnumerable<ConfigurableObjectModel> GetAll();
-        IEnumerable<ConfigurableObjectModel> GetByDateCreated(Predicate<DateTime> datePredicate);
+        Task<IEnumerable<ConfigurableObjectModel>> GetAllAsync();
+        Task<IEnumerable<ConfigurableObjectModel>> GetByDateCreatedAsync(Predicate<DateTime> datePredicate);
         Task AddAsync(ConfigurableObjectModel configurableObject);
         Task RemoveById(int id);
     }

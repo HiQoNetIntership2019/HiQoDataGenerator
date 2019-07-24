@@ -5,6 +5,6 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     public interface IFileStatusRepository : IGenericRepository<FileStatus>
     {
-        Task<FileStatus> GetByName(string name);
+        Task<FileStatus> GetByNameAsync(string name);
     }
 }

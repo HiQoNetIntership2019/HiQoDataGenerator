@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HiQoDataGenerator.Web.Controllers
@@ -24,9 +20,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
-            var constraintValuesModels = _constraintValuesService.GetAll();
+            var constraintValuesModels = await _constraintValuesService.GetAllAsync();
             var constraintValuesViewModels = _mapper.Map<IEnumerable<ConstraintValueViewModel>>(constraintValuesModels);
             return Ok(constraintValuesViewModels);
         }
@@ -37,7 +33,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="id"></param>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             var constraintValueModel = await _constraintValuesService.GetByIdAsync(id);
             var constraintValueViewModel = _mapper.Map<ConstraintValueViewModel>(constraintValueModel);
@@ -51,7 +47,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         [Route("[action]/{typeId}")]
-        public async Task<IActionResult> GetByType(int typeId)
+        public async Task<IActionResult> GetByTypeAsync(int typeId)
         {
             var constraintValueModels = await _constraintValuesService.GetByTypeAsync(typeId);
             var constraintValueViewModels = _mapper.Map<IEnumerable<ConstraintValueViewModel>>(constraintValueModels);
@@ -63,7 +59,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post(ConstraintValueViewModel constraintValueViewModel)
+        public async Task<IActionResult> PostAsync(ConstraintValueViewModel constraintValueViewModel)
         {
             var constraintValueModel = _mapper.Map<ConstraintValueModel>(constraintValueViewModel);
             await _constraintValuesService.AddAsync(constraintValueModel);
@@ -76,7 +72,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="id"></param>
         /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             await _constraintValuesService.RemoveByIdAsync(id);
             return Ok();

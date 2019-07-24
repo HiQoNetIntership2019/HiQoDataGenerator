@@ -20,9 +20,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
-            var regexModels = _regexService.GetAll();
+            var regexModels = await _regexService.GetAllAsync();
             var regexViewModels = _mapper.Map<IEnumerable<RegexViewModel>>(regexModels);
             return Ok(regexViewModels);
         }
@@ -32,7 +32,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             var regexModel = await _regexService.GetByIdAsync(id);
             var regexViewModel = _mapper.Map<FieldTypeViewModel>(regexModel);
@@ -44,9 +44,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view models.</returns>
         [HttpGet("names")]
-        public IActionResult GetNames()
+        public async Task<IActionResult> GetNamesAsync()
         {
-            var models = _regexService.GetAllNames();
+            var models = await _regexService.GetAllNamesAsync();
             return Ok(models);
         }
 
@@ -56,7 +56,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="regexViewModel"></param>
         /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post(RegexViewModel regexViewModel)
+        public async Task<IActionResult> PostAsync(RegexViewModel regexViewModel)
         {
             var regexModel = _mapper.Map<RegexModel>(regexViewModel);
 
@@ -70,7 +70,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="id"></param>
         /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             await _regexService.RemoveByIdAsync(id);            
             return Ok();

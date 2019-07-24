@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using HiQoDataGenerator.Core.Entities;
 using System.Threading.Tasks;
 
@@ -8,8 +6,8 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IFieldTypeService
     {
-        IEnumerable<string> GetSupportedTypes();
-        IEnumerable<FieldTypeModel> GetAll();
+        Task<IEnumerable<string>> GetSupportedTypesAsync();
+        Task<IEnumerable<FieldTypeModel>> GetAllAsync();
         Task<FieldTypeModel> GetByIdAsync(int id);
         Task AddAsync(FieldTypeModel fieldTypeModel);
         Task RemoveByIdAsync(int id);

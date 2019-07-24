@@ -6,8 +6,8 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IFileStatusService
     {
-        IEnumerable<FileStatusModel> GetAll();
+        Task<IEnumerable<FileStatusModel>> GetAllAsync();
         Task<FileStatusModel> GetByIdAsync(int id);
-        Task<FileStatusModel> GetByName(string name);
+        Task<FileStatusModel> GetByNameAsync(string name);
     }
 }

@@ -21,7 +21,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
-        public IActionResult Get() => Ok(_mapper.Map<IEnumerable<ConfigurableObjectViewModel>>(_configurableObjectsService.GetAll()));
+        public async Task<IActionResult> GetAsync() => Ok(_mapper.Map<IEnumerable<ConfigurableObjectViewModel>>(await _configurableObjectsService.GetAllAsync()));
 
         /// <summary>
         ///     Retrieves all configurable objects created later than given date and time.
@@ -32,15 +32,15 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </remarks>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("datelater/{date}")]
-        public IActionResult GetByDateLater(DateTime date) =>
-            Ok(_mapper.Map<ConfigurableObjectViewModel>(_configurableObjectsService.GetByDateCreated(dateCreated => dateCreated > date)));
+        public async Task<IActionResult> GetByDateLaterAsync(DateTime date) =>
+            Ok(_mapper.Map<ConfigurableObjectViewModel>(await _configurableObjectsService.GetByDateCreatedAsync(dateCreated => dateCreated > date)));
 
         /// <summary>
         ///     Saves a new configurable object.
         /// </summary>
         /// <returns>Status code 200.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ConfigurableObjectViewModel model)
+        public async Task<IActionResult> PostAsync([FromBody] ConfigurableObjectViewModel model)
         {
             await _configurableObjectsService.AddAsync(_mapper.Map<ConfigurableObjectModel>(model));
 
@@ -53,7 +53,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             await _configurableObjectsService.RemoveById(id);
 

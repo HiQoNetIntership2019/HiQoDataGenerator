@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.GeneratorCore.Interfaces;
-using HiQoDataGenerator.GeneratorCore.Models.Objects;
 using HiQoDataGenerator.GeneratorCore.Models.Prototypes;
 using HiQoDataGenerator.Web.Extensions;
 using HiQoDataGenerator.Web.ViewModels;
@@ -47,7 +46,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and Json or Xml File</returns>
         [HttpPost]
         [Route("{resultType?}")]
-        public async Task<IActionResult> GenerateObject([FromBody] ConfigurableObjectViewModel configurableObject,
+        public async Task<IActionResult> GenerateObjectAsync([FromBody] ConfigurableObjectViewModel configurableObject,
             string resultType)
         {
             var datasetIds = configurableObject.Fields
@@ -85,7 +84,7 @@ namespace HiQoDataGenerator.Web.Controllers
         {
             _backgroundDataSavingTasksQueue.QueueBackgroundWorkItem(async token =>
             {
-                var path = await _generatedObjectFileSystemService.CreateFile(_mapper.Map<GeneratedObjectModel>(generatedObject));
+                var path = await _generatedObjectFileSystemService.CreateFileAsync(_mapper.Map<GeneratedObjectModel>(generatedObject));
                 return new FileMetadataModel(0, path, 1);
             });
         }

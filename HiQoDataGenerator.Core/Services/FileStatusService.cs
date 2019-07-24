@@ -23,10 +23,10 @@ namespace HiQoDataGenerator.Core.Services
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
-        public IEnumerable<FileStatusModel> GetAll()
+        public async Task<IEnumerable<FileStatusModel>> GetAllAsync()
         {
-            var statuses = _fileStatusRepository.GetAll().ToList();
-            return _mapper.Map<IEnumerable<FileStatusModel>>(statuses);
+            var statuses = await _fileStatusRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<FileStatusModel>>(statuses.ToList());
         }
 
         public async Task<FileStatusModel> GetByIdAsync(int id)
@@ -39,9 +39,9 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<FileStatusModel>(status);
         }
 
-        public async Task<FileStatusModel> GetByName(string name)
+        public async Task<FileStatusModel> GetByNameAsync(string name)
         {
-            var status = await _fileStatusRepository.GetByName(name.ToLower());
+            var status = await _fileStatusRepository.GetByNameAsync(name.ToLower());
             if (status == null)
             {
                 throw new InvalidDataException($"Can't get File Status with name <{name}>!");

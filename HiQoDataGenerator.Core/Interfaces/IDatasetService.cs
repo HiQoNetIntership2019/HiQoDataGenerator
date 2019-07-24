@@ -6,7 +6,7 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IDatasetService
     {
-        IEnumerable<DatasetModel> GetAll();
+        Task<IEnumerable<DatasetModel>> GetAllAsync();
         Task<DatasetModel> GetByIdAsync(int id);
         Task<DatasetModel> GetByNameAsync(string name);
         Task<IEnumerable<DatasetValueModel>> GetValuesByDatasetIdAsync(int id);

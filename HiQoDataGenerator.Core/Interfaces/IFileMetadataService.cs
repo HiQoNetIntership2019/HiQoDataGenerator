@@ -6,12 +6,12 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IFileMetadataService
     {
-        IEnumerable<FileMetadataModel> GetAll();
+        Task<IEnumerable<FileMetadataModel>> GetAllAsync();
         Task<FileMetadataModel> GetByIdAsync(int id);
-        Task<IEnumerable<FileMetadataModel>> GetByStatusId(int id);
-        Task<IEnumerable<FileMetadataModel>> GetByStatusId(int id, int count);
-        Task<IEnumerable<FileMetadataModel>> GetByStatusName(string name);
-        Task<IEnumerable<FileMetadataModel>> GetByStatusName(string name, int count);
+        Task<IEnumerable<FileMetadataModel>> GetByStatusIdAsync(int id);
+        Task<IEnumerable<FileMetadataModel>> GetByStatusIdAsync(int id, int count);
+        Task<IEnumerable<FileMetadataModel>> GetByStatusNameAsync(string name);
+        Task<IEnumerable<FileMetadataModel>> GetByStatusNameAsync(string name, int count);
 
         Task UpdateAsync(FileMetadataModel fileMetadataModel);
         Task UpdateRangeAsync(IEnumerable<FileMetadataModel> fileMetadataModels);

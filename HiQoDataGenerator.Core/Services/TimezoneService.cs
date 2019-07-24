@@ -33,18 +33,18 @@ namespace HiQoDataGenerator.Core.Services
             var result = await _timezoneRepostory.RemoveByIdAsync(id);
             if (!result)
             {
-                throw new InvalidDataException("Can't delete Timeone with id " + id.ToString() + " !");
+                throw new InvalidDataException($"Can't delete Timeone with id {id} !");
             }
             await _uow.CommitAsync();
         }
 
-        public IEnumerable<TimezoneModel> GetAll() => _mapper.Map<IEnumerable<TimezoneModel>>(_timezoneRepostory.GetAll());
+        public async Task<IEnumerable<TimezoneModel>> GetAllAsync() => _mapper.Map<IEnumerable<TimezoneModel>>(await _timezoneRepostory.GetAllAsync());
 
         public async Task<TimezoneModel> GetByIdAsync(int id) {
             var timezone = await _timezoneRepostory.GetByIdAsync(id);
             if (timezone == null)
             {
-                throw new InvalidDataException("Can't get Timezone with id " + id.ToString() + " !");
+                throw new InvalidDataException($"Can't get Timezone with id {id} !");
             }
             return _mapper.Map<TimezoneModel>(timezone);
         }

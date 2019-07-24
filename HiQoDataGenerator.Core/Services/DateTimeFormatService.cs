@@ -23,9 +23,9 @@ namespace HiQoDataGenerator.Core.Services
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
-        public IEnumerable<DateTimeFormatModel> GetAll()
+        public async Task<IEnumerable<DateTimeFormatModel>> GetAllAsync()
         {
-            var dateTimeFormats = _dateTimeFormatRepository.GetAll();
+            var dateTimeFormats = await _dateTimeFormatRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<DateTimeFormatModel>>(dateTimeFormats);
         }
 

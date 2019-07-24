@@ -21,21 +21,21 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
             return await Task.Run(() => _models.Where(model => model.Name.ToLower() == name).FirstOrDefault());
         }
 
-        public IQueryable<CustomDatasetValue> GetValues()
+        public async Task<IQueryable<CustomDatasetValue>> GetValuesAsync()
         {
-            return _datasetValues;
+            return await Task.Run(()=>_datasetValues);
         }
 
-        public IQueryable<CustomDatasetValue> GetValuesByDatasetId(int datasetId)
+        public async Task<IQueryable<CustomDatasetValue>> GetValuesByDatasetIdAsync(int datasetId)
         {
-            var result = _datasetValues.Where(value => value.DatasetId == datasetId);
-            return result.Count() == 0 ? null : result;
+            var result = await Task.Run(()=>_datasetValues.Where(value => value.DatasetId == datasetId));
+            return !result.Any() ? null : result;
         }
 
-        public IQueryable<CustomDatasetValue> GetValuesByDatasetName(string datasetName)
+        public async Task<IQueryable<CustomDatasetValue>> GetValuesByDatasetNameAsync(string datasetName)
         {
-            var result = _datasetValues.Include(v => v.Dataset).Where(value => value.Dataset.Name.ToLower() == datasetName);
-            return result.Count() == 0 ? null : result;
+            var result = await  Task.Run(()=>_datasetValues.Include(v => v.Dataset).Where(value => value.Dataset.Name.ToLower() == datasetName));
+            return !result.Any() ? null : result;
         }
         
         public async Task AddValuesAsync(IEnumerable<CustomDatasetValue> values)

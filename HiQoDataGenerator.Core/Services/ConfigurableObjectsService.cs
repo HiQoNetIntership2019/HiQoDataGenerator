@@ -3,7 +3,6 @@ using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.UnitOfWork;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
-using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using System;
 using System.Collections.Generic;
@@ -45,14 +44,17 @@ namespace HiQoDataGenerator.Core.Services
             await _uow.CommitAsync();
         }
 
-        public IEnumerable<ConfigurableObjectModel> GetAll()
+        public async Task<IEnumerable<ConfigurableObjectModel>> GetAllAsync()
         {
-            var allObjects = _configurableObjectsRepository.GetAllWithFields();
+            var allObjects = await _configurableObjectsRepository.GetAllWithFieldsAsync();
             return _mapper.Map<IEnumerable<ConfigurableObjectModel>>(allObjects);
         }
 
-        public IEnumerable<ConfigurableObjectModel> GetByDateCreated(Predicate<DateTime> datePredicate) =>
-            _mapper.Map<IEnumerable<ConfigurableObjectModel>>(_configurableObjectsRepository.GetByDateCreation(datePredicate));
+        public async Task<IEnumerable<ConfigurableObjectModel>> GetByDateCreatedAsync(Predicate<DateTime> datePredicate)
+        {
+            var objects = await _configurableObjectsRepository.GetByDateCreationAsync(datePredicate);
+            return _mapper.Map<IEnumerable<ConfigurableObjectModel>>(objects);
+        }
 
         public async Task RemoveById(int id)
         {

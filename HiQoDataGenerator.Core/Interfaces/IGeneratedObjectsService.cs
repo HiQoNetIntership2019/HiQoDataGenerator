@@ -6,9 +6,9 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IGeneratedObjectsService
     {
-        Task Add(GeneratedObjectModel generatedObject);
-        Task AddRange(IEnumerable<GeneratedObjectModel> generatedObjects);
-        IEnumerable<GeneratedObjectModel> GetAll();
-        Task RemoveById(string id);
+        Task AddAsync(GeneratedObjectModel generatedObject);
+        Task AddRangeAsync(IEnumerable<GeneratedObjectModel> generatedObjects);
+        Task<IEnumerable<GeneratedObjectModel>> GetAllAsync();
+        Task RemoveByIdAsync(string id);
     }
 }
