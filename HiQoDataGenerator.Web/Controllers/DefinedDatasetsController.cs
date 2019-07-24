@@ -20,9 +20,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var definedDatasetModels = _definedDatasetService.GetAllAsync();
+            var definedDatasetModels = await _definedDatasetService.GetAllAsync();
             var definedDatasetViewModels = _mapper.Map<IEnumerable<DefinedDatasetViewModel>>(definedDatasetModels);
             return Ok(definedDatasetViewModels);
         }
@@ -33,9 +33,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
         [Route("Values")]
-        public IActionResult GetValues()
+        public async Task<IActionResult> GetValuesAsync()
         {
-            var definedDatasetValueModels = _definedDatasetService.GetValuesAsync();
+            var definedDatasetValueModels = await _definedDatasetService.GetValuesAsync();
             var definedDatasetValueViewModels = _mapper.Map<IEnumerable<DefinedDatasetValueViewModel>>(definedDatasetValueModels);
             return Ok(definedDatasetValueViewModels);
         }
@@ -46,7 +46,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="id"></param>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
             var definedDatasetModel = await _definedDatasetService.GetByIdAsync(id);
             var definedDatasetViewModel = _mapper.Map<DefinedDatasetViewModel>(definedDatasetModel);
@@ -60,9 +60,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         [Route("Values/ById/{id}")]
-        public IActionResult GetValuesByDatasetId(int id)
+        public async Task<IActionResult> GetValuesByDatasetIdAsync(int id)
         {
-            var definedDatasetValueModels = _definedDatasetService.GetValuesByDatasetIdAsync(id);
+            var definedDatasetValueModels = await _definedDatasetService.GetValuesByDatasetIdAsync(id);
             var definedDatasetValueViewModels = _mapper.Map<IEnumerable<DefinedDatasetValueViewModel>>(definedDatasetValueModels);
             return Ok(definedDatasetValueViewModels);
         }
@@ -73,9 +73,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
         [Route("Values/ByName/{name}")]
-        public IActionResult GetValuesByDatasetName(string name)
+        public async Task<IActionResult> GetValuesByDatasetNameAsync(string name)
         {
-            var definedDatasetValueModels = _definedDatasetService.GetValuesByDatasetNameAsync(name);
+            var definedDatasetValueModels = await _definedDatasetService.GetValuesByDatasetNameAsync(name);
             var definedDatasetValueViewModels = _mapper.Map<IEnumerable<DefinedDatasetValueViewModel>>(definedDatasetValueModels);
             return Ok(definedDatasetValueViewModels);
         }
@@ -86,9 +86,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
         [Route("ByTypeId/{id}")]
-        public IActionResult GetDatasetsByTypeId(int id)
+        public async Task<IActionResult> GetDatasetsByTypeIdAsync(int id)
         {
-            var definedDatasetModels = _definedDatasetService.GetDatasetsByTypeIdAsync(id);
+            var definedDatasetModels = await _definedDatasetService.GetDatasetsByTypeIdAsync(id);
             var definedDatasetViewModels = _mapper.Map<IEnumerable<DefinedDatasetViewModel>>(definedDatasetModels);
             return Ok(definedDatasetViewModels);
         }
@@ -101,7 +101,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </remarks>
         /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post(AddDefinedDatasetWithValues definedDatasetWithValuesViewModel)
+        public async Task<IActionResult> PostAsync(AddDefinedDatasetWithValues definedDatasetWithValuesViewModel)
         {
             var definedDatasetModel = _mapper.Map<DefinedDatasetModel>(definedDatasetWithValuesViewModel);
 
@@ -117,7 +117,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </remarks>
         /// <returns>Status code 200 and view model.</returns>
         [HttpPost("Values")]
-        public async Task<IActionResult> AddValues(AddDefinedDatasetValues definedDatasetValueViewModels)
+        public async Task<IActionResult> AddValuesAsync(AddDefinedDatasetValues definedDatasetValueViewModels)
         {
             var definedDatasetValueModels = _mapper.Map<IEnumerable<DefinedDatasetValueModel>>(definedDatasetValueViewModels.Values);
 
@@ -130,7 +130,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDataset(int id)
+        public async Task<IActionResult> DeleteDatasetAsync(int id)
         {
             await _definedDatasetService.RemoveDatasetAsync(id);
             return Ok();
@@ -142,7 +142,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200.</returns>
         [HttpDelete]
         [Route("Values/{id}")]
-        public async Task<IActionResult> DeleteValue(int id)
+        public async Task<IActionResult> DeleteValueAsync(int id)
         {
             await _definedDatasetService.RemoveValueByIdAsync(id);
             return Ok();

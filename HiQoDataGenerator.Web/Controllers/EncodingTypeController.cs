@@ -22,9 +22,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
-            var encodingTypeModels = _encodingTypesService.GetAllAsync();
+            var encodingTypeModels = await _encodingTypesService.GetAllAsync();
             var encodingTypeViewModels = _mapper.Map<IEnumerable<EncodingTypeViewModel>>(encodingTypeModels);
             return Ok(encodingTypeViewModels);
         }
@@ -34,7 +34,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             var encodingTypeModel = await _encodingTypesService.GetByIdAsync(id);
             var encodingTypeViewModel = _mapper.Map<EncodingTypeViewModel>(encodingTypeModel);
@@ -46,7 +46,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post(EncodingTypeViewModel encodingTypeViewModel)
+        public async Task<IActionResult> PostAsync(EncodingTypeViewModel encodingTypeViewModel)
         {
             var encodingTypeModel = _mapper.Map<EncodingTypeModel>(encodingTypeViewModel);
 
@@ -59,7 +59,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             await _encodingTypesService.RemoveByIdAsync(id);
             return Ok();

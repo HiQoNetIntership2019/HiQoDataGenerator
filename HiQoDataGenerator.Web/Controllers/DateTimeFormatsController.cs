@@ -19,9 +19,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
-            var dateTimeFormatModels = _dateTimeFormatService.GetAllAsync();
+            var dateTimeFormatModels = await _dateTimeFormatService.GetAllAsync();
             var dateTimeFormatViewModels = _mapper.Map<IEnumerable<DateTimeFormatViewModel>>(dateTimeFormatModels);
             return Ok(dateTimeFormatViewModels);
         }
@@ -31,7 +31,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             var dateTimeFormatModel = await _dateTimeFormatService.GetByIdAsync(id);
             var dateTimeFormatViewModel = _mapper.Map<DateTimeFormatViewModel>(dateTimeFormatModel);
@@ -43,7 +43,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post(DateTimeFormatViewModel dateTimeFormatViewModel)
+        public async Task<IActionResult> PostAsync(DateTimeFormatViewModel dateTimeFormatViewModel)
         {
             var dateTimeFormatModel = _mapper.Map<DateTimeFormatModel>(dateTimeFormatViewModel);
 
@@ -56,7 +56,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200.</returns>
         [HttpPost("Range")]
-        public async Task<IActionResult> Post(IEnumerable<DateTimeFormatViewModel> dateTimeFormatViewModels)
+        public async Task<IActionResult> PostAsync(IEnumerable<DateTimeFormatViewModel> dateTimeFormatViewModels)
         {            
             var dateTimeFormatModels = _mapper.Map<IEnumerable<DateTimeFormatModel>>(dateTimeFormatViewModels);
 
@@ -69,7 +69,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             await _dateTimeFormatService.RemoveByIdAsync(id);
             return Ok();

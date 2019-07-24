@@ -19,9 +19,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
-            var constraintsModels = _constraintsService.GetAllAsync();
+            var constraintsModels = await _constraintsService.GetAllAsync();
             var constraintsViewModels = _mapper.Map<IEnumerable<ConstraintViewModel>>(constraintsModels);
             return Ok(constraintsViewModels);
         }
@@ -32,7 +32,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="id"></param>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             var constraintModel = await _constraintsService.GetByIdAsync(id);
             var constraintViewModel = _mapper.Map<ConstraintViewModel>(constraintModel);
@@ -45,7 +45,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="id">Field type id.</param>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("fieldtype/{id}")]
-        public async Task<IActionResult> GetByFieldTypeId(int id)
+        public async Task<IActionResult> GetByFieldTypeIdAsync(int id)
         {
             var constraintModels = await _constraintsService.GetByFieldTypeIdAsync(id);
             return Ok(_mapper.Map<IEnumerable<ConstraintViewModel>>(constraintModels));
@@ -58,7 +58,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         [Route("[action]/{name}")]
-        public async Task<IActionResult> GetByName(string name)
+        public async Task<IActionResult> GetByNameAsync(string name)
         {
             var constraintModel = await _constraintsService.GetByNameAsync(name);
             return Ok(_mapper.Map<ConstraintViewModel>(constraintModel));
@@ -70,7 +70,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="constraintViewModel"></param>
         /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post(ConstraintViewModel constraintViewModel)
+        public async Task<IActionResult> PostAsync(ConstraintViewModel constraintViewModel)
         {
             var constraintModel = _mapper.Map<ConstraintModel>(constraintViewModel);
             await _constraintsService.AddAsync(constraintModel);
@@ -84,7 +84,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
         [Route("AddFieldType")]
-        public async Task<IActionResult> AddFieldTypesInConstraint([FromBody] AddFieldTypeInConstraintViewModel viewModel)
+        public async Task<IActionResult> AddFieldTypesInConstraintAsync([FromBody] AddFieldTypeInConstraintViewModel viewModel)
         {
             var constraint = _mapper.Map<ConstraintModel>(viewModel.ConstraintViewModel);
             var fieldTypes = _mapper.Map<IEnumerable<FieldTypeModel>>(viewModel.FieldTypeViewModels);
@@ -98,7 +98,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="id"></param>
         /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             await _constraintsService.RemoveByIdAsync(id);
             return Ok();

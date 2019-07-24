@@ -13,10 +13,10 @@ namespace HiQoDataGenerator.SchedulerSubscriber.Handlers
 {
     public class TimerEventHandler : IBusEventHandler<TimerEvent>
     {
-        private IGeneratedObjectFileSystemService _filesService;
-        private IGeneratedObjectsService _mongoService;
-        private IFileMetadataService _fileMetadataService;
-        private IFileStatusService _fileStatusService;
+        private readonly IGeneratedObjectFileSystemService _filesService;
+        private readonly IGeneratedObjectsService _mongoService;
+        private readonly IFileMetadataService _fileMetadataService;
+        private readonly IFileStatusService _fileStatusService;
         private readonly int _filesReadingLimit;
 
         public TimerEventHandler(

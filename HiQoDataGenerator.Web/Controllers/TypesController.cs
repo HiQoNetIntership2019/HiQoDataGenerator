@@ -23,9 +23,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view models.</returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
-            var typeModels = _fieldTypesService.GetAllAsync();
+            var typeModels = await _fieldTypesService.GetAllAsync();
             var typeViewModels = _mapper.Map<IEnumerable<FieldTypeViewModel>>(typeModels);
             return Ok(typeViewModels);
         }
@@ -35,7 +35,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             var typeModel = await _fieldTypesService.GetByIdAsync(id);
             var typeViewModel = _mapper.Map<FieldTypeViewModel>(typeModel);
@@ -48,9 +48,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         [Route("SupportedTypes")]
-        public IActionResult GetSupportedTypes()
+        public async Task<IActionResult> GetSupportedTypesAsync()
         {
-            var result = _fieldTypesService.GetSupportedTypesAsync();
+            var result = await _fieldTypesService.GetSupportedTypesAsync();
             return Ok(result);
         }
 
@@ -59,7 +59,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post(FieldTypeViewModel typeViewModel)
+        public async Task<IActionResult> PostAsync(FieldTypeViewModel typeViewModel)
         {
             var typeModel = _mapper.Map<FieldTypeModel>(typeViewModel);
 
@@ -72,7 +72,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             await _fieldTypesService.RemoveByIdAsync(id);          
             return Ok();
