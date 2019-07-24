@@ -69,7 +69,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             var constraintList = _constraintModels.Select(item => new Constraint() { Name = item.Name, Description =  item.Description }).ToList();
 
             ConfigureModelMapperCollections(constraintList, _constraintModels);
-            repositoryMock.Setup(repository => repository.GetAllAsync()).Returns(constraintList.AsQueryable());
+            repositoryMock.Setup(repository => repository.GetAllAsync()).ReturnsAsync(constraintList.AsQueryable());
         }
 
         private void ConfigureRepositoryMock_GetByIdAsync(Mock<IConstraintsRepository> repositoryMock, int id, Constraint constraint)
@@ -102,11 +102,11 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void GetAll_CorrectConstraintsCount()
+        public async void GetAll_CorrectConstraintsCount()
         {
             ConfigureRepositoryMock_GetAll(_constraintsRepositoryMock);
 
-            var result = _constraintsService.GetAllAsync();
+            var result = await _constraintsService.GetAllAsync();
 
             Assert.Equal(_constraintModels.Count, result.Count());
         }

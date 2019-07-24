@@ -61,7 +61,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureRepositoryMock(Mock<IFileMetadataRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAllAsync()).Returns(_metadata.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).ReturnsAsync(_metadata.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _metadata[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
             repositoryMock.Setup(rep => rep.GetByStatusIdAsync(1)).ReturnsAsync(() => _metadata.Where(item => item.StatusId == 1));
@@ -76,9 +76,9 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void GetAll_RightMetadataCount()
+        public async void GetAll_RightMetadataCount()
         {
-            var result = _fileMetadataService.GetAllAsync();
+            var result = await _fileMetadataService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }

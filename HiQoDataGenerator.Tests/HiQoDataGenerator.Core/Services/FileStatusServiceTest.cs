@@ -54,7 +54,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureRepositoryMock(Mock<IFileStatusRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAllAsync()).Returns(_statuses.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).ReturnsAsync(_statuses.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _statuses[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
             repositoryMock.Setup(rep => rep.GetByNameAsync(_statuses[0].Status.ToLower())).ReturnsAsync(() => _statuses[0]);
@@ -62,9 +62,9 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void GetAll_RightStatusesCount()
+        public async void GetAll_RightStatusesCount()
         {
-            var result = _fileStatusesService.GetAllAsync();
+            var result = await _fileStatusesService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }
