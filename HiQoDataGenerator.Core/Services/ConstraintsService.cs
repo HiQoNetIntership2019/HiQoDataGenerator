@@ -32,9 +32,9 @@ namespace HiQoDataGenerator.Core.Services
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
-        public IEnumerable<ConstraintModel> GetAll()
+        public async Task<IEnumerable<ConstraintModel>> GetAllAsync()
         {
-            var constraints = _constraintsRepository.GetAll();
+            var constraints = await _constraintsRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<Constraint>, IEnumerable<ConstraintModel>>(constraints);
         }
 
@@ -75,13 +75,13 @@ namespace HiQoDataGenerator.Core.Services
             await _uow.CommitAsync();
         }
 
-        public async Task<IEnumerable<ConstraintModel>> GetByFieldTypeId(int id)
+        public async Task<IEnumerable<ConstraintModel>> GetByFieldTypeIdAsync(int id)
         {
-            var constraints = await _constraintsRepository.GetByFieldTypeId(id);
+            var constraints = await _constraintsRepository.GetByFieldTypeIdAsync(id);
             return _mapper.Map<IEnumerable<ConstraintModel>>(constraints);
         }
 
-        public async Task AddFieldTypesForConstraint(ConstraintModel constraint, IEnumerable<FieldTypeModel> fieldTypes)
+        public async Task AddFieldTypesForConstraintAsync(ConstraintModel constraint, IEnumerable<FieldTypeModel> fieldTypes)
         {
             var constraintDalModel = _mapper.Map<Constraint>(constraint);
             var fieldTypeDalModels = _mapper.Map<IEnumerable<FieldType>>(fieldTypes);

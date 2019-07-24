@@ -14,7 +14,7 @@ namespace HiQoDataGenerator.DAL.Repositories.FileSystem
             _rootDirectory = configuration["FileSystem:Root"];
         }
 
-        public async Task CreateAndWriteInFile(string value, string directoryName, string fileName)
+        public async Task CreateAndWriteInFileAsync(string value, string directoryName, string fileName)
         {
             var directoryPath = Path.Combine(_rootDirectory, directoryName);
 
@@ -31,17 +31,17 @@ namespace HiQoDataGenerator.DAL.Repositories.FileSystem
             }
         }
 
-        public async Task DeleteFile(string directoryName, string fileName)
+        public async Task DeleteFileAsync(string directoryName, string fileName)
         {
             await Task.Run(() => File.Delete(Path.Combine(_rootDirectory, directoryName, fileName)));
         }
 
-        public async Task DeleteFile(string fullPath)
+        public async Task DeleteFileAsync(string fullPath)
         {
             await Task.Run(() => File.Delete(fullPath));
         }
 
-        public async Task<string> ReadFromFile(string directoryName, string fileName)
+        public async Task<string> ReadFromFileAsync(string directoryName, string fileName)
         {
             var directoryPath = Path.Combine(_rootDirectory, directoryName);
             if (!Directory.Exists(directoryPath))
@@ -55,7 +55,7 @@ namespace HiQoDataGenerator.DAL.Repositories.FileSystem
             }
         }
 
-        public async Task<string> ReadFromFile(string fullPath)
+        public async Task<string> ReadFromFileAsync(string fullPath)
         {
             using (var reader = new StreamReader(fullPath))
             {

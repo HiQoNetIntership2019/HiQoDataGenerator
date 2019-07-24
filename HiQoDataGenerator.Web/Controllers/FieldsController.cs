@@ -19,8 +19,8 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
-        public IActionResult Get() =>
-            Ok(_mapper.Map<IEnumerable<FieldViewModel>>(_fieldService.GetAll()));
+        public async Task<IActionResult> GetAsync() =>
+            Ok(_mapper.Map<IEnumerable<FieldViewModel>>(await _fieldService.GetAllAsync()));
 
         /// <summary>
         ///     Gets field by id.
@@ -28,7 +28,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="id"></param>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id) =>
+        public async Task<IActionResult> GetAsync(int id) =>
             Ok(_mapper.Map<FieldViewModel>(await _fieldService.GetByIdAsync(id)));
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <param name="fieldViewModel">Field for adding.</param>
         /// <returns>Status code 200.</returns>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] FieldViewModel fieldViewModel)
+        public async Task<IActionResult> PostAsync([FromBody] FieldViewModel fieldViewModel)
         {
             await _fieldService.AddAsync(_mapper.Map<FieldModel>(fieldViewModel));
             return Ok();
@@ -48,7 +48,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             await _fieldService.RemoveByIdAsync(id);
             return Ok();

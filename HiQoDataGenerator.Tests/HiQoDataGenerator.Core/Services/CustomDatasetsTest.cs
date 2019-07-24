@@ -77,12 +77,12 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureRepositoryMock(Mock<ICustomDatasetRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAll()).Returns(_customDatasets.AsQueryable());
-            repositoryMock.Setup(rep => rep.GetValues()).Returns(_customDatasetValues.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).ReturnsAsync(_customDatasets.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetValuesAsync()).ReturnsAsync(_customDatasetValues.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _customDatasets[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
-            repositoryMock.Setup(rep => rep.GetValuesByDatasetId(1)).Returns(_customDatasetValues.Where(item => item.Dataset.Id == 1).AsQueryable());
-            repositoryMock.Setup(rep => rep.GetValuesByDatasetId(3)).Returns(() => null);
+            repositoryMock.Setup(rep => rep.GetValuesByDatasetIdAsync(1)).ReturnsAsync(_customDatasetValues.Where(item => item.Dataset.Id == 1).AsQueryable());
+            repositoryMock.Setup(rep => rep.GetValuesByDatasetIdAsync(3)).ReturnsAsync(() => null);
 
             repositoryMock.Setup(rep => rep.AddAsync(null));
             repositoryMock.Setup(rep => rep.AddValuesAsync(null));
@@ -94,17 +94,17 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void GetAll_RightCustomDatasetsCount()
+        public async void GetAll_RightCustomDatasetsCount()
         {
-            var result = _customDatasetService.GetAll();
+            var result = await _customDatasetService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }
 
         [Fact]
-        public void GetValues_RightCustomDatasetValuesCount()
+        public async void GetValues_RightCustomDatasetValuesCount()
         {
-            var result = _customDatasetService.GetValues();
+            var result = await _customDatasetService.GetValuesAsync();
 
             Assert.Equal(4, result.Count());
         }
@@ -124,17 +124,17 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void GetValuesByDatasetId_ExistingId_RightValues()
+        public async void GetValuesByDatasetId_ExistingId_RightValues()
         {
-            var result = _customDatasetService.GetValuesByDatasetId(1);
+            var result = await _customDatasetService.GetValuesByDatasetIdAsync(1);
 
             Assert.Equal(2, result.Count());
         }
 
         [Fact]
-        public void GetValuesByDatasetId_NonExistingId_ElementNotFoundException()
+        public async Task GetValuesByDatasetId_NonExistingId_ElementNotFoundException()
         {
-            Assert.Throws<InvalidDataException>(() => _customDatasetService.GetValuesByDatasetId(3));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _customDatasetService.GetValuesByDatasetIdAsync(3));
         }
         
         [Fact]

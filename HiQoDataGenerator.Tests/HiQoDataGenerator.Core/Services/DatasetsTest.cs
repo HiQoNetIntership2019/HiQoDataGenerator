@@ -84,7 +84,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureDatasetRepositoryMock(Mock<IDatasetRepository> datasetRepositoryMock)
         {
-            _datasetRepositoryMock.Setup(rep => rep.GetAll()).Returns(_datasets.AsQueryable());
+            _datasetRepositoryMock.Setup(rep => rep.GetAllAsync()).ReturnsAsync(_datasets.AsQueryable());
             _datasetRepositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _datasets[0]);
             _datasetRepositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
             _datasetRepositoryMock.Setup(rep => rep.GetDatasetsByTypeIdAsync(1)).ReturnsAsync(() => new List<Dataset>() { _datasets[0] });
@@ -95,19 +95,19 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private void ConfigureDefinedDatasetRepositoryMock(Mock<IDefinedDatasetRepository> repositoryMock)
         {
             repositoryMock.Setup(rep => rep.GetByNameAsync(_datasets[0].Name.ToLower())).ReturnsAsync(new DefinedDataset() { Id = 1 });
-            repositoryMock.Setup(rep => rep.GetValuesByDatasetId(1)).Returns(_definedDatasetValues.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetValuesByDatasetIdAsync(1)).ReturnsAsync(_definedDatasetValues.AsQueryable());
         }
 
         private void ConfigureCustomDatasetRepositoryMock(Mock<ICustomDatasetRepository> repositoryMock)
         {
             repositoryMock.Setup(rep => rep.GetDatasetByNameAsync(_datasets[0].Name.ToLower())).ReturnsAsync(new CustomDataset() { Id = 1 });
-            repositoryMock.Setup(rep => rep.GetValuesByDatasetId(1)).Returns(_customDatasetValues.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetValuesByDatasetIdAsync(1)).ReturnsAsync(_customDatasetValues.AsQueryable());
         }
 
         [Fact]
-        public void GetAll_RightDatasetsCount()
+        public async void GetAll_RightDatasetsCount()
         {
-            var result = _datasetService.GetAll();
+            var result = await _datasetService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }

@@ -13,10 +13,10 @@ namespace HiQoDataGenerator.SchedulerSubscriber.Handlers
 {
     public class TimerEventHandler : IBusEventHandler<TimerEvent>
     {
-        private IGeneratedObjectFileSystemService _filesService;
-        private IGeneratedObjectsService _mongoService;
-        private IFileMetadataService _fileMetadataService;
-        private IFileStatusService _fileStatusService;
+        private readonly IGeneratedObjectFileSystemService _filesService;
+        private readonly IGeneratedObjectsService _mongoService;
+        private readonly IFileMetadataService _fileMetadataService;
+        private readonly IFileStatusService _fileStatusService;
         private readonly int _filesReadingLimit;
 
         public TimerEventHandler(
@@ -37,18 +37,18 @@ namespace HiQoDataGenerator.SchedulerSubscriber.Handlers
         {
             try
             {
-                var newFileStatus = await _fileStatusService.GetByName("NewFile");
-                var inProcessingStatus = await _fileStatusService.GetByName("InProcessing");
-                var processingFailStatus = await _fileStatusService.GetByName("ProcessingFail");
-                var metadata = await _fileMetadataService.GetByStatusId(newFileStatus.Id, _filesReadingLimit);
+                var newFileStatus = await _fileStatusService.GetByNameAsync("NewFile");
+                var inProcessingStatus = await _fileStatusService.GetByNameAsync("InProcessing");
+                var processingFailStatus = await _fileStatusService.GetByNameAsync("ProcessingFail");
+                var metadata = await _fileMetadataService.GetByStatusIdAsync(newFileStatus.Id, _filesReadingLimit);
 
                 await SetStatuses(metadata,inProcessingStatus.Id);
                 foreach (var item in metadata)
                 {
                     try
                     {
-                        var model = await _filesService.ReadFromFile(item.Path);
-                        await _mongoService.Add(model);
+                        var model = await _filesService.ReadFromFileAsync(item.Path);
+                        await _mongoService.AddAsync(model);
 
                         await DeleteFile(item);
                         LoggerExtensions.LogInfo($"File <{item.Path}> was successfully moved to MongoDB");
@@ -92,7 +92,7 @@ namespace HiQoDataGenerator.SchedulerSubscriber.Handlers
         private async Task DeleteFile(FileMetadataModel metadata)
         {
             await _fileMetadataService.RemoveAsync(metadata.Id);
-            await _filesService.DeleteFile(metadata.Path);
+            await _filesService.DeleteFileAsync(metadata.Path);
             LoggerExtensions.LogInfo($"File <{metadata.Path}> was removed");
         }
 

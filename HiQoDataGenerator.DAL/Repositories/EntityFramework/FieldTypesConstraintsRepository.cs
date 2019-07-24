@@ -1,8 +1,4 @@
-﻿using HiQoDataGenerator.DAL.Contracts.Repositories;
-using HiQoDataGenerator.DAL.Models.IntermediateModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using HiQoDataGenerator.DAL.Models.IntermediateModels;
 
 namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 {

@@ -6,7 +6,7 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IDateTimeFormatService
     {
-        IEnumerable<DateTimeFormatModel> GetAll();
+        Task<IEnumerable<DateTimeFormatModel>> GetAllAsync();
         Task<DateTimeFormatModel> GetByIdAsync(int id);
         Task AddAsync(DateTimeFormatModel dateTimeFormatModel);
         Task AddRangeAsync(IEnumerable<DateTimeFormatModel> dateTimeFormatModels);

@@ -74,14 +74,14 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureDefinedDatasetRepositoryMock(Mock<IDefinedDatasetRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAll()).Returns(_definedDatasets.AsQueryable());
-            repositoryMock.Setup(rep => rep.GetValues()).Returns(_definedDatasetValues.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).ReturnsAsync(_definedDatasets.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetValuesAsync()).ReturnsAsync(_definedDatasetValues.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _definedDatasets[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
-            repositoryMock.Setup(rep => rep.GetValuesByDatasetId(1)).Returns(_definedDatasetValues.Where(item => item.Dataset.Id == 1).AsQueryable());
-            repositoryMock.Setup(rep => rep.GetValuesByDatasetId(3)).Returns(() => null);
-            repositoryMock.Setup(rep => rep.GetDatasetsByTypeId(1)).Returns(() => new List<DefinedDataset> { _definedDatasets[0] });
-            repositoryMock.Setup(rep => rep.GetDatasetsByTypeId(3)).Returns(() => null);
+            repositoryMock.Setup(rep => rep.GetValuesByDatasetIdAsync(1)).ReturnsAsync(_definedDatasetValues.Where(item => item.Dataset.Id == 1).AsQueryable());
+            repositoryMock.Setup(rep => rep.GetValuesByDatasetIdAsync(3)).ReturnsAsync(() => null);
+            repositoryMock.Setup(rep => rep.GetDatasetsByTypeIdAsync(1)).ReturnsAsync(() => new List<DefinedDataset> { _definedDatasets[0] });
+            repositoryMock.Setup(rep => rep.GetDatasetsByTypeIdAsync(3)).ReturnsAsync(() => null);
 
             repositoryMock.Setup(rep => rep.AddAsync(null));
             repositoryMock.Setup(rep => rep.AddValuesAsync(null));
@@ -93,17 +93,17 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void GetAll_RightDefinedDatasetsCount()
+        public async void GetAll_RightDefinedDatasetsCount()
         {
-            var result = _definedDatasetService.GetAll();
+            var result = await _definedDatasetService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }
 
         [Fact]
-        public void GetValues_RightDefinedDatasetValuesCount()
+        public async void GetValues_RightDefinedDatasetValuesCount()
         {
-            var result = _definedDatasetService.GetValues();
+            var result = await _definedDatasetService.GetValuesAsync();
 
             Assert.Equal(4, result.Count());
         }
@@ -123,31 +123,31 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void GetValuesByDatasetId_ExistingId_RightValues()
+        public async void GetValuesByDatasetId_ExistingId_RightValues()
         {
-            var result = _definedDatasetService.GetValuesByDatasetId(1);
+            var result = await _definedDatasetService.GetValuesByDatasetIdAsync(1);
 
             Assert.Equal(2, result.Count());
         }
 
         [Fact]
-        public void GetValuesByDatasetId_NonExistingId_ElementNotFoundException()
+        public async void GetValuesByDatasetId_NonExistingId_ElementNotFoundException()
         {
-            Assert.Throws<InvalidDataException>(() => _definedDatasetService.GetValuesByDatasetId(3));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _definedDatasetService.GetValuesByDatasetIdAsync(3));
         }
 
         [Fact]
-        public void GetDatasetsByTypeId_ExistingId_RightValues()
+        public async void GetDatasetsByTypeId_ExistingId_RightValues()
         {
-            var result = _definedDatasetService.GetDatasetsByTypeId(1);
+            var result = await _definedDatasetService.GetDatasetsByTypeIdAsync(1);
 
             Assert.Single(result);
         }
 
         [Fact]
-        public void GetDatasetsByTypeId_NonExistingId_ElementNotFoundException()
+        public async void GetDatasetsByTypeId_NonExistingId_ElementNotFoundException()
         {
-            Assert.Throws<InvalidDataException>(() => _definedDatasetService.GetDatasetsByTypeId(3));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _definedDatasetService.GetDatasetsByTypeIdAsync(3));
         }
         
         [Fact]

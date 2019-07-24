@@ -6,14 +6,14 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IDefinedDatasetService
     {
-        IEnumerable<DefinedDatasetModel> GetAll();
+        Task<IEnumerable<DefinedDatasetModel>> GetAllAsync();
         Task<DefinedDatasetModel> GetByIdAsync(int id);
-        IEnumerable<DefinedDatasetValueModel> GetValues();
-        IEnumerable<DefinedDatasetValueModel> GetValuesByDatasetId(int id);
-        IEnumerable<DefinedDatasetValueModel> GetValuesByDatasetName(string name);
-        IEnumerable<DefinedDatasetModel> GetDatasetsByTypeId(int id);
-        IEnumerable<DefinedDatasetModel> GetDatasetsByTypeName(string name);
-        Task<DefinedDatasetModel> GetDatasetWithValuesById(int id);
+        Task<IEnumerable<DefinedDatasetValueModel>> GetValuesAsync();
+        Task<IEnumerable<DefinedDatasetValueModel>> GetValuesByDatasetIdAsync(int id);
+        Task<IEnumerable<DefinedDatasetValueModel>> GetValuesByDatasetNameAsync(string name);
+        Task<IEnumerable<DefinedDatasetModel>> GetDatasetsByTypeIdAsync(int id);
+        Task<IEnumerable<DefinedDatasetModel>> GetDatasetsByTypeNameAsync(string name);
+        Task<DefinedDatasetModel> GetDatasetWithValuesByIdAsync(int id);
 
         Task AddValuesAsync(IEnumerable<DefinedDatasetValueModel> definedDatasetValueModels);
         Task AddAsync(DefinedDatasetModel definedDatasetModel);

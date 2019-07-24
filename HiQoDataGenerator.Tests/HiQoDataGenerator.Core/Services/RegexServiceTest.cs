@@ -55,10 +55,10 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureRepositoryMock(Mock<IRegexRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAll()).Returns(_regexes.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).ReturnsAsync(_regexes.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _regexes[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
-            repositoryMock.Setup(rep => rep.GetAllNames()).Returns(_regexes.Select(n => n.Name).AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllNamesAsync()).ReturnsAsync(_regexes.Select(n => n.Name).AsQueryable());
 
 
             repositoryMock.Setup(rep => rep.AddAsync(null));
@@ -68,9 +68,9 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void GetAll_RightRegexCount()
+        public async void GetAll_RightRegexCount()
         {
-            var result = _regexService.GetAll();
+            var result = await _regexService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }
@@ -90,9 +90,9 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void GetAll_RightNames()
+        public async void GetAll_RightNames()
         {
-            var result = _regexService.GetAllNames();
+            var result = await _regexService.GetAllNamesAsync();
             var expected = new List<string>(new string[] { "Email","URL"}).AsQueryable();
             Assert.Equal(expected, result);
         }

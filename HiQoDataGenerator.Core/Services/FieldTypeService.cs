@@ -15,31 +15,31 @@ namespace HiQoDataGenerator.Core.Services
 {
     public class FieldTypeService : IFieldTypeService
     {
-        private readonly IFieldTypeRepository _fieldTypeRepostory;
+        private readonly IFieldTypeRepository _fieldTypeRepository;
         private readonly IUnitOfWork _uow;
         private IMapper _mapper;
 
         public FieldTypeService(IUnitOfWork unit, IFieldTypeRepository fieldTypeRepository,IMapperFactory mapperFactory)
         {
             _uow = unit;
-            _fieldTypeRepostory = fieldTypeRepository;
+            _fieldTypeRepository = fieldTypeRepository;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
-        public IEnumerable<string> GetSupportedTypes()
+        public async Task<IEnumerable<string>> GetSupportedTypesAsync()
         {
-            return Enum.GetNames(typeof(SupportedTypes));
+            return await Task.Run(()=>Enum.GetNames(typeof(SupportedTypes)));
         }
 
-        public IEnumerable<FieldTypeModel> GetAll()
+        public async Task<IEnumerable<FieldTypeModel>> GetAllAsync()
         {
-            var types = _fieldTypeRepostory.GetAll();
+            var types = await _fieldTypeRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<FieldType>, IEnumerable<FieldTypeModel>>(types);
         }
 
         public async Task<FieldTypeModel> GetByIdAsync(int id)
         {
-            var type = await _fieldTypeRepostory.GetByIdAsync(id);
+            var type = await _fieldTypeRepository.GetByIdAsync(id);
             if (type == null)
             {
                 throw new InvalidDataException($"Can't get Type with id {id} !");
@@ -53,13 +53,13 @@ namespace HiQoDataGenerator.Core.Services
             var supportedType = Enum.GetNames(typeof(SupportedTypes)).Where(item => item.ToLower() == type.Name.ToLower()).FirstOrDefault();
 
             type.Name = supportedType ?? throw new InvalidDataException($"Type <{type.Name}> is not supported!");
-            await _fieldTypeRepostory.AddAsync(type);
+            await _fieldTypeRepository.AddAsync(type);
             await _uow.CommitAsync();
         }
 
         public async Task RemoveByIdAsync(int id)
         {
-            var result = await _fieldTypeRepostory.RemoveByIdAsync(id);
+            var result = await _fieldTypeRepository.RemoveByIdAsync(id);
             if (!result)
             {
                 throw new InvalidDataException($"Can't delete Type with id {id} !");

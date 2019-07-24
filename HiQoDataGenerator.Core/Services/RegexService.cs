@@ -23,12 +23,12 @@ namespace HiQoDataGenerator.Core.Services
             _regexRepository = regexRepository;
            _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);           
         }
-        public IEnumerable<RegexModel> GetAll()
+        public async Task<IEnumerable<RegexModel>> GetAllAsync()
         {
-           return _mapper.Map<IEnumerable<RegexModel>>(_regexRepository.GetAll());
+           return _mapper.Map<IEnumerable<RegexModel>>(await _regexRepository.GetAllAsync());
         }
 
-        public IQueryable<string> GetAllNames() =>  _regexRepository.GetAllNames();
+        public async Task<IQueryable<string>> GetAllNamesAsync() => await _regexRepository.GetAllNamesAsync();
 
 
         public async Task RemoveByIdAsync(int id)
@@ -36,7 +36,7 @@ namespace HiQoDataGenerator.Core.Services
             var result = await _regexRepository.RemoveByIdAsync(id);
             if (!result)
             {
-                throw new InvalidDataException("Can't delete Regex with id " + id.ToString() + " !");
+                throw new InvalidDataException($"Can't delete Regex with id {id}!");
             }
             await _uow.CommitAsync();
         }
@@ -46,7 +46,7 @@ namespace HiQoDataGenerator.Core.Services
             var regex = await _regexRepository.GetByIdAsync(id);
             if (regex == null)
             {
-                throw new InvalidDataException("Can't get Regex with id " + id.ToString() + " !");
+                throw new InvalidDataException($"Can't get Regex with id {id} !");
             }
             return _mapper.Map<RegexModel>(regex);
         }

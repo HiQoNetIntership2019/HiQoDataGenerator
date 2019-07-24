@@ -61,11 +61,11 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 
         private void ConfigureRepositoryMock(Mock<IFileMetadataRepository> repositoryMock)
         {
-            repositoryMock.Setup(rep => rep.GetAll()).Returns(_metadata.AsQueryable());
+            repositoryMock.Setup(rep => rep.GetAllAsync()).ReturnsAsync(_metadata.AsQueryable());
             repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => _metadata[0]);
             repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
-            repositoryMock.Setup(rep => rep.GetByStatusId(1)).ReturnsAsync(() => _metadata.Where(item => item.StatusId == 1));
-            repositoryMock.Setup(rep => rep.GetByStatusId(3)).ReturnsAsync(() => null);
+            repositoryMock.Setup(rep => rep.GetByStatusIdAsync(1)).ReturnsAsync(() => _metadata.Where(item => item.StatusId == 1));
+            repositoryMock.Setup(rep => rep.GetByStatusIdAsync(3)).ReturnsAsync(() => null);
 
             repositoryMock.Setup(rep => rep.AddAsync(null));
 
@@ -76,9 +76,9 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         }
 
         [Fact]
-        public void GetAll_RightMetadataCount()
+        public async void GetAll_RightMetadataCount()
         {
-            var result = _fileMetadataService.GetAll();
+            var result = await _fileMetadataService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }
@@ -100,7 +100,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public async void GetByStatusIdAsync_ExistingId_RightMetadata()
         {
-            var result = await _fileMetadataService.GetByStatusId(1);
+            var result = await _fileMetadataService.GetByStatusIdAsync(1);
 
             Assert.Single(result);
         }
@@ -108,7 +108,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public async Task GetByStatusIdAsync_NonExistingId_InvalidDataException()
         {
-            await Assert.ThrowsAsync<InvalidDataException>(() => _fileMetadataService.GetByStatusId(3));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _fileMetadataService.GetByStatusIdAsync(3));
         }
 
         [Fact]

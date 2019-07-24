@@ -6,7 +6,7 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IConstraintValuesService
     {
-        IEnumerable<ConstraintValueModel> GetAll();
+        Task<IEnumerable<ConstraintValueModel>> GetAllAsync();
         Task<ConstraintValueModel> GetByIdAsync(int id);
         Task<IEnumerable<ConstraintValueModel>> GetByTypeAsync(int typeId);
         Task AddAsync(ConstraintValueModel constraintModel);

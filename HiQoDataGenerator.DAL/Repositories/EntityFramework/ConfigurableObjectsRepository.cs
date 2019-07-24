@@ -12,19 +12,21 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
     {
         public ConfigurableObjectsRepository(DataContext context) : base(context) { }
 
-        public IQueryable<ConfigurableObject> GetByDateCreation(Predicate<DateTime> datePredicate) =>
-            _models.Where(model => datePredicate(model.DateCreation));
-
-        public async Task<ConfigurableObject> GetByName(string name) => await _models.FirstAsync(obj => obj.Name == name);
-
-        public IQueryable<ConfigurableObject> GetAllWithFields()
+        public async Task<IQueryable<ConfigurableObject>> GetByDateCreationAsync(Predicate<DateTime> datePredicate)
         {
-            return _models
+            return await Task.Run(() => _models.Where(model => datePredicate(model.DateCreation)));
+        }
+
+        public async Task<ConfigurableObject> GetByNameAsync(string name) => await _models.FirstAsync(obj => obj.Name == name);
+
+        public async Task<IQueryable<ConfigurableObject>> GetAllWithFieldsAsync()
+        {
+            return await Task.Run(() => _models
                 .Include(i => i.Fields)
                     .ThenInclude(i => i.FieldType)
                 .Include(i => i.Fields)
                     .ThenInclude(i => i.ConstraintValues)
-                        .ThenInclude(i => i.Constraint);
+                        .ThenInclude(i => i.Constraint));
                     
         }
     }

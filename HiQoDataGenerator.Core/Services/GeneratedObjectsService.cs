@@ -19,22 +19,22 @@ namespace HiQoDataGenerator.Core.Services
             _generatedObjectsRepository = generatedObjectsRepository;
         }
 
-        public IEnumerable<GeneratedObjectModel> GetAll()
+        public async Task<IEnumerable<GeneratedObjectModel>> GetAllAsync()
         {
-            return _mapper.Map<IEnumerable<GeneratedObjectModel>>(_generatedObjectsRepository.GetAll());
+            return _mapper.Map<IEnumerable<GeneratedObjectModel>>(await _generatedObjectsRepository.GetAllAsync());
         }
 
-        public async Task Add(GeneratedObjectModel generatedObject)
+        public async Task AddAsync(GeneratedObjectModel generatedObject)
         {
             await _generatedObjectsRepository.AddAsync(_mapper.Map<CustomGeneratedObject>(generatedObject));
         }
 
-        public async Task RemoveById(string id)
+        public async Task RemoveByIdAsync(string id)
         {
             await _generatedObjectsRepository.RemoveByIdAsync(id);
         }
 
-        public async Task AddRange(IEnumerable<GeneratedObjectModel> generatedObjects)
+        public async Task AddRangeAsync(IEnumerable<GeneratedObjectModel> generatedObjects)
         {
             await _generatedObjectsRepository.AddRangeAsync(_mapper.Map<IEnumerable<CustomGeneratedObject>>(generatedObjects));
         }

@@ -22,8 +22,8 @@ namespace HiQoDataGenerator.Core.Services
             _fieldRepository = fieldRepository;
         }
 
-        public IEnumerable<FieldModel> GetAll() =>
-            _mapper.Map<IEnumerable<FieldModel>>(_fieldRepository.GetAllWithTypes());
+        public async Task<IEnumerable<FieldModel>> GetAllAsync() =>
+            _mapper.Map<IEnumerable<FieldModel>>(await _fieldRepository.GetAllWithTypesAsync());
 
         public async Task AddAsync(FieldModel model)
         {

@@ -4,9 +4,7 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.UnitOfWork;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using HiQoDataGenerator.DAL.Models.DataSetModels;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HiQoDataGenerator.Core.Services
@@ -31,13 +29,13 @@ namespace HiQoDataGenerator.Core.Services
         }
 
 
-        public IEnumerable<DatasetTypeModel> GetAllTypes() =>
-            _mapper.Map<IEnumerable<DatasetTypeModel>>(_datasetTypesRepository.GetAll());
+        public async Task<IEnumerable<DatasetTypeModel>> GetAllTypesAsync() =>
+            _mapper.Map<IEnumerable<DatasetTypeModel>>(await _datasetTypesRepository.GetAllAsync());
 
         public async Task<DatasetTypeModel> GetByIdAsync(int id) =>
             _mapper.Map<DatasetTypeModel>(await _datasetTypesRepository.GetByIdAsync(id));
 
-        public async Task RemoveById(int id)
+        public async Task RemoveByIdAsync(int id)
         {
             await _datasetTypesRepository.RemoveByIdAsync(id);
             await _uow.CommitAsync();

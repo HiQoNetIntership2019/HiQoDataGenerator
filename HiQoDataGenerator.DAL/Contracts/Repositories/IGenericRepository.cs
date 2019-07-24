@@ -6,7 +6,7 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     public interface IGenericRepository<T>
     {
-        IQueryable<T> GetAll();
+        Task<IQueryable<T>> GetAllAsync();
         Task<T> GetByIdAsync(int id);
         Task AddAsync(T item);
         Task AddRangeAsync(IEnumerable<T> items);

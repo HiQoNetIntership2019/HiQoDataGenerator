@@ -10,12 +10,12 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
     {
         public FieldRepository(DataContext context) : base(context) { }
 
-        public async Task<Field> GetByConfigurableObjectId(int id) =>
+        public async Task<Field> GetByConfigurableObjectIdAsync(int id) =>
             await _models.FirstAsync(item => item.ConfigurableObject.Id == id);
 
-        public IQueryable<Field> GetAllWithTypes()
+        public async Task<IQueryable<Field>> GetAllWithTypesAsync()
         {
-            return _models.Include(i => i.FieldType);
+            return await Task.Run(()=>_models.Include(i => i.FieldType));
         }
     }
 }

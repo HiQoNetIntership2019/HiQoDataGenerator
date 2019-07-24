@@ -29,10 +29,10 @@ namespace HiQoDataGenerator.Core.Services
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
-        public IEnumerable<DatasetModel> GetAll()
+        public async Task<IEnumerable<DatasetModel>> GetAllAsync()
         {
-            var datasets = _datasetRepository.GetAll().ToList();
-            return _mapper.Map<IEnumerable<DatasetModel>>(datasets);
+            var datasets = await _datasetRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<DatasetModel>>(datasets.ToList());
         }
 
         public async Task<DatasetModel> GetByIdAsync(int id)
@@ -78,13 +78,13 @@ namespace HiQoDataGenerator.Core.Services
         private async Task<IEnumerable<DatasetValueModel>> GetValuesFromCustomDataset(string datasetName)
         {
             var customDataset = await _customDatasetRepository.GetDatasetByNameAsync(datasetName.ToLower());
-            return _mapper.Map<IEnumerable<DatasetValueModel>>(_customDatasetRepository.GetValuesByDatasetId(customDataset == null ? 0 : customDataset.Id));
+            return _mapper.Map<IEnumerable<DatasetValueModel>>(await _customDatasetRepository.GetValuesByDatasetIdAsync(customDataset?.Id ?? 0));
         }
 
         private async Task<IEnumerable<DatasetValueModel>> GetValuesFromDefinedDataset(string datasetName)
         {
             var definedDataset = await _definedDatasetRepository.GetByNameAsync(datasetName.ToLower());
-            return _mapper.Map<IEnumerable<DatasetValueModel>>(_definedDatasetRepository.GetValuesByDatasetId(definedDataset == null ? 0 : definedDataset.Id));
+            return _mapper.Map<IEnumerable<DatasetValueModel>>(await _definedDatasetRepository.GetValuesByDatasetIdAsync(definedDataset?.Id ?? 0));
         }
 
         public async Task<IEnumerable<DatasetValueModel>> GetValuesByDatasetIdAsync(int id)
@@ -128,7 +128,7 @@ namespace HiQoDataGenerator.Core.Services
                 throw new InvalidDataException($"Dataset <{dataset.Name}> is already defined!");
             
             var customDataset = await _customDatasetRepository.GetDatasetByNameAsync(dataset.Name.ToLower());
-            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetId(customDataset == null ? 0 : customDataset.Id);
+            var customDatasetValues = await _customDatasetRepository.GetValuesByDatasetIdAsync(customDataset?.Id ?? 0);
             await _customDatasetRepository.RemoveByIdAsync(customDataset.Id);
 
             var definedDataset = _mapper.Map<DefinedDataset>(dataset);

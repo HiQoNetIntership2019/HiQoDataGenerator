@@ -6,7 +6,7 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     public interface IFieldRepository : IGenericRepository<Field>
     {
-        Task<Field> GetByConfigurableObjectId(int id);
-        IQueryable<Field> GetAllWithTypes();
+        Task<Field> GetByConfigurableObjectIdAsync(int id);
+        Task<IQueryable<Field>> GetAllWithTypesAsync();
     }
 }
