@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
@@ -25,9 +23,9 @@ namespace HiQoDataGenerator.Core.Services
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
-        public IEnumerable<ConstraintValueModel> GetAll()
+        public async Task<IEnumerable<ConstraintValueModel>> GetAllAsync()
         {
-            var constraintValues = _constraintValuesRepository.GetAllAsync();
+            var constraintValues = await _constraintValuesRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<ConstraintValueModel>>(constraintValues);
         }
 

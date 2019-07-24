@@ -25,7 +25,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var typeModels = _fieldTypesService.GetAll();
+            var typeModels = _fieldTypesService.GetAllAsync();
             var typeViewModels = _mapper.Map<IEnumerable<FieldTypeViewModel>>(typeModels);
             return Ok(typeViewModels);
         }
@@ -50,7 +50,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [Route("SupportedTypes")]
         public IActionResult GetSupportedTypes()
         {
-            var result = _fieldTypesService.GetSupportedTypes();
+            var result = _fieldTypesService.GetSupportedTypesAsync();
             return Ok(result);
         }
 

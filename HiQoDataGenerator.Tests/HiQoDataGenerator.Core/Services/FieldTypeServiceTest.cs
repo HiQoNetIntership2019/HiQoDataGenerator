@@ -67,7 +67,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetAll_FieldTypesCount()
         {
-            var result = _fieldTypeService.GetAll();
+            var result = _fieldTypeService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }

@@ -26,7 +26,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var constraintValuesModels = _constraintValuesService.GetAll();
+            var constraintValuesModels = _constraintValuesService.GetAllAsync();
             var constraintValuesViewModels = _mapper.Map<IEnumerable<ConstraintValueViewModel>>(constraintValuesModels);
             return Ok(constraintValuesViewModels);
         }

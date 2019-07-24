@@ -23,9 +23,9 @@ namespace HiQoDataGenerator.Core.Services
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
-        public IEnumerable<EncodingTypeModel> GetAll()
+        public async Task<IEnumerable<EncodingTypeModel>> GetAllAsync()
         {
-            var encodingTypes = _repo.GetAllAsync();
+            var encodingTypes = await _repo.GetAllAsync();
             return _mapper.Map<IEnumerable<EncodingType>, IEnumerable<EncodingTypeModel>>(encodingTypes);
         }
 
@@ -34,7 +34,7 @@ namespace HiQoDataGenerator.Core.Services
             var encodingType = await _repo.GetByIdAsync(id);
             if (encodingType == null)
             {
-                throw new InvalidDataException("Can't get Encoding Type with id " + id.ToString() + " !");
+                throw new InvalidDataException($"Can't get Encoding Type with id {id}!");
             }
             return _mapper.Map<EncodingTypeModel>(encodingType);
         }
@@ -51,10 +51,9 @@ namespace HiQoDataGenerator.Core.Services
             var result = await _repo.RemoveByIdAsync(id);            
             if (!result)
             {
-                throw new InvalidDataException("Can't delete Encoding Type with id " + id.ToString() + " !");
+                throw new InvalidDataException($"Can't delete Encoding Type with id {id} !");
             }
             await _uow.CommitAsync();
         }
-
     }
 }

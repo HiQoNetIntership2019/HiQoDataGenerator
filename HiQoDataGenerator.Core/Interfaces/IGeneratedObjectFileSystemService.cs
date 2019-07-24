@@ -5,8 +5,8 @@ namespace HiQoDataGenerator.Core.Interfaces
 {
     public interface IGeneratedObjectFileSystemService
     {
-        Task<GeneratedObjectModel> ReadFromFile(string fullPath);
-        Task<string> CreateFile(GeneratedObjectModel generatedObject);
-        Task DeleteFile(string fullPath);
+        Task<GeneratedObjectModel> ReadFromFileAsync(string fullPath);
+        Task<string> CreateFileAsync(GeneratedObjectModel generatedObject);
+        Task DeleteFileAsync(string fullPath);
     }
 }

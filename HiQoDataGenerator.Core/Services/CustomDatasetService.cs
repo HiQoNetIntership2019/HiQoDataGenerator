@@ -31,16 +31,16 @@ namespace HiQoDataGenerator.Core.Services
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
-        public IEnumerable<CustomDatasetModel> GetAll()
+        public async Task<IEnumerable<CustomDatasetModel>> GetAllAsync()
         {
-            var customDatasets = _customDatasetRepository.GetAllAsync().ToList();
-            return _mapper.Map<IEnumerable<CustomDatasetModel>>(customDatasets);
+            var customDatasets = await _customDatasetRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<CustomDatasetModel>>(customDatasets.ToList());
         }
 
-        public IEnumerable<CustomDatasetValueModel> GetValues()
+        public async Task<IEnumerable<CustomDatasetValueModel>> GetValuesAsync()
         {
-            var customDatasetValues = _customDatasetRepository.GetValuesAsync().ToList();
-            return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
+            var customDatasetValues = await _customDatasetRepository.GetValuesAsync();
+            return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues.ToList());
         }
 
         public async Task<CustomDatasetModel> GetByIdAsync(int id)
@@ -53,29 +53,29 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<CustomDatasetModel>(customDataset);
         }
 
-        public IEnumerable<CustomDatasetValueModel> GetValuesByDatasetId(int id)
+        public async Task<IEnumerable<CustomDatasetValueModel>> GetValuesByDatasetIdAsync(int id)
         {
-            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetIdAsync(id)?.ToList();
+            var customDatasetValues = await _customDatasetRepository.GetValuesByDatasetIdAsync(id);
             if (customDatasetValues == null)
             {
                 throw new InvalidDataException($"Can't get values of Custom Dataset with id {id} !");
             }
-            return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
+            return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues.ToList());
         }
 
-        public IEnumerable<CustomDatasetValueModel> GetValuesByDatasetName(string name)
+        public async Task<IEnumerable<CustomDatasetValueModel>> GetValuesByDatasetNameAsync(string name)
         {
-            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetNameAsync(name.ToLower())?.ToList();
+            var customDatasetValues = await _customDatasetRepository.GetValuesByDatasetNameAsync(name.ToLower());
             if (customDatasetValues == null)
             {
                 throw new InvalidDataException($"Can't get values of Custom Dataset <{name}> !");
             }
-            return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues);
+            return _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValues.ToList());
         }
 
-        public async Task<CustomDatasetModel> GetDatasetWithValuesById(int id)
+        public async Task<CustomDatasetModel> GetDatasetWithValuesByIdAsync(int id)
         {
-            var customDatasetValues = _customDatasetRepository.GetValuesByDatasetIdAsync(id);
+            var customDatasetValues = await _customDatasetRepository.GetValuesByDatasetIdAsync(id);
             if (customDatasetValues == null)
             {
                 throw new InvalidDataException($"Can't get values of Custom Dataset with id {id} !");

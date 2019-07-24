@@ -21,7 +21,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var constraintsModels = _constraintsService.GetAll();
+            var constraintsModels = _constraintsService.GetAllAsync();
             var constraintsViewModels = _mapper.Map<IEnumerable<ConstraintViewModel>>(constraintsModels);
             return Ok(constraintsViewModels);
         }
@@ -47,7 +47,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet("fieldtype/{id}")]
         public async Task<IActionResult> GetByFieldTypeId(int id)
         {
-            var constraintModels = await _constraintsService.GetByFieldTypeId(id);
+            var constraintModels = await _constraintsService.GetByFieldTypeIdAsync(id);
             return Ok(_mapper.Map<IEnumerable<ConstraintViewModel>>(constraintModels));
         }
 
@@ -88,7 +88,7 @@ namespace HiQoDataGenerator.Web.Controllers
         {
             var constraint = _mapper.Map<ConstraintModel>(viewModel.ConstraintViewModel);
             var fieldTypes = _mapper.Map<IEnumerable<FieldTypeModel>>(viewModel.FieldTypeViewModels);
-            await _constraintsService.AddFieldTypesForConstraint(constraint, fieldTypes);
+            await _constraintsService.AddFieldTypesForConstraintAsync(constraint, fieldTypes);
             return Ok();
         }
 

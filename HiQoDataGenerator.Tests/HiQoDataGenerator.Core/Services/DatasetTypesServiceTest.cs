@@ -61,7 +61,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
                 datasetTypes.Remove(item);
             }).ReturnsAsync(true);
 
-            _datasetTypesService.RemoveById(idForRemove);
+            _datasetTypesService.RemoveByIdAsync(idForRemove);
 
             Assert.DoesNotContain(datasetTypeForRemove, datasetTypes);
         }

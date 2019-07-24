@@ -22,7 +22,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var regexModels = _regexService.GetAll();
+            var regexModels = _regexService.GetAllAsync();
             var regexViewModels = _mapper.Map<IEnumerable<RegexViewModel>>(regexModels);
             return Ok(regexViewModels);
         }
@@ -46,7 +46,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet("names")]
         public IActionResult GetNames()
         {
-            var models = _regexService.GetAllNames();
+            var models = _regexService.GetAllNamesAsync();
             return Ok(models);
         }
 

@@ -20,7 +20,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         public IActionResult Get() =>
-            Ok(_mapper.Map<IEnumerable<FieldViewModel>>(_fieldService.GetAll()));
+            Ok(_mapper.Map<IEnumerable<FieldViewModel>>(_fieldService.GetAllAsync()));
 
         /// <summary>
         ///     Gets field by id.

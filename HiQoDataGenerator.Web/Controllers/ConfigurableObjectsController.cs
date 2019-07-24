@@ -21,7 +21,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
-        public IActionResult Get() => Ok(_mapper.Map<IEnumerable<ConfigurableObjectViewModel>>(_configurableObjectsService.GetAll()));
+        public IActionResult Get() => Ok(_mapper.Map<IEnumerable<ConfigurableObjectViewModel>>(_configurableObjectsService.GetAllAsync()));
 
         /// <summary>
         ///     Retrieves all configurable objects created later than given date and time.
@@ -33,7 +33,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet("datelater/{date}")]
         public IActionResult GetByDateLater(DateTime date) =>
-            Ok(_mapper.Map<ConfigurableObjectViewModel>(_configurableObjectsService.GetByDateCreated(dateCreated => dateCreated > date)));
+            Ok(_mapper.Map<ConfigurableObjectViewModel>(_configurableObjectsService.GetByDateCreatedAsync(dateCreated => dateCreated > date)));
 
         /// <summary>
         ///     Saves a new configurable object.

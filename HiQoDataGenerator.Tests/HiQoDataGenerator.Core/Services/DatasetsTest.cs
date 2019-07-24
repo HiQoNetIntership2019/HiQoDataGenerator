@@ -107,7 +107,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetAll_RightDatasetsCount()
         {
-            var result = _datasetService.GetAll();
+            var result = _datasetService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }

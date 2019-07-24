@@ -26,7 +26,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var customDatasetModels = _customDatasetService.GetAll();
+            var customDatasetModels = _customDatasetService.GetAllAsync();
             var customDatasetViewModels = _mapper.Map<IEnumerable<CustomDatasetViewModel>>(customDatasetModels);
             return Ok(customDatasetViewModels);
         }
@@ -39,7 +39,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [Route("Values")]
         public IActionResult GetAll()
         {
-            var customDatasetValueModels = _customDatasetService.GetValues();
+            var customDatasetValueModels = _customDatasetService.GetValuesAsync();
             var customDatasetValueViewModels = _mapper.Map<IEnumerable<CustomDatasetValueViewModel>>(customDatasetValueModels);
             return Ok(customDatasetValueViewModels);
         }
@@ -64,7 +64,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [Route("Values/ById/{id}")]
         public IActionResult GetValuesByDatasetId(int id)
         {
-            var customDatasetValueModels = _customDatasetService.GetValuesByDatasetId(id);
+            var customDatasetValueModels = _customDatasetService.GetValuesByDatasetIdAsync(id);
             var customDatasetValueViewModels = _mapper.Map<IEnumerable<CustomDatasetValueViewModel>>(customDatasetValueModels);
             return Ok(customDatasetValueViewModels);
         }
@@ -77,7 +77,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [Route("Values/ByName/{name}")]
         public IActionResult GetValuesByDatasetName(string name)
         {
-            var customDatasetValueModels = _customDatasetService.GetValuesByDatasetName(name);
+            var customDatasetValueModels = _customDatasetService.GetValuesByDatasetNameAsync(name);
             var customDatasetValueViewModels = _mapper.Map<IEnumerable<CustomDatasetValueViewModel>>(customDatasetValueModels);
             return Ok(customDatasetValueViewModels);
         }

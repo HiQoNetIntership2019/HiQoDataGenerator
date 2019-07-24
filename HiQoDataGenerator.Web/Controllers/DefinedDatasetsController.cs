@@ -22,7 +22,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var definedDatasetModels = _definedDatasetService.GetAll();
+            var definedDatasetModels = _definedDatasetService.GetAllAsync();
             var definedDatasetViewModels = _mapper.Map<IEnumerable<DefinedDatasetViewModel>>(definedDatasetModels);
             return Ok(definedDatasetViewModels);
         }
@@ -35,7 +35,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [Route("Values")]
         public IActionResult GetValues()
         {
-            var definedDatasetValueModels = _definedDatasetService.GetValues();
+            var definedDatasetValueModels = _definedDatasetService.GetValuesAsync();
             var definedDatasetValueViewModels = _mapper.Map<IEnumerable<DefinedDatasetValueViewModel>>(definedDatasetValueModels);
             return Ok(definedDatasetValueViewModels);
         }
@@ -62,7 +62,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [Route("Values/ById/{id}")]
         public IActionResult GetValuesByDatasetId(int id)
         {
-            var definedDatasetValueModels = _definedDatasetService.GetValuesByDatasetId(id);
+            var definedDatasetValueModels = _definedDatasetService.GetValuesByDatasetIdAsync(id);
             var definedDatasetValueViewModels = _mapper.Map<IEnumerable<DefinedDatasetValueViewModel>>(definedDatasetValueModels);
             return Ok(definedDatasetValueViewModels);
         }
@@ -75,7 +75,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [Route("Values/ByName/{name}")]
         public IActionResult GetValuesByDatasetName(string name)
         {
-            var definedDatasetValueModels = _definedDatasetService.GetValuesByDatasetName(name);
+            var definedDatasetValueModels = _definedDatasetService.GetValuesByDatasetNameAsync(name);
             var definedDatasetValueViewModels = _mapper.Map<IEnumerable<DefinedDatasetValueViewModel>>(definedDatasetValueModels);
             return Ok(definedDatasetValueViewModels);
         }
@@ -88,7 +88,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [Route("ByTypeId/{id}")]
         public IActionResult GetDatasetsByTypeId(int id)
         {
-            var definedDatasetModels = _definedDatasetService.GetDatasetsByTypeId(id);
+            var definedDatasetModels = _definedDatasetService.GetDatasetsByTypeIdAsync(id);
             var definedDatasetViewModels = _mapper.Map<IEnumerable<DefinedDatasetViewModel>>(definedDatasetModels);
             return Ok(definedDatasetViewModels);
         }

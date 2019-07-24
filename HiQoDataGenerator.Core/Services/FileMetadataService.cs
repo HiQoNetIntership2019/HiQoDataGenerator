@@ -31,10 +31,10 @@ namespace HiQoDataGenerator.Core.Services
             await _uow.CommitAsync();
         }
 
-        public IEnumerable<FileMetadataModel> GetAll()
+        public async Task<IEnumerable<FileMetadataModel>> GetAllAsync()
         {
-            var metadata = _fileMetadataRepository.GetAllAsync().ToList();
-            return _mapper.Map<IEnumerable<FileMetadataModel>>(metadata);
+            var metadata = await _fileMetadataRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<FileMetadataModel>>(metadata.ToList());
         }
 
         public async Task<FileMetadataModel> GetByIdAsync(int id)
@@ -47,7 +47,7 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<FileMetadataModel>(metadata);
         }
 
-        public async Task<IEnumerable<FileMetadataModel>> GetByStatusId(int id)
+        public async Task<IEnumerable<FileMetadataModel>> GetByStatusIdAsync(int id)
         {
             var metadata = await _fileMetadataRepository.GetByStatusIdAsync(id);
             if (metadata == null)
@@ -57,7 +57,7 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<FileMetadataModel>>(metadata);
         }
 
-        public async Task<IEnumerable<FileMetadataModel>> GetByStatusId(int id, int count)
+        public async Task<IEnumerable<FileMetadataModel>> GetByStatusIdAsync(int id, int count)
         {
             var metadata = await _fileMetadataRepository.GetByStatusIdAsync(id, count);
             if (metadata == null)
@@ -67,7 +67,7 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<FileMetadataModel>>(metadata);
         }
 
-        public async Task<IEnumerable<FileMetadataModel>> GetByStatusName(string name)
+        public async Task<IEnumerable<FileMetadataModel>> GetByStatusNameAsync(string name)
         {
             var metadata = await _fileMetadataRepository.GetByStatusNameAsync(name.ToLower());
             if (metadata == null)
@@ -77,7 +77,7 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<FileMetadataModel>>(metadata);
         }
 
-        public async Task<IEnumerable<FileMetadataModel>> GetByStatusName(string name, int count)
+        public async Task<IEnumerable<FileMetadataModel>> GetByStatusNameAsync(string name, int count)
         {
             var metadata = await _fileMetadataRepository.GetByStatusNameAsync(name.ToLower(),count);
             if (metadata == null)

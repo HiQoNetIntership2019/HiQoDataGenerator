@@ -24,7 +24,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var encodingTypeModels = _encodingTypesService.GetAll();
+            var encodingTypeModels = _encodingTypesService.GetAllAsync();
             var encodingTypeViewModels = _mapper.Map<IEnumerable<EncodingTypeViewModel>>(encodingTypeModels);
             return Ok(encodingTypeViewModels);
         }

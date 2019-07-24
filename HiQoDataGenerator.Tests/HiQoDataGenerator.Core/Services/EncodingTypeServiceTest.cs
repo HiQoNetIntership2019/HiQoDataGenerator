@@ -67,7 +67,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetAll_RightEncodingTypesCount()
         {
-            var result = _encodingTypeService.GetAll();
+            var result = _encodingTypeService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }

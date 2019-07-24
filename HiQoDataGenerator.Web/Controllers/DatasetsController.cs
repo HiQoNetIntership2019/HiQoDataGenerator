@@ -22,7 +22,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var datasetModels = _datasetService.GetAll();
+            var datasetModels = _datasetService.GetAllAsync();
             var datasetViewModels = _mapper.Map<IEnumerable<DatasetViewModel>>(datasetModels);
             return Ok(datasetViewModels);
         }

@@ -106,7 +106,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         {
             ConfigureRepositoryMock_GetAll(_constraintsRepositoryMock);
 
-            var result = _constraintsService.GetAll();
+            var result = _constraintsService.GetAllAsync();
 
             Assert.Equal(_constraintModels.Count, result.Count());
         }

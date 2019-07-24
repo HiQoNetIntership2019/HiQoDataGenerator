@@ -21,7 +21,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and view model.</returns>
         [HttpGet]
         public IActionResult Get() => 
-            Ok(_mapper.Map<IEnumerable<TimezoneViewModel>>(_timezonesService.GetAll()));
+            Ok(_mapper.Map<IEnumerable<TimezoneViewModel>>(_timezonesService.GetAllAsync()));
 
 
         /// <summary>

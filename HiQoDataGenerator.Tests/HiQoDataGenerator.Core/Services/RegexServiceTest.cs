@@ -70,7 +70,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetAll_RightRegexCount()
         {
-            var result = _regexService.GetAll();
+            var result = _regexService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }
@@ -92,7 +92,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetAll_RightNames()
         {
-            var result = _regexService.GetAllNames();
+            var result = _regexService.GetAllNamesAsync();
             var expected = new List<string>(new string[] { "Email","URL"}).AsQueryable();
             Assert.Equal(expected, result);
         }

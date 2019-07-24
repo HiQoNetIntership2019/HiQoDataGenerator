@@ -67,7 +67,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetAll_RightDateTimeFromatsCount()
         {
-            var result = _dateTimeFormatService.GetAll();
+            var result = _dateTimeFormatService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }

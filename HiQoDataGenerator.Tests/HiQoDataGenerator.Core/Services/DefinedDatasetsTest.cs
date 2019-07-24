@@ -95,7 +95,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetAll_RightDefinedDatasetsCount()
         {
-            var result = _definedDatasetService.GetAll();
+            var result = _definedDatasetService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }
@@ -103,7 +103,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetValues_RightDefinedDatasetValuesCount()
         {
-            var result = _definedDatasetService.GetValues();
+            var result = _definedDatasetService.GetValuesAsync();
 
             Assert.Equal(4, result.Count());
         }
@@ -125,7 +125,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetValuesByDatasetId_ExistingId_RightValues()
         {
-            var result = _definedDatasetService.GetValuesByDatasetId(1);
+            var result = _definedDatasetService.GetValuesByDatasetIdAsync(1);
 
             Assert.Equal(2, result.Count());
         }
@@ -133,13 +133,13 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetValuesByDatasetId_NonExistingId_ElementNotFoundException()
         {
-            Assert.Throws<InvalidDataException>(() => _definedDatasetService.GetValuesByDatasetId(3));
+            Assert.Throws<InvalidDataException>(() => _definedDatasetService.GetValuesByDatasetIdAsync(3));
         }
 
         [Fact]
         public void GetDatasetsByTypeId_ExistingId_RightValues()
         {
-            var result = _definedDatasetService.GetDatasetsByTypeId(1);
+            var result = _definedDatasetService.GetDatasetsByTypeIdAsync(1);
 
             Assert.Single(result);
         }
@@ -147,7 +147,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetDatasetsByTypeId_NonExistingId_ElementNotFoundException()
         {
-            Assert.Throws<InvalidDataException>(() => _definedDatasetService.GetDatasetsByTypeId(3));
+            Assert.Throws<InvalidDataException>(() => _definedDatasetService.GetDatasetsByTypeIdAsync(3));
         }
         
         [Fact]

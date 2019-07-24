@@ -85,7 +85,7 @@ namespace HiQoDataGenerator.Web.Controllers
         {
             _backgroundDataSavingTasksQueue.QueueBackgroundWorkItem(async token =>
             {
-                var path = await _generatedObjectFileSystemService.CreateFile(_mapper.Map<GeneratedObjectModel>(generatedObject));
+                var path = await _generatedObjectFileSystemService.CreateFileAsync(_mapper.Map<GeneratedObjectModel>(generatedObject));
                 return new FileMetadataModel(0, path, 1);
             });
         }

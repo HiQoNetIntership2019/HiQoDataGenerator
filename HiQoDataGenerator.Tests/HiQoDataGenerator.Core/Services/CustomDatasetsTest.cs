@@ -96,7 +96,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetAll_RightCustomDatasetsCount()
         {
-            var result = _customDatasetService.GetAll();
+            var result = _customDatasetService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }
@@ -104,7 +104,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetValues_RightCustomDatasetValuesCount()
         {
-            var result = _customDatasetService.GetValues();
+            var result = _customDatasetService.GetValuesAsync();
 
             Assert.Equal(4, result.Count());
         }
@@ -126,7 +126,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetValuesByDatasetId_ExistingId_RightValues()
         {
-            var result = _customDatasetService.GetValuesByDatasetId(1);
+            var result = _customDatasetService.GetValuesByDatasetIdAsync(1);
 
             Assert.Equal(2, result.Count());
         }
@@ -134,7 +134,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetValuesByDatasetId_NonExistingId_ElementNotFoundException()
         {
-            Assert.Throws<InvalidDataException>(() => _customDatasetService.GetValuesByDatasetId(3));
+            Assert.Throws<InvalidDataException>(() => _customDatasetService.GetValuesByDatasetIdAsync(3));
         }
         
         [Fact]

@@ -21,7 +21,7 @@ namespace HiQoDataGenerator.Web.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var dateTimeFormatModels = _dateTimeFormatService.GetAll();
+            var dateTimeFormatModels = _dateTimeFormatService.GetAllAsync();
             var dateTimeFormatViewModels = _mapper.Map<IEnumerable<DateTimeFormatViewModel>>(dateTimeFormatModels);
             return Ok(dateTimeFormatViewModels);
         }

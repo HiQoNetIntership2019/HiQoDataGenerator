@@ -64,7 +64,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public void GetAll_RightStatusesCount()
         {
-            var result = _fileStatusesService.GetAll();
+            var result = _fileStatusesService.GetAllAsync();
 
             Assert.Equal(2, result.Count());
         }
@@ -86,7 +86,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public async void GetByNameAsync_ExistingName_RightStatus()
         {
-            var result = await _fileStatusesService.GetByName(_statuses[0].Status);
+            var result = await _fileStatusesService.GetByNameAsync(_statuses[0].Status);
 
             Assert.Equal(1, result.Id);
         }
@@ -94,7 +94,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         [Fact]
         public async Task GetByNameAsync_NonExistingName_InvalidDataException()
         {
-            await Assert.ThrowsAsync<InvalidDataException>(() => _fileStatusesService.GetByName("status"));
+            await Assert.ThrowsAsync<InvalidDataException>(() => _fileStatusesService.GetByNameAsync("status"));
         }
     }
 }
