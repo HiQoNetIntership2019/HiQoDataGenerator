@@ -39,7 +39,7 @@ namespace HiQoDataGenerator.Web
             services.AddScoped<LoggingAttribute>();
 
             services.AddBLServices();
-            services.AddGeneratorCoreSerives();
+            services.AddGeneratorCoreServices();
             services.AddDALServices(Configuration.GetConnectionString("PostgreConnection"));
 
             services.AddMapperFactory();
