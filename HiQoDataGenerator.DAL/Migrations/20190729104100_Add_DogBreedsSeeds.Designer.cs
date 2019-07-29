@@ -3,15 +3,17 @@ using System;
 using HiQoDataGenerator.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HiQoDataGenerator.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190729104100_Add_DogBreedsSeeds")]
+    partial class Add_DogBreedsSeeds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,58 +188,6 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DateTimeFormats");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Value = "mm/dd/yy"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Value = "mm.dd.yy"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Value = "mm/dd/yyyy"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Value = "mm.dd.yyyy"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Value = "mm/yy"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Value = "mm.yy"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Value = "hh:mm"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Value = "hh:mm:sss"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Value = "yyyy/dd/mm"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Value = "yyyy.dd.mm"
-                        });
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.EncodingType", b =>
@@ -302,18 +252,6 @@ namespace HiQoDataGenerator.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Timezones");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Value = "GMT"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Value = "UTC"
-                        });
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.CustomObjectModels.ConfigurableObject", b =>

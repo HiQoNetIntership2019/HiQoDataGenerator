@@ -1,5 +1,6 @@
 ﻿using HiQoDataGenerator.DAL.Models.ConstraintModels;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
+using HiQoDataGenerator.DAL.Models.DataSetModels;
 using HiQoDataGenerator.DAL.Models.IntermediateModels;
 using HiQoDataGenerator.DAL.Models.FileMetadataModels;
 using Microsoft.EntityFrameworkCore;
@@ -118,6 +119,48 @@ namespace HiQoDataGenerator.DAL.Extensions
                     new EncodingType() { Id = 1, Name = "UTF-8" },
                     new EncodingType() { Id = 2, Name = "UTF-16" },
                     new EncodingType() { Id = 3, Name = "UTF-32" }
+                );
+
+            #region Defined Datasets Seeds
+
+            modelBuilder.Entity<DefinedDataset>()
+                .HasData(
+                    new DefinedDataset() { Id = 1, Name = "US_States", TypeId = 6 },
+                    new DefinedDataset() { Id = 2, Name = "Programming Languages", TypeId = 6 },
+                    new DefinedDataset() { Id = 3, Name = "Dog Breeds", TypeId = 6 }
+                );
+
+            modelBuilder.Entity<Dataset>()
+                .HasData(
+                    new Dataset() { Id = 1, Name = "US_States", TypeId = 6, IsDefined = true },
+                    new Dataset() { Id = 2, Name = "Programming Languages", TypeId = 6, IsDefined = true },
+                    new Dataset() { Id = 3, Name = "Dog Breeds", TypeId = 6, IsDefined = true }
+                );
+
+            modelBuilder.SeedStates();
+            modelBuilder.SeedProgrammingLanguages();
+            modelBuilder.SeedDogBreeds();
+
+            #endregion
+
+            modelBuilder.Entity<DateTimeFormat>()
+                .HasData(
+                    new DateTimeFormat() { Id = 1, Value = "mm/dd/yy" },
+                    new DateTimeFormat() { Id = 2, Value = "mm.dd.yy" },
+                    new DateTimeFormat() { Id = 3, Value = "mm/dd/yyyy" },
+                    new DateTimeFormat() { Id = 4, Value = "mm.dd.yyyy" },
+                    new DateTimeFormat() { Id = 5, Value = "mm/yy" },
+                    new DateTimeFormat() { Id = 6, Value = "mm.yy" },
+                    new DateTimeFormat() { Id = 7, Value = "hh:mm" },
+                    new DateTimeFormat() { Id = 8, Value = "hh:mm:sss" },
+                    new DateTimeFormat() { Id = 9, Value = "yyyy/dd/mm" },
+                    new DateTimeFormat() { Id = 10, Value = "yyyy.dd.mm" }
+                );
+
+            modelBuilder.Entity<Timezone>()
+                .HasData(
+                    new Timezone() { Id = 1, Value = "GMT"},
+                    new Timezone() { Id = 2, Value = "UTC"}
                 );
 
             modelBuilder.Entity<FileStatus>()
