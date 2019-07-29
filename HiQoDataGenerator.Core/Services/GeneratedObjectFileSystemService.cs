@@ -13,11 +13,14 @@ namespace HiQoDataGenerator.Core.Services
         private readonly IFilesGeneratedObjectsRepository _filesGeneratedObjectsRepository;
 
         private readonly string _directoryName;
+        private readonly string _rootDirectory;
+
 
         public GeneratedObjectFileSystemService(IConfiguration configuration,
             IFilesGeneratedObjectsRepository filesGeneratedObjectsRepository)
         {
             _filesGeneratedObjectsRepository = filesGeneratedObjectsRepository;
+            _rootDirectory = configuration["FileSystem:Root"];
             _directoryName = configuration["FileSystem:GeneratedObjectsDirectory"];
         }
 
@@ -28,14 +31,14 @@ namespace HiQoDataGenerator.Core.Services
                 .Replace(":", "")
                 .Replace("-", "");
             await _filesGeneratedObjectsRepository.CreateAndWriteInFileAsync(json, _directoryName, fileName);
-            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), fileName));
+            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), _rootDirectory, _directoryName, fileName));
         }
 
         public async Task<GeneratedObjectModel> ReadFromFileAsync(string fullPath)
         {
             var jsonObject = await _filesGeneratedObjectsRepository.ReadFromFileAsync(fullPath);
             return JsonConvert.DeserializeObject<GeneratedObjectModel>(jsonObject);
-            
+
         }
 
         public async Task DeleteFileAsync(string fullPath)
