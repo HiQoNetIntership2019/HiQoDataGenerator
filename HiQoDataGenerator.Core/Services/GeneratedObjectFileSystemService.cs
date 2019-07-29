@@ -1,4 +1,5 @@
-﻿using HiQoDataGenerator.Core.Entities;
+﻿using System;
+using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.DAL.Contracts.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +28,7 @@ namespace HiQoDataGenerator.Core.Services
         public async Task<string> CreateFileAsync(GeneratedObjectModel generatedObject)
         {
             string json = JsonConvert.SerializeObject(generatedObject);
-            string fileName = $"{generatedObject.DateCreation:s}_{generatedObject.Name}.json"
+            string fileName = $"{generatedObject.DateCreation:s}_{Guid.NewGuid()}_{generatedObject.Name}.json"
                 .Replace(":", "")
                 .Replace("-", "");
             await _filesGeneratedObjectsRepository.CreateAndWriteInFileAsync(json, _directoryName, fileName);
