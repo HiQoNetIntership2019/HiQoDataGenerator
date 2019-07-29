@@ -15,7 +15,9 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 
         protected override double GenerateValue()
         {
-            return RandomValueGenerator.GenerateDouble(Constraints[ConstraintTypes.Min], Constraints[ConstraintTypes.Max]);
+            var a = Constraints[ConstraintTypes.Min];
+            var b = Constraints[ConstraintTypes.Max];
+            return RandomValueGenerator.GenerateDouble(Constraints[ConstraintTypes.Min] / 10, Constraints[ConstraintTypes.Max] / 10);
         }
     }
 }

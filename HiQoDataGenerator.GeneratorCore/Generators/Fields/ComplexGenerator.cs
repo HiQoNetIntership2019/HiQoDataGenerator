@@ -12,10 +12,10 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 
         public ComplexGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator)
         {
-            Constraints[ConstraintTypes.MinA] = double.MinValue;
-            Constraints[ConstraintTypes.MinB] = double.MinValue;
-            Constraints[ConstraintTypes.MaxA] = double.MaxValue;
-            Constraints[ConstraintTypes.MaxB] = double.MaxValue;
+            Constraints[ConstraintTypes.MinA] = double.MinValue / 10;
+            Constraints[ConstraintTypes.MinB] = double.MinValue / 10;
+            Constraints[ConstraintTypes.MaxA] = double.MaxValue / 10;
+            Constraints[ConstraintTypes.MaxB] = double.MaxValue / 10;
         }
 
         protected override Complex GenerateValue()
