@@ -15,15 +15,17 @@ namespace HiQoDataGenerator.Core.Services
     {
         private readonly IDefinedDatasetRepository _definedDatasetRepository;
         private readonly IDatasetRepository _datasetRepository;
+        private readonly IFieldTypeRepository _fieldTypeRepository;
         private readonly IUnitOfWork _uow;
         private IMapper _mapper;
 
         public DefinedDatasetService(IUnitOfWork unit, IDefinedDatasetRepository definedDatasetRepository, 
-            IDatasetRepository datasetRepository, IMapperFactory mapperFactory)
+            IDatasetRepository datasetRepository, IFieldTypeRepository feFieldTypeRepository, IMapperFactory mapperFactory)
         {
             _uow = unit;
             _definedDatasetRepository = definedDatasetRepository;
             _datasetRepository = datasetRepository;
+            _fieldTypeRepository = feFieldTypeRepository;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
         
@@ -65,7 +67,12 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<IEnumerable<DefinedDatasetModel>> GetDatasetsByTypeIdAsync(int id)
         {
-            var definedDatasets = await _definedDatasetRepository.GetDatasetsByTypeIdAsync(id);
+            var type = await _fieldTypeRepository.GetByIdAsync(id);
+            if (type == null)
+            {
+                throw new InvalidDataException($"Can't get Type with id {id}!");
+            }
+            var definedDatasets = type.Name.ToLower() != "enum" ? await _definedDatasetRepository.GetDatasetsByTypeIdAsync(id) : await _definedDatasetRepository.GetAllAsync();
             if (definedDatasets == null)
             {
                 throw new InvalidDataException($"Can't get Defined Datasets with Type id {id} !");
@@ -75,7 +82,12 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<IEnumerable<DefinedDatasetModel>> GetDatasetsByTypeNameAsync(string name)
         {
-            var definedDatasets = await _definedDatasetRepository.GetDatasetsByTypeNameAsync(name.ToLower());
+            var type = await _fieldTypeRepository.GetByNameAsync(name.ToLower());
+            if (type == null)
+            {
+                throw new InvalidDataException($"Can't get Type <{name}>!");
+            }
+            var definedDatasets = type.Name.ToLower() != "enum" ? await _definedDatasetRepository.GetDatasetsByTypeNameAsync(name.ToLower()) : await _definedDatasetRepository.GetAllAsync();
             if (definedDatasets == null)
             {
                 throw new InvalidDataException($"Can't get Defined Datasets with Type <{name}> !");

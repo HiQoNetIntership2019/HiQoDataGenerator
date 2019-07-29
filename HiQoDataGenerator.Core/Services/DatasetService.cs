@@ -16,16 +16,18 @@ namespace HiQoDataGenerator.Core.Services
         private readonly IDefinedDatasetRepository _definedDatasetRepository;
         private readonly ICustomDatasetRepository _customDatasetRepository;
         private readonly IDatasetRepository _datasetRepository;
+        private readonly IFieldTypeRepository _fieldTypeRepository;
         private readonly IUnitOfWork _uow;
         private IMapper _mapper;
 
-        public DatasetService(IUnitOfWork unit, IDefinedDatasetRepository definedDatasetRepository, 
-            ICustomDatasetRepository customDatasetRepository, IDatasetRepository datasetRepository, IMapperFactory mapperFactory)
+        public DatasetService(IUnitOfWork unit, IDefinedDatasetRepository definedDatasetRepository, ICustomDatasetRepository customDatasetRepository,
+            IDatasetRepository datasetRepository, IFieldTypeRepository fieldTypeRepository, IMapperFactory mapperFactory)
         {
             _uow = unit;
             _definedDatasetRepository = definedDatasetRepository;
             _customDatasetRepository = customDatasetRepository;
             _datasetRepository = datasetRepository;
+            _fieldTypeRepository = fieldTypeRepository;
             _mapper = mapperFactory.GetMapper(typeof(CoreServices).Name);
         }
 
@@ -57,7 +59,12 @@ namespace HiQoDataGenerator.Core.Services
 
         public async Task<IEnumerable<DatasetModel>> GetDatasetsByTypeIdAsync(int id)
         {
-            var datasets = await _datasetRepository.GetDatasetsByTypeIdAsync(id);
+            var type = await _fieldTypeRepository.GetByIdAsync(id);
+            if (type == null)
+            {
+                throw new InvalidDataException($"Can't get Type with id {id}!");
+            }
+            var datasets = type.Name.ToLower() != "enum" ? await _datasetRepository.GetDatasetsByTypeIdAsync(id) : await _datasetRepository.GetAllAsync();
             if (datasets == null)
             {
                 throw new InvalidDataException($"Can't get Datasets with Type id {id}!");
@@ -67,7 +74,12 @@ namespace HiQoDataGenerator.Core.Services
         
         public async Task<IEnumerable<DatasetModel>> GetDatasetsByTypeNameAsync(string name)
         {
-            var datasets = await _datasetRepository.GetDatasetsByTypeNameAsync(name);
+            var type = await _fieldTypeRepository.GetByNameAsync(name.ToLower());
+            if (type == null)
+            {
+                throw new InvalidDataException($"Can't get Type <{name}>!");
+            }
+            var datasets = type.Name.ToLower() != "enum" ? await _datasetRepository.GetDatasetsByTypeNameAsync(name) : await _datasetRepository.GetAllAsync();
             if (datasets == null)
             {
                 throw new InvalidDataException($"Can't get Datasets with Type name <{name}>!");
