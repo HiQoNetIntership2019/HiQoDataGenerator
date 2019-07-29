@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Moq;
 using Xunit;
 using System.Collections.Generic;
+using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 
 namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
 {
@@ -21,6 +22,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         private readonly Mock<IDefinedDatasetRepository> _definedDatasetRepositoryMock;
         private readonly Mock<ICustomDatasetRepository> _customDatasetRepositoryMock;
         private readonly Mock<IDatasetRepository> _datasetRepositoryMock;
+        private readonly Mock<IFieldTypeRepository> _fieldTypeRepositoryMock;
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly List<Dataset> _datasets;
         private readonly List<DefinedDatasetValue> _definedDatasetValues;
@@ -33,6 +35,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             _definedDatasetRepositoryMock = new Mock<IDefinedDatasetRepository>();
             _customDatasetRepositoryMock = new Mock<ICustomDatasetRepository>();
             _datasetRepositoryMock = new Mock<IDatasetRepository>();
+            _fieldTypeRepositoryMock = new Mock<IFieldTypeRepository>();
             _mapperFactoryMock = new Mock<IMapperFactory>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
 
@@ -40,12 +43,14 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             _definedDatasetValues = GenerateDefinedDatasetValues();
             _customDatasetValues = GenerateCustomDatasetValues();
 
-            ConfigureDefinedDatasetRepositoryMock(_definedDatasetRepositoryMock);//!!!
-            ConfigureDatasetRepositoryMock(_datasetRepositoryMock);//!!!
+            ConfigureDefinedDatasetRepositoryMock(_definedDatasetRepositoryMock);
+            ConfigureDatasetRepositoryMock(_datasetRepositoryMock);
+            ConfigureCustomDatasetRepositoryMock(_customDatasetRepositoryMock);
+            ConfigureFieldTypeRepositoryMock(_fieldTypeRepositoryMock);
             ConfigureMapperFactoryMock(_mapperFactoryMock);
             ConfigureUOWMock(_unitOfWorkMock);
             _datasetService = new DatasetService(_unitOfWorkMock.Object, _definedDatasetRepositoryMock.Object, 
-                _customDatasetRepositoryMock.Object, _datasetRepositoryMock.Object, _mapperFactoryMock.Object);
+                _customDatasetRepositoryMock.Object, _datasetRepositoryMock.Object, _fieldTypeRepositoryMock.Object, _mapperFactoryMock.Object);
         }
 
         private List<Dataset> GenerateDatasets()
@@ -89,7 +94,6 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
             _datasetRepositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => null);
             _datasetRepositoryMock.Setup(rep => rep.GetDatasetsByTypeIdAsync(1)).ReturnsAsync(() => new List<Dataset>() { _datasets[0] });
             _datasetRepositoryMock.Setup(rep => rep.GetDatasetsByTypeIdAsync(3)).ReturnsAsync(() => null);
-            //
         }
 
         private void ConfigureDefinedDatasetRepositoryMock(Mock<IDefinedDatasetRepository> repositoryMock)
@@ -102,6 +106,12 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.Core.Services
         {
             repositoryMock.Setup(rep => rep.GetDatasetByNameAsync(_datasets[0].Name.ToLower())).ReturnsAsync(new CustomDataset() { Id = 1 });
             repositoryMock.Setup(rep => rep.GetValuesByDatasetIdAsync(1)).ReturnsAsync(_customDatasetValues.AsQueryable());
+        }
+
+        private void ConfigureFieldTypeRepositoryMock(Mock<IFieldTypeRepository> repositoryMock)
+        {
+            repositoryMock.Setup(rep => rep.GetByIdAsync(1)).ReturnsAsync(() => new FieldType() { Id = 1 , Name = "String"});
+            repositoryMock.Setup(rep => rep.GetByIdAsync(3)).ReturnsAsync(() => new FieldType() { Id = 2, Name = "Int" });
         }
 
         [Fact]
