@@ -31,8 +31,9 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
                 : RandomValueGenerator.GenerateString((int) Constraints[ConstraintTypes.MinLength],
                     (int) Constraints[ConstraintTypes.MaxLength]);
 
-            return _encodingConverter.TryGetValue(Constraints[ConstraintTypes.Encoding], out Encoding encoding) ? 
-                encoding.GetString(Encoding.Default.GetBytes(result)) : result;
+            return Constraints[ConstraintTypes.Encoding] != null
+                ? _encodingConverter[Constraints[ConstraintTypes.Encoding]].GetString(Encoding.Default.GetBytes(result))
+                : result;
         }
     }
 }

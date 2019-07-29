@@ -8,7 +8,7 @@ namespace HiQoDataGenerator.GeneratorCore
 {
     public static class GeneratorCoreServices
     {
-        public static void AddGeneratorCoreSerives(this IServiceCollection services)
+        public static void AddGeneratorCoreServices(this IServiceCollection services)
         {
             IRandomValuesGenerator randomValuesGenerator = new RandomValuesGenerator();
 
@@ -22,8 +22,9 @@ namespace HiQoDataGenerator.GeneratorCore
                 new BoolGenerator(randomValuesGenerator),
                 new StringGenerator(randomValuesGenerator),
                 new DateTimeGenerator(randomValuesGenerator),
-                new DateGenerator(randomValuesGenerator)
-                );
+                new DateGenerator(randomValuesGenerator),
+                new GuidGenerator(randomValuesGenerator)
+            );
 
             services.AddSingleton(fieldsGenerator);
             services.AddSingleton<IDataGeneratorService, DataGeneratorService>();
