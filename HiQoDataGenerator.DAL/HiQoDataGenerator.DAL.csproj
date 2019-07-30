@@ -13,10 +13,10 @@
     <Compile Remove="Migrations\20190701125914_Model_Building.cs" />
     <Compile Remove="Migrations\20190729085150_Add_States_Seeds.cs" />
     <Compile Remove="Migrations\20190729100321_Add_PLSeeds.cs" />
+    <Compile Remove="Migrations\20190730071738_Add_SurnameSeeds.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="12.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.4">
       <PrivateAssets>all</PrivateAssets>
