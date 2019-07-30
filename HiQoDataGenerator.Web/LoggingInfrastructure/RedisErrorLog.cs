@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using ElmahCore;
 using Microsoft.Extensions.Options;
 using HiQoDataGenerator.Infrastructure.LoggerExtensions;
+using HiQoDataGenerator.Web.Exceptions;
 
 namespace HiQoDataGenerator.Web.LoggingInfrastructure
 {
@@ -25,6 +27,19 @@ namespace HiQoDataGenerator.Web.LoggingInfrastructure
                 var paramName = nameof(error);
                 LoggerExtensions.LogError($"Error in RedisErrorLog: {paramName} null reference.");
                 throw new ArgumentNullException(paramName);
+            }
+
+            if (error.Exception != null)
+            {
+                if (error.Exception is HttpException)
+                {
+                    error.StatusCode = ((HttpException) error.Exception).StatusCode;
+                    error.Type = "HTTP";
+                }
+                else
+                {
+                    error.StatusCode = (int) HttpStatusCode.InternalServerError;
+                }
             }
 
             var errorXml = ErrorXml.EncodeString(error);
