@@ -121,7 +121,7 @@ namespace HiQoDataGenerator.DAL
 
             builder.Entity<FileMetadata>()
                 .Property(p => p.Path)
-                .HasMaxLength(150)
+                .HasMaxLength(500)
                 .IsRequired();
 
             builder.Entity<FileStatus>()

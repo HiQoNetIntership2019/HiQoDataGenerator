@@ -7197,7 +7197,7 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.Property<string>("Path")
                         .IsRequired()
-                        .HasMaxLength(150);
+                        .HasMaxLength(500);
 
                     b.Property<int>("StatusId");
 
