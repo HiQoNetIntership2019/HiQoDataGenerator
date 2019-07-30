@@ -45,9 +45,9 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </summary>
         /// <returns>Status code 200 and Json or Xml File</returns>
         [HttpPost]
-        [Route("{resultType?}")]
+        [Route("{resultType?}/{count?}")]
         public async Task<IActionResult> GenerateObjectAsync([FromBody] ConfigurableObjectViewModel configurableObject,
-            string resultType)
+            string resultType, int? count)
         {
             var datasetIds = configurableObject.Fields
                 .Where(f => f.DatasetId != null)
@@ -65,7 +65,7 @@ namespace HiQoDataGenerator.Web.Controllers
             }
 
             var modelForGenerate = _mapper.Map<ConfigurablePrototype>(configurableObject);
-            var result = _mapper.Map<GeneratedObjectViewModel>(_dataGenerator.Generate(modelForGenerate, datasetPrototypes));
+            var result = _mapper.Map<IEnumerable<GeneratedObjectViewModel>>(_dataGenerator.GenerateMany(modelForGenerate, count ?? 1, datasetPrototypes));
 
             SaveGeneratedObjects(result);
 
@@ -76,15 +76,15 @@ namespace HiQoDataGenerator.Web.Controllers
 
             var fileContents = _converters[resultType]?.Invoke(result) ?? throw new ArgumentException();
             return File( Encoding.ASCII.GetBytes(fileContents), $"application/{resultType}",
-                $"{result.Name}_{result.DateCreated:s}.{resultType}".Replace(":","").Replace("-",""));
+                $"{result.First().Name}_{result.First().DateCreated:s}.{resultType}".Replace(":","").Replace("-",""));
 
         }
 
-        private void SaveGeneratedObjects(GeneratedObjectViewModel generatedObject)
+        private void SaveGeneratedObjects(IEnumerable<GeneratedObjectViewModel> generatedObject)
         {
             _backgroundDataSavingTasksQueue.QueueBackgroundWorkItem(async token =>
             {
-                var path = await _generatedObjectFileSystemService.CreateFileAsync(_mapper.Map<GeneratedObjectModel>(generatedObject));
+                var path = await _generatedObjectFileSystemService.CreateFileAsync(_mapper.Map<IEnumerable<GeneratedObjectModel>>(generatedObject));
                 return new FileMetadataModel(0, path, 1);
             });
         }
