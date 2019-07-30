@@ -91,8 +91,8 @@ namespace HiQoDataGenerator.Web.LoggingInfrastructure
             var server = _connectionMultiplexer.GetServer(_connectionString);
             var keys = server.Keys(pattern: pattern);
 
-            values.AddRange(keys.Select(key => GetData(key)));
-            return values;
+            values.AddRange(keys.Select(key =>GetData(key)));
+            return values?.OrderByDescending(item => item.Timestamp).ToList();
         }
     }
 }
