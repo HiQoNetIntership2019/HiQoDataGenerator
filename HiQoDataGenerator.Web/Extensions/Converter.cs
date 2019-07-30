@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using HiQoDataGenerator.Web.ViewModels;
 
 namespace HiQoDataGenerator.Web.Extensions
 {
@@ -10,14 +13,15 @@ namespace HiQoDataGenerator.Web.Extensions
     {
         public static XDocument JsonToXml(string json, string rootName)
         {
-            var xml = JsonConvert.DeserializeXNode(json,rootName,true);
+            var xml = JsonConvert.DeserializeXNode(json, rootName, true);
             return xml;
         }
 
         public static string ObjectToXml(object obj)
         {
             XmlSerializer serializer = new XmlSerializer(obj.GetType());
-            var xml = "";
+
+            var xml = string.Empty;
 
             using (var stringWriter = new StringWriter())
             {
@@ -28,13 +32,30 @@ namespace HiQoDataGenerator.Web.Extensions
                 }
             }
             return xml;
-            //var json = ObjectToJson(obj);
-            //return JsonToXml(json, "rootName").ToString();
         }
 
-        public static string ObjectToJson(object obj)
+        public static string ObjectToJson(IEnumerable<GeneratedObjectViewModel> objects)
         {
-            return JsonConvert.SerializeObject(obj, Newtonsoft.Json.Formatting.Indented);
+            JArray resultArray = new JArray();
+
+            foreach (var obj in objects)
+            {
+                resultArray.Add(ObjectToJson(obj));
+            }
+
+            return resultArray.ToString();
+        }
+
+        private static JObject ObjectToJson(GeneratedObjectViewModel resultObject)
+        {
+            JObject result = new JObject();
+
+            foreach (var f in resultObject.Fields)
+            {
+                result.Add(new JProperty(f.Name, f.Value));
+            }
+
+            return result;
         }
     }
 }

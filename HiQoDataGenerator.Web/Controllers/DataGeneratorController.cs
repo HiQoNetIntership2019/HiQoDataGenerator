@@ -21,8 +21,8 @@ namespace HiQoDataGenerator.Web.Controllers
         private readonly IGeneratedObjectFileSystemService _generatedObjectFileSystemService;
         private readonly IBackgroundDataSavingTasksQueue _backgroundDataSavingTasksQueue;
 
-        private readonly Dictionary<string, Func<object, string>> _converters =
-            new Dictionary<string, Func<object, string>>();
+        private readonly Dictionary<string, Func<IEnumerable<GeneratedObjectViewModel>, string>> _converters =
+            new Dictionary<string, Func<IEnumerable<GeneratedObjectViewModel>, string>>();
 
         public DataGeneratorController(IMapperFactory mapperFactory,
             IDataGeneratorService dataGenerator,
