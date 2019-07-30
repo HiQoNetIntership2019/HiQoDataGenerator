@@ -127,19 +127,28 @@ namespace HiQoDataGenerator.DAL.Extensions
                 .HasData(
                     new DefinedDataset() { Id = 1, Name = "US_States", TypeId = 6 },
                     new DefinedDataset() { Id = 2, Name = "Programming Languages", TypeId = 6 },
-                    new DefinedDataset() { Id = 3, Name = "Dog Breeds", TypeId = 6 }
+                    new DefinedDataset() { Id = 3, Name = "Dog Breeds", TypeId = 6 },
+                    new DefinedDataset() { Id = 4, Name = "Countries", TypeId = 6 },
+                    new DefinedDataset() { Id = 5, Name = "First Names", TypeId = 6 },
+                    new DefinedDataset() { Id = 6, Name = "Surnames", TypeId = 6 }
                 );
 
             modelBuilder.Entity<Dataset>()
                 .HasData(
                     new Dataset() { Id = 1, Name = "US_States", TypeId = 6, IsDefined = true },
                     new Dataset() { Id = 2, Name = "Programming Languages", TypeId = 6, IsDefined = true },
-                    new Dataset() { Id = 3, Name = "Dog Breeds", TypeId = 6, IsDefined = true }
+                    new Dataset() { Id = 3, Name = "Dog Breeds", TypeId = 6, IsDefined = true },
+                    new Dataset() { Id = 4, Name = "Countries", TypeId = 6, IsDefined = true },
+                    new Dataset() { Id = 5, Name = "First Names", TypeId = 6, IsDefined = true },
+                    new Dataset() { Id = 6, Name = "Surnames", TypeId = 6, IsDefined = true }
                 );
 
             modelBuilder.SeedStates();
             modelBuilder.SeedProgrammingLanguages();
             modelBuilder.SeedDogBreeds();
+            modelBuilder.SeedCountries();
+            modelBuilder.SeedFirstNames();
+            modelBuilder.SeedSurnames();
 
             #endregion
 
