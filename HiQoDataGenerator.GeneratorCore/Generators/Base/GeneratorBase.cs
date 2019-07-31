@@ -19,29 +19,45 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Base
             RandomValueGenerator = randomValuesGenerator;
         }
 
-        protected void LoadConstraints(IEnumerable<ConstraintPrototype> constraints)
+        private IEnumerable<ConstraintPrototype> LoadConstraints(IEnumerable<ConstraintPrototype> constraints)
         {
+            var defaultConstraints = new List<ConstraintPrototype>();
+
             foreach (var constraint in constraints)
             {
                 if (!Constraints.ContainsKey(constraint.Type))
                 {
                     throw new ConstraintNotSupportedException() { ConstraintId = (int)constraint.Type };
                 }
+                defaultConstraints.Add(new ConstraintPrototype(constraint.Type, Constraints[constraint.Type]));
                 Constraints[constraint.Type] = (TC) constraint.Value;
             }
+
+            return defaultConstraints;
         }
 
         protected abstract T GenerateValue();
 
         public T Generate(IEnumerable<ConstraintPrototype> constraints)
         {
-            LoadConstraints(constraints);
-            return GenerateValue();
+            var oldConstraints = LoadConstraints(constraints);
+            var value = GenerateValue();
+            SetDefaultConstraints(oldConstraints);
+            return value;
+
         }
 
         dynamic IFieldValueGenerator.Generate(IEnumerable<ConstraintPrototype> constraints)
         {
             return Generate(constraints);
         }
+
+        private void SetDefaultConstraints(IEnumerable<ConstraintPrototype> defaultConstraints)
+        {
+            foreach (var constraint in defaultConstraints)
+            {
+                Constraints[constraint.Type] = (TC) constraint.Value;
+            }
+        } 
     }
 }
