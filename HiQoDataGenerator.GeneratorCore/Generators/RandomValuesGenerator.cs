@@ -25,7 +25,12 @@ namespace HiQoDataGenerator.GeneratorCore.Generators
 
         public double GenerateDouble(double min = double.MinValue, double max = double.MaxValue)
         {
-            return _faker.Random.Double(min, max);
+            var halfMin = min / 2.0;
+            var halfMax = max / 2.0;
+            var average = halfMin + halfMax;
+            var factor = max - average;
+
+            return (2.0 * _faker.Random.Double() - 1.0) * factor + average;
         }
 
 
