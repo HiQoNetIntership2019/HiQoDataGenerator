@@ -149,6 +149,7 @@ namespace HiQoDataGenerator.DAL.Extensions
             modelBuilder.SeedCountries();
             modelBuilder.SeedFirstNames();
             modelBuilder.SeedSurnames();
+            modelBuilder.SeedRegex();
 
             #endregion
 
