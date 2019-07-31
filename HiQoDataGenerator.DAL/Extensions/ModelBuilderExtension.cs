@@ -200,6 +200,18 @@ namespace HiQoDataGenerator.DAL.Extensions
             modelBuilder.HasSequence<int>("FieldTypeConstraints_Seq", schema: "public")
             .StartsAt(32)
             .IncrementsBy(1);
+
+            modelBuilder.HasSequence<int>("Datasets_Seq", "public")
+                .StartsAt(7)
+                .IncrementsBy(1);
+
+            modelBuilder.HasSequence<int>("DefinedDatasets_Seq", "public")
+                .StartsAt(7)
+                .IncrementsBy(1);
+
+            modelBuilder.HasSequence<int>("DefinedDatasetsValues_Seq", "public")
+                .StartsAt(3868)
+                .IncrementsBy(1);
             #endregion
 
             #region ApplySequences
@@ -222,6 +234,18 @@ namespace HiQoDataGenerator.DAL.Extensions
             modelBuilder.Entity<FieldTypeConstraint>()
             .Property(p => p.Id)
             .HasDefaultValueSql("nextval('\"FieldTypeConstraints_Seq\"')");
+
+            modelBuilder.Entity<Dataset>()
+                .Property(p => p.Id)
+                .HasDefaultValueSql("nextval('\"Datasets_Seq\"')");
+
+            modelBuilder.Entity<DefinedDataset>()
+                .Property(p => p.Id)
+                .HasDefaultValueSql("nextval('\"DefinedDatasets_Seq\"')");
+
+            modelBuilder.Entity<DefinedDatasetValue>()
+                .Property(p => p.Id)
+                .HasDefaultValueSql("nextval('\"DefinedDatasetsValues_Seq\"')");
             #endregion
         }
     }
