@@ -47,8 +47,8 @@ namespace HiQoDataGenerator.SchedulerSubscriber.Handlers
                 {
                     try
                     {
-                        var model = await _filesService.ReadFromFileAsync(item.Path);
-                        await _mongoService.AddAsync(model);
+                        var models = await _filesService.ReadFromFileAsync(item.Path);
+                        await _mongoService.AddRangeAsync(models);
 
                         await DeleteFile(item);
                         LoggerExtensions.LogInfo($"File <{item.Path}> was successfully moved to MongoDB");
