@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.IO;
 using System.Collections.Generic;
-using System.Xml;
+using System.Linq;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 using HiQoDataGenerator.Web.ViewModels;
 
 namespace HiQoDataGenerator.Web.Extensions
@@ -17,21 +15,15 @@ namespace HiQoDataGenerator.Web.Extensions
             return xml;
         }
 
-        public static string ObjectToXml(object obj)
+        public static string ObjectToXml(IEnumerable<GeneratedObjectViewModel> objects)
         {
-            XmlSerializer serializer = new XmlSerializer(obj.GetType());
+            var xDoc = new XDocument();
+            var xCollection = new XElement("ObjectsCollection", objects.Select(obj =>
+                new XElement("Item", obj.Fields.Select(field => 
+                    new XElement(field.Name, field.Value)))));
 
-            var xml = string.Empty;
-
-            using (var stringWriter = new StringWriter())
-            {
-                using (XmlWriter writer = XmlWriter.Create(stringWriter))
-                {
-                    serializer.Serialize(writer, obj);
-                    xml = stringWriter.ToString();
-                }
-            }
-            return xml;
+            xDoc.Add(xCollection);
+            return xDoc.ToString();
         }
 
         public static string ObjectToJson(IEnumerable<GeneratedObjectViewModel> objects)
