@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Xml.Linq;
 using HiQoDataGenerator.Web.ViewModels;
 
@@ -44,7 +45,7 @@ namespace HiQoDataGenerator.Web.Extensions
 
             foreach (var f in resultObject.Fields)
             {
-                result.Add(new JProperty(f.Name, f.Value));
+                result.Add(new JProperty(f.Name, f.Value is Complex ? f.Value.ToString() : f.Value));
             }
 
             return result;
