@@ -5,7 +5,7 @@ using HiQoDataGenerator.GeneratorCore.Interfaces;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class DecimalGenerator : GeneratorBase<decimal, int>
+    public class DecimalGenerator : GeneratorBase<decimal, dynamic>
     {
         public override SupportedTypes FieldType => SupportedTypes.Decimal;
         
@@ -13,6 +13,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
         {
             Constraints[ConstraintTypes.MaxDigits] = NumberConstants.MaxDigitsInDecimal;
             Constraints[ConstraintTypes.DecimalPlace] = 0;
+            Constraints[ConstraintTypes.Separator] = ",";
         }
 
         protected override decimal GenerateValue()

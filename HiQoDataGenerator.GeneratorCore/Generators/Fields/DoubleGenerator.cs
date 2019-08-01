@@ -7,9 +7,12 @@ using System.Collections.Generic;
 
 namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
 {
-    public class DoubleGenerator : MinMaxGenerator<double, double>
+    public class DoubleGenerator : MinMaxGenerator<double, dynamic>
     {
-        public DoubleGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator) { }
+        public DoubleGenerator(IRandomValuesGenerator randomValuesGenerator) : base(randomValuesGenerator)
+        {
+            Constraints[ConstraintTypes.Separator] = ",";
+        }
 
         public override SupportedTypes FieldType => SupportedTypes.Double;
 
