@@ -40,8 +40,8 @@ namespace HiQoDataGenerator.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Name = table.Column<string>(maxLength: 30, nullable: true),
-                    Value = table.Column<string>(maxLength: 100, nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Value = table.Column<string>(maxLength: 300, nullable: true)
                 },
                 constraints: table =>
                 {

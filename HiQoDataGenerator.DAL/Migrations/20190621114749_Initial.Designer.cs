@@ -58,10 +58,10 @@ namespace HiQoDataGenerator.DAL.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
-                        .HasMaxLength(30);
+                        .HasMaxLength(50);
 
                     b.Property<string>("Value")
-                        .HasMaxLength(100);
+                        .HasMaxLength(300);
 
                     b.HasKey("Id");
 
