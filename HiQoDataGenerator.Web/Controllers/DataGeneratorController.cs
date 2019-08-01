@@ -65,7 +65,7 @@ namespace HiQoDataGenerator.Web.Controllers
             }
 
             var modelForGenerate = _mapper.Map<ConfigurablePrototype>(configurableObject);
-            var result = _mapper.Map<IEnumerable<GeneratedObjectViewModel>>(_dataGenerator.GenerateMany(modelForGenerate, count ?? 1, datasetPrototypes));
+            var result = _mapper.Map<IEnumerable<GeneratedObjectViewModel>>(_dataGenerator.GenerateMany(modelForGenerate, count ?? 1, datasetPrototypes)).ToList();
 
             SaveGeneratedObjects(result);
 

@@ -28,7 +28,9 @@ namespace HiQoDataGenerator.GeneratorCore.Generators
         { 
             if (datasetPrototype != null)
             {
-                return _datasetValueGenerator.Generate(datasetPrototype.Values);
+                return type == SupportedTypes.Enum 
+                    ? _datasetValueGenerator.GenerateMany(datasetPrototype.Values) 
+                    : _datasetValueGenerator.Generate(datasetPrototype.Values);
             }
             try
             {
