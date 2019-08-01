@@ -103,7 +103,7 @@ namespace HiQoDataGenerator.Tests.HiQoDataGenerator.GeneratorCore.Services
             var fields = new List<FieldPrototype>()
             {
                 new FieldPrototype("field 1", true, SupportedTypes.Int, null),
-                new FieldPrototype("field 2", false, SupportedTypes.Double, 1)
+                new FieldPrototype("field 2", true, SupportedTypes.Double, 1)
             };
 
             return new ConfigurablePrototype(name, fields);
