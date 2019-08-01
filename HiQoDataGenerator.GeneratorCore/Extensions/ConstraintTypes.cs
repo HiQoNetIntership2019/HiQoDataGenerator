@@ -4,7 +4,6 @@
     {
         Min = 1, 
         Max,
-        Separator,
         MaxDigits,
         DecimalPlace,
         MaxA,

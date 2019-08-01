@@ -31,14 +31,12 @@ namespace HiQoDataGenerator.DAL.Extensions
                 .HasData(
                     new Constraint() { Id = 1, Name = "min value", Description = "Minimal value for a numeric field." },
                     new Constraint() { Id = 2, Name = "max value", Description = "Maximal value for a numeric field." },
-                    new Constraint() { Id = 3, Name = "separator", Description = "Comma or dot separator for a numeric field." },
                     new Constraint() { Id = 4, Name = "max digits", Description = "Can be applied to a decimal field." },
                     new Constraint() { Id = 5, Name = "decimal place", Description = "Separator position for a decimal field." },
                     new Constraint() { Id = 6, Name = "max a value", Description = "Maximal re part value for a complex field." },
                     new Constraint() { Id = 7, Name = "min a value", Description = "Minimal re part value for a complex field." },
                     new Constraint() { Id = 8, Name = "max b value", Description = "Maximal img part value for a complex field." },
                     new Constraint() { Id = 9, Name = "min b value", Description = "Minimal img part value for a complex field." },
-                    new Constraint() { Id = 10, Name = "separator", Description = "Comma or dot separator for a numeric field." },
                     new Constraint() { Id = 11, Name = "regex", Description = "Custom or defined regexp applied to a field." },
                     new Constraint() { Id = 12, Name = "encoding", Description = "Encoding type for a string field." },
 
@@ -65,11 +63,9 @@ namespace HiQoDataGenerator.DAL.Extensions
                     #region Constraints for double
                     new FieldTypeConstraint() { Id = 5, FieldTypeId = 3, ConstraintId = 1 },
                     new FieldTypeConstraint() { Id = 6, FieldTypeId = 3, ConstraintId = 2 },
-                    new FieldTypeConstraint() { Id = 7, FieldTypeId = 3, ConstraintId = 3 },
                     #endregion
 
                     #region Constraints for decimal
-                    new FieldTypeConstraint() { Id = 8, FieldTypeId = 4, ConstraintId = 3 },
                     new FieldTypeConstraint() { Id = 9, FieldTypeId = 4, ConstraintId = 4 },
                     new FieldTypeConstraint() { Id = 10, FieldTypeId = 4, ConstraintId = 5 },
                     #endregion
