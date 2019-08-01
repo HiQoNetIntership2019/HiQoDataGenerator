@@ -13,6 +13,7 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Base
             Constraints[ConstraintTypes.StartDate] = null;
             Constraints[ConstraintTypes.EndDate] = null;
             Constraints[ConstraintTypes.TimeZone] = null;
+            Constraints[ConstraintTypes.Format] = null;
         }
 
         protected override DateTime GenerateValue()

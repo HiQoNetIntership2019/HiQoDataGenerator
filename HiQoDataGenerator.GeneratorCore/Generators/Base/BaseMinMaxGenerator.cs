@@ -6,7 +6,6 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Base
 {
     public abstract class MinMaxGenerator<T, TC> : GeneratorBase<T, TC>
         where T: struct
-        where TC: struct
 
     {
         protected MinMaxGenerator(IRandomValuesGenerator randomValuesGenerator) : base (randomValuesGenerator)
