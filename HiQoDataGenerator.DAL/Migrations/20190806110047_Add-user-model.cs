@@ -2,7 +2,7 @@
 
 namespace HiQoDataGenerator.DAL.Migrations
 {
-    public partial class UsersInitialCreate : Migration
+    public partial class Addusermodel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

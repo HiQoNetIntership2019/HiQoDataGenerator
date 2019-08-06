@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HiQoDataGenerator.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190806100216_UsersInitialCreate")]
-    partial class UsersInitialCreate
+    [Migration("20190806110047_Add-user-model")]
+    partial class Addusermodel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24192,6 +24192,20 @@ namespace HiQoDataGenerator.DAL.Migrations
                             ConstraintId = 11,
                             FieldTypeId = 12
                         });
+                });
+
+            modelBuilder.Entity("HiQoDataGenerator.DAL.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("HiQoDataGenerator.DAL.Models.ConstraintModels.ConstraintValue", b =>

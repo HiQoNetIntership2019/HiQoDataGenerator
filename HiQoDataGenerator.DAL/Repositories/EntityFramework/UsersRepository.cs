@@ -16,22 +16,5 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         {
             await _models.AddAsync(user);
         }
-
-        //TODO: realize reposytory:
-
-        //public async Task DeleteUserByIdAsync(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public async Task<User> GetUserByIdAsync(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public async Task<IEnumerable<User>> GetUsersAsync()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
