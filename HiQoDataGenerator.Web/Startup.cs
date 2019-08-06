@@ -115,7 +115,7 @@ namespace HiQoDataGenerator.Web
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
                 dbContext.Database.Migrate();
             }
         }
