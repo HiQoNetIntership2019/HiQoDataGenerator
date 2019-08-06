@@ -4,6 +4,7 @@ using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using HiQoDataGenerator.DAL.Models.DataSetModels;
 using HiQoDataGenerator.DAL.Models.IntermediateModels;
 using HiQoDataGenerator.DAL.Models.FileMetadataModels;
+using HiQoDataGenerator.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HiQoDataGenerator.DAL
@@ -26,6 +27,7 @@ namespace HiQoDataGenerator.DAL
         public DbSet<Dataset> Datasets { get; set; }
         public DbSet<FileMetadata> FilesMetadata{ get;set; }
         public DbSet<FileStatus> FileStatuses { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public DataContext(DbContextOptions options) : base(options) { }
 
@@ -128,6 +130,11 @@ namespace HiQoDataGenerator.DAL
                 .Property(p => p.Status)
                 .HasMaxLength(20)
                 .IsRequired();
+
+            builder.Entity<User>()
+               .Property(p => p.Login)
+               .HasMaxLength(100)
+               .IsRequired();
             #endregion
 
             #region Many-To-Many FieldType-Constraints
