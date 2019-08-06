@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using ElmahCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HiQoDataGenerator.GeneratorCore;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace HiQoDataGenerator.Web
 {
@@ -37,6 +38,11 @@ namespace HiQoDataGenerator.Web
                 .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddLogging();
             services.AddScoped<LoggingAttribute>();
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
 
             services.AddBLServices();
             services.AddGeneratorCoreServices();
@@ -79,6 +85,8 @@ namespace HiQoDataGenerator.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Data Generator API V1");
             });
+
+            app.UseForwardedHeaders();
 
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
