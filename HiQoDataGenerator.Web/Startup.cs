@@ -18,6 +18,8 @@ using ElmahCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HiQoDataGenerator.GeneratorCore;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 
 namespace HiQoDataGenerator.Web
 {
@@ -49,6 +51,10 @@ namespace HiQoDataGenerator.Web
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
+
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddEntityFrameworkStores<DataContext>();
 
             services.AddBLServices();
             services.AddGeneratorCoreServices();
