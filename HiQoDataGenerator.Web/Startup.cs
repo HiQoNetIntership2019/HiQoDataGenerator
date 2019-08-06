@@ -44,6 +44,12 @@ namespace HiQoDataGenerator.Web
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
 
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+
             services.AddBLServices();
             services.AddGeneratorCoreServices();
             services.AddDALServices(Configuration.GetConnectionString("PostgreConnection"));
