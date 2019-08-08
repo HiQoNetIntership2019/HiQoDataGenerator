@@ -52,13 +52,13 @@ namespace HiQoDataGenerator.Web
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<DataContext>();
-
             services.AddBLServices();
             services.AddGeneratorCoreServices();
             services.AddDALServices(Configuration.GetConnectionString("PostgreConnection"));
+
+            services.AddDefaultIdentity<IdentityUser>()
+               .AddDefaultUI(UIFramework.Bootstrap4);
+              // .AddEntityFrameworkStores<AppIdentityDbContext>();
 
             services.AddMapperFactory();
             services.AddBackgroundTasksQueue();
@@ -115,7 +115,7 @@ namespace HiQoDataGenerator.Web
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
                 dbContext.Database.Migrate();
             }
         }
