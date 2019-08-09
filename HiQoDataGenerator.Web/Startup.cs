@@ -55,10 +55,7 @@ namespace HiQoDataGenerator.Web
             services.AddGeneratorCoreServices();
             services.AddDALServices(Configuration.GetConnectionString("PostgreConnection"));
 
-            services.AddDefaultIdentity<IdentityUser>()
-               .AddDefaultUI(UIFramework.Bootstrap4);
-              // .AddEntityFrameworkStores<AppIdentityDbContext>();
-
+            
             services.AddMapperFactory();
             services.AddBackgroundTasksQueue();
 
