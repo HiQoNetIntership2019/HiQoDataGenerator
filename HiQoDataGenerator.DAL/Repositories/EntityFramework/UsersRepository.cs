@@ -16,5 +16,10 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         {
             await _models.AddAsync(user);
         }
+
+        public async Task<User> GetUserByIdAsync(int id)
+        {
+            return await _models.FindAsync(id);
+        }
     }
 }

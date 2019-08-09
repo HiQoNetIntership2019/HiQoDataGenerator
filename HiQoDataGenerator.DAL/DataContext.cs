@@ -132,7 +132,12 @@ namespace HiQoDataGenerator.DAL
                 .IsRequired();
 
             builder.Entity<User>()
-               .Property(p => p.Login)
+               .Property(p => p.UserEmail)
+               .HasMaxLength(100)
+               .IsRequired();
+
+            builder.Entity<User>()
+               .Property(p => p.UserName)
                .HasMaxLength(100)
                .IsRequired();
             #endregion
