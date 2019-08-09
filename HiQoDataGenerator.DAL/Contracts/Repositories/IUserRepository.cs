@@ -6,8 +6,9 @@ using HiQoDataGenerator.DAL.Models;
 
 namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
-        Task AddUserAsync(User user);        
+        Task AddAsync(User user);
+        Task<User> GetUserByIdAsync(int id);
     }
 }

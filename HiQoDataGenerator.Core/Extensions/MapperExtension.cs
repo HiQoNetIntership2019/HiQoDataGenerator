@@ -1,6 +1,7 @@
 using AutoMapper;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.DAL.Models.ConstraintModels;
+using HiQoDataGenerator.DAL.Models;
 using HiQoDataGenerator.DAL.Models.CustomObjectModels;
 using HiQoDataGenerator.DAL.Models.DataSetModels;
 using HiQoDataGenerator.DAL.Models.FileMetadataModels;
@@ -32,6 +33,16 @@ namespace HiQoDataGenerator.Core.Extensions
                 config.CreateMap<CustomDatasetModel, CustomDataset>().ReverseMap();
 
                 config.CreateMap<CustomDatasetValue, CustomDatasetValueModel>().ReverseMap();
+
+                config.CreateMap<User, UserModel>().ReverseMap();
+
+                config.CreateMap<UserModel, User>()
+                    .ForMember(dist => dist.UserId, opt => opt.MapFrom(src => src.UserId))
+                    .ForMember(dist => dist.UserName, opt => opt.MapFrom(src => src.UserName))
+                    .ForMember(dist => dist.AccessToken, opt => opt.MapFrom(src => src.AccessToken))
+                    .ForMember(dist => dist.DataAccessExpirationTime, opt => opt.MapFrom(src => src.DataAccessExpirationTime))
+                    .ForMember(dist => dist.ExpiresIn, opt => opt.MapFrom(src => src.ExpiresIn))
+                    .ForMember(dist => dist.Id, opt => opt.MapFrom(src => src.Id));
 
                 config.CreateMap<ConstraintValueModel, ConstraintValue>()
                     .ForMember(dist => dist.Constraint, opt => opt.MapFrom(src => src.ConstraintType));

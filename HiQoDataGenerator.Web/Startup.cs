@@ -18,8 +18,6 @@ using ElmahCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HiQoDataGenerator.GeneratorCore;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 
 namespace HiQoDataGenerator.Web
 {
@@ -52,10 +50,7 @@ namespace HiQoDataGenerator.Web
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<DataContext>();
-
+           
             services.AddBLServices();
             services.AddGeneratorCoreServices();
             services.AddDALServices(Configuration.GetConnectionString("PostgreConnection"));
@@ -115,7 +110,7 @@ namespace HiQoDataGenerator.Web
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
                 dbContext.Database.Migrate();
             }
         }
