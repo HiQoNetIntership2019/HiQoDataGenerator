@@ -1,4 +1,6 @@
-﻿using HiQoDataGenerator.DAL.Contracts.Repositories;
+﻿using System.Linq;
+using HiQoDataGenerator.DAL.Contracts.Repositories;
+using HiQoDataGenerator.DAL.Repositories.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using HiQoDataGenerator.DAL.Repositories.MongoDriver;
@@ -20,6 +22,8 @@ namespace HiQoDataGenerator.DAL
 
             services.AddScoped<IFilesGeneratedObjectsRepository, FilesGeneratedObjectsRepository>();
             services.AddScoped<IGeneratedObjectsRepository, GeneratedObjectsRepository>();
+            services.AddScoped<IUserRepository, UsersRepository>();
+            //var q = services.Where(x => x.ImplementationType == typeof(UsersRepository)).ToArray();
         }
     }
 }

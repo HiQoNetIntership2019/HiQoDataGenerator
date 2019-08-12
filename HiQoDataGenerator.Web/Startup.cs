@@ -15,6 +15,8 @@ using HiQoDataGenerator.Web.Middleware;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 using ElmahCore.Mvc;
+using HiQoDataGenerator.Core.Interfaces;
+using HiQoDataGenerator.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using HiQoDataGenerator.GeneratorCore;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -52,6 +54,7 @@ namespace HiQoDataGenerator.Web
 
            
             services.AddBLServices();
+
             services.AddGeneratorCoreServices();
             services.AddDALServices(Configuration.GetConnectionString("PostgreConnection"));
 

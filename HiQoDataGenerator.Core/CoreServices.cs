@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using AutoMapper;
 using HiQoDataGenerator.Core.Extensions;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Services;
@@ -20,6 +22,9 @@ namespace HiQoDataGenerator.Core
                     .WithScopedLifetime());
 
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+
+            //var q = services.Where(x => x.ImplementationType == typeof(UserService)).ToArray();
+            //services.AddSingleton<IUserService, UserService>();
         }
 
         public static IMapper GetMapper() => MapperExtension.GetMapper();

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
@@ -13,7 +12,7 @@ namespace HiQoDataGenerator.Web.Controllers
     {
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService , IMapperFactory maperFactory) : base(maperFactory)
+        public UserController(IUserService userService, IMapperFactory maperFactory) : base(maperFactory)
         {
             _userService = userService;
         }
@@ -26,6 +25,7 @@ namespace HiQoDataGenerator.Web.Controllers
         public async Task<IActionResult> GetAsync(int id)
         {
             var userModel = await _userService.GetByIdAsync(id);
+
             var userViewModel = _mapper.Map<UserViewModel>(userModel);
 
             return Ok(userViewModel);
@@ -41,6 +41,7 @@ namespace HiQoDataGenerator.Web.Controllers
             var userModel = _mapper.Map<UserModel>(userViewModel);
 
             await _userService.AddUserAsync(userModel);
+
             return Ok();
         }
     }

@@ -2,12 +2,12 @@
 {
     public class UserModel : BaseModel
     {
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string UserEmail { get; set; }
-        public string AccessToken { get; set; }
-        public int DataAccessExpirationTime { get; set; }
-        public int ExpiresIn { get; set; }
+        public int UserId { get; }
+        public string UserName { get; }
+        public string UserEmail { get; }
+        public string AccessToken { get; }
+        public int DataAccessExpirationTime { get; }
+        public int ExpiresIn { get; }
 
         public UserModel(int id, int userId, string userName, string userEmail, string accessToken, int dataAccessExpirationTime, int expiresIn) : base(id)
         {
