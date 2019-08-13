@@ -23,7 +23,6 @@ namespace HiQoDataGenerator.DAL
             services.AddScoped<IFilesGeneratedObjectsRepository, FilesGeneratedObjectsRepository>();
             services.AddScoped<IGeneratedObjectsRepository, GeneratedObjectsRepository>();
             services.AddScoped<IUserRepository, UsersRepository>();
-            //var q = services.Where(x => x.ImplementationType == typeof(UsersRepository)).ToArray();
         }
     }
 }

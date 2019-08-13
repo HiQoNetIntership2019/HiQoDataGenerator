@@ -29,7 +29,7 @@ namespace HiQoDataGenerator.Core.UnitOfWork
 
         public async Task<int> CommitAsync()
         {
-            return await _context.SaveChangesAsync();            
+            return await _context.SaveChangesAsync();
         }
 
         public void Dispose()

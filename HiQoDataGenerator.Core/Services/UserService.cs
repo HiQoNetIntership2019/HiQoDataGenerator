@@ -26,19 +26,34 @@ namespace HiQoDataGenerator.Core.Services
         }
 
         public async Task AddUserAsync(UserModel userModel)
-        {
+        { 
+            var user = _mapper.Map<User>(userModel);
+
+            bool isAlreadyExist = IsUserAlreadyExist(user).Result;
+
+            if (isAlreadyExist)
+            {
+                await _userRepostory.UpdateAsync(user);
+                return;
+            }
+            
             await _userRepostory.AddAsync(_mapper.Map<User>(userModel));
             await _uow.CommitAsync();
         }
 
         public async Task<UserModel> GetByIdAsync(int id)
         {
-            var user = await _userRepostory.GetUserByIdAsync(id);
+            var user = await _userRepostory.GetByIdAsync(id);
             if (user == null)
             {
                 throw new InvalidDataException($"Can't get User with id {id} !");
             }
             return _mapper.Map<UserModel>(user);
+        }
+
+        private async Task<bool> IsUserAlreadyExist(User user)
+        {
+            return await _userRepostory.IsUserAlreadyExist(user.UserId);
         }
     }
 }

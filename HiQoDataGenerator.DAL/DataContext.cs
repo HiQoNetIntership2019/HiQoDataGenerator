@@ -140,6 +140,10 @@ namespace HiQoDataGenerator.DAL
                .Property(p => p.UserName)
                .HasMaxLength(100)
                .IsRequired();
+
+            builder.Entity<User>()
+                .Property(p => p.Id)
+                .ValueGeneratedOnAdd();
             #endregion
 
             #region Many-To-Many FieldType-Constraints

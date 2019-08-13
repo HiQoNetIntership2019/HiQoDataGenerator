@@ -34,7 +34,7 @@ namespace HiQoDataGenerator.Core.Extensions
 
                 config.CreateMap<CustomDatasetValue, CustomDatasetValueModel>().ReverseMap();
 
-                config.CreateMap<User, UserModel>().ReverseMap();
+                config.CreateMap<User, UserModel>();
 
                 config.CreateMap<UserModel, User>()
                     .ForMember(u => u.Id, opt => opt.Ignore());

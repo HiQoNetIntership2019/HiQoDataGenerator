@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +13,9 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
     {
         public UsersRepository(DataContext context) : base(context) { }
 
-        public async Task AddUserAsync(User user)
+        public async Task<bool> IsUserAlreadyExist(string UserId)
         {
-            await _models.AddAsync(user);
-        }
-
-        public async Task<User> GetUserByIdAsync(int id)
-        {
-            return await _models.FindAsync(id);
+            return await _models.AnyAsync(u => u.UserId == UserId);
         }
     }
 }

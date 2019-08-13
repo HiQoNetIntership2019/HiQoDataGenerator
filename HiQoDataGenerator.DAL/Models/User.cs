@@ -6,8 +6,7 @@ namespace HiQoDataGenerator.DAL.Models
 {
     public class User : BaseModel
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string UserName { get; set; }
         public string UserEmail { get; set; }
         public string AccessToken { get; set; }

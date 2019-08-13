@@ -1,15 +1,15 @@
 ﻿namespace HiQoDataGenerator.Core.Entities
 {
-    public class UserModel : BaseModel
+    public class UserModel
     {
-        public int UserId { get; }
+        public string UserId { get; }
         public string UserName { get; }
         public string UserEmail { get; }
         public string AccessToken { get; }
         public int DataAccessExpirationTime { get; }
         public int ExpiresIn { get; }
 
-        public UserModel(int id, int userId, string userName, string userEmail, string accessToken, int dataAccessExpirationTime, int expiresIn) : base(id)
+        public UserModel(string userId, string userName, string userEmail, string accessToken, int dataAccessExpirationTime, int expiresIn)
         {
             UserId = userId;
             UserName = userName;
