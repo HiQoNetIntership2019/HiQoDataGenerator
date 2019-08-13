@@ -13,9 +13,15 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
     {
         public UsersRepository(DataContext context) : base(context) { }
 
-        public async Task<bool> IsUserAlreadyExist(string UserId)
+        public async Task<bool> IsUserAlreadyExist(string userId)
         {
-            return await _models.AnyAsync(u => u.UserId == UserId);
+            return await _models.AnyAsync(u => u.UserId == userId);
         }
+
+        public async Task<User> FindByUserIdAsync(string userId)
+        {
+            return await _models.FirstAsync(u => u.UserId == userId);
+        }
+        
     }
 }

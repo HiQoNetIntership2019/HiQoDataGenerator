@@ -29,11 +29,20 @@ namespace HiQoDataGenerator.Core.Services
         { 
             var user = _mapper.Map<User>(userModel);
 
-            bool isAlreadyExist = IsUserAlreadyExist(user).Result;
+            bool isAlreadyExist = await IsUserAlreadyExist(user);
 
             if (isAlreadyExist)
             {
-                await _userRepostory.UpdateAsync(user);
+                var thisUser = await _userRepostory.FindByUserIdAsync(user.UserId);
+
+                await _userRepostory.UpdateAsync(thisUser);
+
+                thisUser.AccessToken = user.AccessToken;
+                thisUser.DataAccessExpirationTime = user.DataAccessExpirationTime;
+                thisUser.ExpiresIn = user.ExpiresIn;
+                
+                await _uow.CommitAsync();
+
                 return;
             }
             

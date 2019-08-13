@@ -8,6 +8,7 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        Task<bool> IsUserAlreadyExist(string UserId);
+        Task<bool> IsUserAlreadyExist(string userId);
+        Task<User> FindByUserIdAsync(string userId);
     }
 }

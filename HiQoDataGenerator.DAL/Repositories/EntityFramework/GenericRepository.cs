@@ -45,7 +45,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         }
 
         public async Task UpdateAsync(T item) => await Task.Run(() =>_models.Update(item));
-
+        
         public async Task UpdateRangeAsync(IEnumerable<T> items) => await Task.Run(() => _models.UpdateRange(items));
     }
 }
