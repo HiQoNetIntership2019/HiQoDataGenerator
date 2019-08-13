@@ -15,8 +15,6 @@ using HiQoDataGenerator.Web.Middleware;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 using ElmahCore.Mvc;
-using HiQoDataGenerator.Core.Interfaces;
-using HiQoDataGenerator.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using HiQoDataGenerator.GeneratorCore;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -40,19 +38,7 @@ namespace HiQoDataGenerator.Web
                 .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddLogging();
             services.AddScoped<LoggingAttribute>();
-
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-            });
-
-            services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            });
-
-           
+            
             services.AddBLServices();
 
             services.AddGeneratorCoreServices();
