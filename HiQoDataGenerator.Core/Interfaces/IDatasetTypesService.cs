@@ -8,7 +8,7 @@ namespace HiQoDataGenerator.Core.Interfaces
     {
         Task<IEnumerable<DatasetTypeModel>> GetAllTypesAsync();
         Task AddTypeAsync(DatasetTypeModel datasetTypeModel);
-        Task RemoveByIdAsync(int id);
+        Task<bool> RemoveByIdAsync(int id);
         Task<DatasetTypeModel> GetByIdAsync(int id);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -57,25 +58,29 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <summary>
         ///     Adds new field type.
         /// </summary>
-        /// <returns>Status code 200 and view model.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync(FieldTypeViewModel typeViewModel)
         {
             var typeModel = _mapper.Map<FieldTypeModel>(typeViewModel);
 
             await _fieldTypesService.AddAsync(typeModel);
-            return Ok();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
         ///     Deletes field type by id.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 204 depending on removal result.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _fieldTypesService.RemoveByIdAsync(id);          
-            return Ok();
+            var isRemoved = await _fieldTypesService.RemoveByIdAsync(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
     }
 }

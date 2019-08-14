@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters.Internal;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -57,25 +59,29 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <summary>
         ///     Saves a new constraint value.
         /// </summary>
-        /// <returns>Status code 200 and view model.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync(ConstraintValueViewModel constraintValueViewModel)
         {
             var constraintValueModel = _mapper.Map<ConstraintValueModel>(constraintValueViewModel);
             await _constraintValuesService.AddAsync(constraintValueModel);
-            return Ok(constraintValueModel);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
         ///     Removes constraint value.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 204 depending on removal result.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _constraintValuesService.RemoveByIdAsync(id);
-            return Ok();
+            var isRemoved = await _constraintValuesService.RemoveByIdAsync(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
     }
 }

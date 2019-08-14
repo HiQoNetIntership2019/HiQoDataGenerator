@@ -28,14 +28,11 @@ namespace HiQoDataGenerator.Core.Services
             await _timezoneRepostory.AddAsync(_mapper.Map<Timezone>(model));
             await _uow.CommitAsync();
         }
-        public async Task RemoveByIdAsync(int id)
+        public async Task<bool> RemoveByIdAsync(int id)
         {
             var result = await _timezoneRepostory.RemoveByIdAsync(id);
-            if (!result)
-            {
-                throw new InvalidDataException($"Can't delete Timeone with id {id} !");
-            }
             await _uow.CommitAsync();
+            return result;
         }
 
         public async Task<IEnumerable<TimezoneModel>> GetAllAsync() => _mapper.Map<IEnumerable<TimezoneModel>>(await _timezoneRepostory.GetAllAsync());

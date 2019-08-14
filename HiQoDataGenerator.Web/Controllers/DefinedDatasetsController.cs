@@ -5,6 +5,7 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
 using HiQoDataGenerator.Web.ViewModels.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -99,14 +100,15 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <remarks>
         ///     Complex model is used as a parameter.
         /// </remarks>
-        /// <returns>Status code 200 and view model.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync(AddDefinedDatasetWithValues definedDatasetWithValuesViewModel)
         {
             var definedDatasetModel = _mapper.Map<DefinedDatasetModel>(definedDatasetWithValuesViewModel);
 
             await _definedDatasetService.AddAsync(definedDatasetModel);
-            return Ok();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
@@ -115,37 +117,44 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <remarks>
         ///     Complex model is used as a parameter.
         /// </remarks>
-        /// <returns>Status code 200 and view model.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost("Values")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> AddValuesAsync(AddDefinedDatasetValues definedDatasetValueViewModels)
         {
             var definedDatasetValueModels = _mapper.Map<IEnumerable<DefinedDatasetValueModel>>(definedDatasetValueViewModels.Values);
 
             await _definedDatasetService.AddValuesAsync(definedDatasetValueModels);
-            return Ok();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
         ///     Deletes dataset by id.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 204 depending on removal result.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteDatasetAsync(int id)
         {
-            await _definedDatasetService.RemoveDatasetAsync(id);
-            return Ok();
+            var isRemoved = await _definedDatasetService.RemoveDatasetAsync(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
 
         /// <summary>
         ///     Deletes defined value by id.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 204 depending on removal result.</returns>
         [HttpDelete]
         [Route("Values/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteValueAsync(int id)
         {
-            await _definedDatasetService.RemoveValueByIdAsync(id);
-            return Ok();
+            var isRemoved = await _definedDatasetService.RemoveValueByIdAsync(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
     }
 }

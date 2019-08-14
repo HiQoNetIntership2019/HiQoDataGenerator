@@ -8,7 +8,7 @@ namespace HiQoDataGenerator.Core.Interfaces
     {
         Task<IEnumerable<TimezoneModel>> GetAllAsync();
         Task AddAsync(TimezoneModel model);
-        Task RemoveByIdAsync(int id);
+        Task<bool> RemoveByIdAsync(int id);
         Task<TimezoneModel> GetByIdAsync(int id); 
     }
 }

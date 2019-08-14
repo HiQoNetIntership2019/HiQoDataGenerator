@@ -5,6 +5,7 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
 using HiQoDataGenerator.Web.ViewModels.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -90,6 +91,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// </remarks>
         /// <returns>Status code 200.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> AddDatasetAsync(AddCustomDatasetWithValues customDatasetWithValuesViewModel)
         {
             var customDatasetModel = _mapper.Map<CustomDatasetModel>(customDatasetWithValuesViewModel);
@@ -104,51 +106,57 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <remarks>
         ///     Param is a Complex view model.
         /// </remarks>
-        /// <returns>Status code 200 and id.</returns>
+        /// <returns>Status code 201 and id.</returns>
         [HttpPost("withId")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> AddDatasetAndReturnIdAsync(AddCustomDatasetWithValues customDatasetWithValuesViewModel)
         {
             var customDatasetModel = _mapper.Map<CustomDatasetModel>(customDatasetWithValuesViewModel);
-
             await _customDatasetService.AddAsync(customDatasetModel);
             var dataset = await _datasetService.GetByNameAsync(customDatasetModel.Name);
-            return Ok(dataset.Id);
+            return CreatedAtRoute(RouteData.Values, dataset.Id);
         }
 
         /// <summary>
         ///     Saves custom dataset values.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost("Values")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> AddValuesAsync(AddCustomDatasetValues customDatasetValueViewModels)
         {
             var customDatasetValueModels = _mapper.Map<IEnumerable<CustomDatasetValueModel>>(customDatasetValueViewModels.Values);
-
             await _customDatasetService.AddValuesAsync(customDatasetValueModels);
-            return Ok();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
         ///     Deletes dataset by id.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 204 depending on removal result.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteDatasetAsync(int id)
         {
-            await _customDatasetService.RemoveDatasetAsync(id);
-            return Ok();
+            var isRemoved = await _customDatasetService.RemoveDatasetAsync(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
 
         /// <summary>
         ///     Deletes dataset value by id.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 204 depending on removal result.</returns>
         [HttpDelete]
         [Route("Values/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteValueAsync(int id)
         {
-            await _customDatasetService.RemoveValueByIdAsync(id);
-            return Ok();
+            var isRemoved = await _customDatasetService.RemoveValueByIdAsync(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
     }
 }

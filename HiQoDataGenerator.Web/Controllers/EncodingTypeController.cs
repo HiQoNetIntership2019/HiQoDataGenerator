@@ -6,6 +6,7 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
 using HiQoDataGenerator.Web.Attributes;
+using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -44,25 +45,29 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <summary>
         ///     Adds new encoding type.
         /// </summary>
-        /// <returns>Status code 200 and view model.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync(EncodingTypeViewModel encodingTypeViewModel)
         {
             var encodingTypeModel = _mapper.Map<EncodingTypeModel>(encodingTypeViewModel);
 
             await _encodingTypesService.AddAsync(encodingTypeModel);
-            return Ok();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
         ///     Deletes encoding type by id.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 204 depending on removal result.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _encodingTypesService.RemoveByIdAsync(id);
-            return Ok();
+            var isRemoved = await _encodingTypesService.RemoveByIdAsync(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
     }
 }

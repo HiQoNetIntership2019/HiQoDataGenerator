@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver.Core.WireProtocol.Messages;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -38,26 +41,29 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <summary>
         ///     Saves a new configurable object.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync([FromBody] ConfigurableObjectViewModel model)
         {
             await _configurableObjectsService.AddAsync(_mapper.Map<ConfigurableObjectModel>(model));
-
-            return Ok();
+            
+            return StatusCode(StatusCodes.Status201Created);
         }
 
 
         /// <summary>
         ///     Deletes a configurable object with given id.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 208, depending on removal result.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _configurableObjectsService.RemoveById(id);
-
-            return Ok();
+            var isRemoved = await _configurableObjectsService.RemoveById(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
         
     }

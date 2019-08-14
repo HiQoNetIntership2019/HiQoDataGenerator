@@ -10,6 +10,6 @@ namespace HiQoDataGenerator.Core.Interfaces
         Task<IEnumerable<FieldTypeModel>> GetAllAsync();
         Task<FieldTypeModel> GetByIdAsync(int id);
         Task AddAsync(FieldTypeModel fieldTypeModel);
-        Task RemoveByIdAsync(int id);
+        Task<bool> RemoveByIdAsync(int id);
     }
 }

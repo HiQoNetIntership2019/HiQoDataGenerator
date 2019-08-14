@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Core.Entities;
 using HiQoDataGenerator.Web.ViewModels;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -41,38 +43,43 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <summary>
         ///     Adds new datetime format.
         /// </summary>
-        /// <returns>Status code 200 and view model.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync(DateTimeFormatViewModel dateTimeFormatViewModel)
         {
             var dateTimeFormatModel = _mapper.Map<DateTimeFormatModel>(dateTimeFormatViewModel);
 
-            await _dateTimeFormatService.AddAsync(dateTimeFormatModel);            
-            return Ok();
+            await _dateTimeFormatService.AddAsync(dateTimeFormatModel);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
         ///     Adds range of new datetime formats.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost("Range")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync(IEnumerable<DateTimeFormatViewModel> dateTimeFormatViewModels)
         {            
             var dateTimeFormatModels = _mapper.Map<IEnumerable<DateTimeFormatModel>>(dateTimeFormatViewModels);
 
             await _dateTimeFormatService.AddRangeAsync(dateTimeFormatModels);
-            return Ok();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
         ///     Deletes datetime format by id.
         /// </summary>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 204 depending on removal result.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _dateTimeFormatService.RemoveByIdAsync(id);
-            return Ok();
+            var isRemoved = await _dateTimeFormatService.RemoveByIdAsync(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
     }
 }

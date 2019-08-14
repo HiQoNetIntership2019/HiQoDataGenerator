@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -82,12 +83,13 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <summary>
         ///     Convert defined dataset to custom
         /// </summary>
-        /// <returns>Status code 200</returns>
+        /// <returns>Status code 202</returns>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
         public async Task<IActionResult> ToDefinedDatasetAsync(int id)
         {
             await _datasetService.ToDefinedDatasetAsync(id);
-            return Ok();
+            return Accepted();
         }
     }
 }

@@ -11,6 +11,7 @@ using HiQoDataGenerator.Web.Extensions;
 using HiQoDataGenerator.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Web.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -46,6 +47,7 @@ namespace HiQoDataGenerator.Web.Controllers
         /// <returns>Status code 200 and Json or Xml File</returns>
         [HttpPost]
         [Route("{resultType?}/{count?}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> GenerateObjectAsync([FromBody] ConfigurableObjectViewModel configurableObject,
             string resultType, int? count)
         {
@@ -71,7 +73,7 @@ namespace HiQoDataGenerator.Web.Controllers
 
             if (resultType == null)
             {
-                return Ok(result);
+                return CreatedAtRoute(RouteData.Values, result);
             }
 
             var fileContents = _converters[resultType]?.Invoke(result) ?? throw new ArgumentException();

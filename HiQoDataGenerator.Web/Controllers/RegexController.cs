@@ -4,6 +4,7 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
 using System.Threading.Tasks;
 using HiQoDataGenerator.Core.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -54,26 +55,30 @@ namespace HiQoDataGenerator.Web.Controllers
         ///     Adds new regex.
         /// </summary>
         /// <param name="regexViewModel"></param>
-        /// <returns>Status code 200 and view model.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync(RegexViewModel regexViewModel)
         {
             var regexModel = _mapper.Map<RegexModel>(regexViewModel);
 
-            await _regexService.AddAsync(regexModel);            
-            return Ok();
+            await _regexService.AddAsync(regexModel);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
         ///     Deletes regex by id.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 204 depending on removal result.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _regexService.RemoveByIdAsync(id);            
-            return Ok();
+            var isRemoved = await _regexService.RemoveByIdAsync(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
     }
 }

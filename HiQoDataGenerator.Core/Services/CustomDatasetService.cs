@@ -113,29 +113,22 @@ namespace HiQoDataGenerator.Core.Services
             await _uow.CommitAsync();
         }
 
-        public async Task RemoveDatasetAsync(int datasetId)
+        public async Task<bool> RemoveDatasetAsync(int datasetId)
         {
             var customDataset = await _customDatasetRepository.GetByIdAsync(datasetId);
             var result = await _customDatasetRepository.RemoveByIdAsync(datasetId);
 
-            if (!result)
-            {
-                throw new InvalidDataException($"Can't delete Custom Dataset with id {datasetId} !");
-            }
-
             var dataset = await _datasetRepository.GetByNameAsync(customDataset.Name.ToLower());
-            await _datasetRepository.RemoveByIdAsync(dataset.Id);
+            result = result && await _datasetRepository.RemoveByIdAsync(dataset.Id);
             await _uow.CommitAsync();
+            return result;
         }
 
-        public async Task RemoveValueByIdAsync(int valueId)
+        public async Task<bool> RemoveValueByIdAsync(int valueId)
         {
             var result = await _customDatasetRepository.RemoveValueByIdAsync(valueId);
-            if (!result)
-            {
-                throw new InvalidDataException($"Can't delete Custom Dataset value with id {valueId} !");
-            }
             await _uow.CommitAsync();
+            return result;
         }
     }
 }

@@ -5,6 +5,7 @@ using HiQoDataGenerator.Core.Interfaces;
 using HiQoDataGenerator.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using HiQoDataGenerator.Web.ViewModels.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace HiQoDataGenerator.Web.Controllers
 {
@@ -68,40 +69,45 @@ namespace HiQoDataGenerator.Web.Controllers
         ///     Saves new constraint.
         /// </summary>
         /// <param name="constraintViewModel"></param>
-        /// <returns>Status code 200 and view model.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync(ConstraintViewModel constraintViewModel)
         {
             var constraintModel = _mapper.Map<ConstraintModel>(constraintViewModel);
             await _constraintsService.AddAsync(constraintModel);
-            return Ok(constraintModel);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
         ///     Saves new available field type for constraint.
         /// </summary>
         /// <param name="viewModel">Complex view model for adding field type.</param>
-        /// <returns>Status code 200 and view model.</returns>
+        /// <returns>Status code 201.</returns>
         [HttpPost]
         [Route("AddFieldType")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> AddFieldTypesInConstraintAsync([FromBody] AddFieldTypeInConstraintViewModel viewModel)
         {
             var constraint = _mapper.Map<ConstraintModel>(viewModel.ConstraintViewModel);
             var fieldTypes = _mapper.Map<IEnumerable<FieldTypeModel>>(viewModel.FieldTypeViewModels);
             await _constraintsService.AddFieldTypesForConstraintAsync(constraint, fieldTypes);
-            return Ok();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>
         ///     Deletes constraint by its id.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Status code 200.</returns>
+        /// <returns>Status code 200 or 204 depending on removal result.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _constraintsService.RemoveByIdAsync(id);
-            return Ok();
+            var isRemoved = await _constraintsService.RemoveByIdAsync(id);
+            var httpResult = isRemoved ? Ok() : StatusCode(StatusCodes.Status204NoContent);
+            return httpResult;
         }
     }
 }

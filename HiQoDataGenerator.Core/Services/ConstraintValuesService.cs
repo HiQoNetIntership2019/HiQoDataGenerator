@@ -56,14 +56,11 @@ namespace HiQoDataGenerator.Core.Services
             await _uow.CommitAsync();
         }
 
-        public async Task RemoveByIdAsync(int id)
+        public async Task<bool> RemoveByIdAsync(int id)
         {
             var result = await _constraintValuesRepository.RemoveByIdAsync(id);
-            if (!result)
-            {
-                throw new InvalidDataException("Can't delete Constraint with id " + id + "!");
-            }
             await _uow.CommitAsync();
+            return result;
         }
 
     }

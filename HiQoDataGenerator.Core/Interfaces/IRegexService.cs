@@ -11,6 +11,6 @@ namespace HiQoDataGenerator.Core.Interfaces
         Task<IQueryable<string>> GetAllNamesAsync();
         Task<RegexModel> GetByIdAsync(int id);
         Task AddAsync(RegexModel item);
-        Task RemoveByIdAsync(int id);
+        Task<bool> RemoveByIdAsync(int id);
     }
 }

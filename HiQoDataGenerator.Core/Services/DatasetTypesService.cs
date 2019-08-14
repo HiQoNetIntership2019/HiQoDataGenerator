@@ -35,10 +35,11 @@ namespace HiQoDataGenerator.Core.Services
         public async Task<DatasetTypeModel> GetByIdAsync(int id) =>
             _mapper.Map<DatasetTypeModel>(await _datasetTypesRepository.GetByIdAsync(id));
 
-        public async Task RemoveByIdAsync(int id)
+        public async Task<bool> RemoveByIdAsync(int id)
         {
-            await _datasetTypesRepository.RemoveByIdAsync(id);
+            var result = await _datasetTypesRepository.RemoveByIdAsync(id);
             await _uow.CommitAsync();
+            return result;
         }
     }
 }

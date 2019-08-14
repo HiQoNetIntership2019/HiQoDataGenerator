@@ -31,14 +31,11 @@ namespace HiQoDataGenerator.Core.Services
         public async Task<IQueryable<string>> GetAllNamesAsync() => await _regexRepository.GetAllNamesAsync();
 
 
-        public async Task RemoveByIdAsync(int id)
+        public async Task<bool> RemoveByIdAsync(int id)
         {
             var result = await _regexRepository.RemoveByIdAsync(id);
-            if (!result)
-            {
-                throw new InvalidDataException($"Can't delete Regex with id {id}!");
-            }
             await _uow.CommitAsync();
+            return result;
         }
 
         public async Task<RegexModel> GetByIdAsync(int id)

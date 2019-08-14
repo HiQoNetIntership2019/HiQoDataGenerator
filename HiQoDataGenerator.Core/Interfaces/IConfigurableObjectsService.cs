@@ -10,6 +10,6 @@ namespace HiQoDataGenerator.Core.Interfaces
         Task<IEnumerable<ConfigurableObjectModel>> GetAllAsync();
         Task<IEnumerable<ConfigurableObjectModel>> GetByDateCreatedAsync(Predicate<DateTime> datePredicate);
         Task AddAsync(ConfigurableObjectModel configurableObject);
-        Task RemoveById(int id);
+        Task<bool> RemoveById(int id);
     }
 }

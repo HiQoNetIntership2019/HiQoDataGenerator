@@ -56,10 +56,11 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<IEnumerable<ConfigurableObjectModel>>(objects);
         }
 
-        public async Task RemoveById(int id)
+        public async Task<bool> RemoveById(int id)
         {
-            await _configurableObjectsRepository.RemoveByIdAsync(id);
+            var result = await _configurableObjectsRepository.RemoveByIdAsync(id);
             await _uow.CommitAsync();
+            return result;
         }
     }
 }

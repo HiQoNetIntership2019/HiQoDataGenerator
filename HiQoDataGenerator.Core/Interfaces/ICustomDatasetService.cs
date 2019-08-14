@@ -15,7 +15,7 @@ namespace HiQoDataGenerator.Core.Interfaces
 
         Task AddValuesAsync(IEnumerable<CustomDatasetValueModel> customDatasetValueModels);
         Task AddAsync(CustomDatasetModel customDatasetModel);
-        Task RemoveDatasetAsync(int datasetId);
-        Task RemoveValueByIdAsync(int valueId);
+        Task<bool> RemoveDatasetAsync(int datasetId);
+        Task<bool> RemoveValueByIdAsync(int valueId);
     }
 }
