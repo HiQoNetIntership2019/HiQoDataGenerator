@@ -45,7 +45,8 @@ namespace HiQoDataGenerator.Web.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("Check/{accessToken}")]
+        
         public async Task<IActionResult> CheckIsAccessTokenExpiredIn(string accessToken)
         {
             var result = await _userService.CheckIsAccessTokenExpiredIn(accessToken);

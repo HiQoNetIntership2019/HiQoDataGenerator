@@ -11,6 +11,6 @@ namespace HiQoDataGenerator.DAL.Models
         public string UserEmail { get; set; }
         public string AccessToken { get; set; }
         public int DataAccessExpirationTime { get; set; }
-        public int ExpiresIn { get; set; }
+        public DateTime ExpiresIn { get; set; }
     }
 }

@@ -24201,7 +24201,7 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.Property<int>("DataAccessExpirationTime");
 
-                    b.Property<int>("ExpiresIn");
+                    b.Property<DateTime>("ExpiresIn");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()

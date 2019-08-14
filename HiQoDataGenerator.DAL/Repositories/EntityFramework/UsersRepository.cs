@@ -37,7 +37,7 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
 
             var userWithToken = await _models.FirstAsync(u => u.AccessToken == accessToken);
 
-            return userWithToken.ExpiresIn <= 0;
+            return (DateTime.Compare(userWithToken.ExpiresIn, DateTime.UtcNow)) < 0;
         }
     }
 }

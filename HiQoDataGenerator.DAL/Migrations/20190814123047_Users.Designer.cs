@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HiQoDataGenerator.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190813084138_update_user")]
-    partial class update_user
+    [Migration("20190814123047_Users")]
+    partial class Users
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24203,7 +24203,7 @@ namespace HiQoDataGenerator.DAL.Migrations
 
                     b.Property<int>("DataAccessExpirationTime");
 
-                    b.Property<int>("ExpiresIn");
+                    b.Property<DateTime>("ExpiresIn");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
