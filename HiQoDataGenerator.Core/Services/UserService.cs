@@ -60,6 +60,11 @@ namespace HiQoDataGenerator.Core.Services
             return _mapper.Map<UserModel>(user);
         }
 
+        public async Task<bool> CheckIsAccessTokenExpiredIn(string accessToken)
+        {
+            return await _userRepostory.CheckIsAccessTokenExpiredIn(accessToken);
+        }
+
         private async Task<bool> IsUserAlreadyExist(User user)
         {
             return await _userRepostory.IsUserAlreadyExist(user.UserId);

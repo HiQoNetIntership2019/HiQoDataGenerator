@@ -10,5 +10,6 @@ namespace HiQoDataGenerator.DAL.Contracts.Repositories
     {
         Task<bool> IsUserAlreadyExist(string userId);
         Task<User> FindByUserIdAsync(string userId);
+        Task<bool> CheckIsAccessTokenExpiredIn(string accessToken);
     }
 }

@@ -10,5 +10,6 @@ namespace HiQoDataGenerator.Core.Interfaces
     {
         Task AddUserAsync(UserModel userModel);
         Task<UserModel> GetByIdAsync(int id);
+        Task<bool> CheckIsAccessTokenExpiredIn(string accessToken);
     }
 }

@@ -22,6 +22,22 @@ namespace HiQoDataGenerator.DAL.Repositories.EntityFramework
         {
             return await _models.FirstAsync(u => u.UserId == userId);
         }
-        
+
+        /// <summary>
+        /// checks, if access token lifetime expired
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <returns>true if expired</returns>
+        public async Task<bool> CheckIsAccessTokenExpiredIn(string accessToken)
+        {
+            if (accessToken == null)
+            {
+                throw new ArgumentNullException(nameof(accessToken));
+            }
+
+            var userWithToken = await _models.FirstAsync(u => u.AccessToken == accessToken);
+
+            return userWithToken.ExpiresIn <= 0;
+        }
     }
 }
