@@ -13,7 +13,6 @@ namespace HiQoDataGenerator.GeneratorCore.Generators.Fields
         {
             Constraints[ConstraintTypes.MaxDigits] = NumberConstants.MaxDigitsInDecimal;
             Constraints[ConstraintTypes.DecimalPlace] = 0;
-            Constraints[ConstraintTypes.Separator] = ",";
         }
 
         protected override decimal GenerateValue()
